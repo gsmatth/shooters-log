@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/gsmatth/shooters-log.png?label=ready&title=Ready)](https://waffle.io/gsmatth/shooters-log)
 #Shooters-Log API  
 
 #Overview
