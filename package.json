@@ -1,0 +1,46 @@
+{
+  "name": "shooters-log",
+  "version": "0.1.0",
+  "description": "api that accepts shooter data, stores the data persistantly, and returns data to user and match directors as well as supporting future front end use of data for graphing",
+  "main": "server.js",
+  "directories": {
+    "doc": "doc",
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gsmatth/shooters-log.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gsmatth/shooters-log/issues"
+  },
+  "homepage": "https://github.com/gsmatth/shooters-log#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "debug": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "^2.5.3",
+    "nodemon": "^1.9.2",
+    "superagent": "^2.0.0",
+    "superagent-promise-plugin": "^3.2.0",
+    "superagent-use": "0.0.1"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "bluebird": "^3.4.1",
+    "body-parser": "^1.15.1",
+    "express": "^4.14.0",
+    "http-errors": "^1.5.0",
+    "jsonwebtoken": "^7.0.1",
+    "mongoose": "^4.5.1",
+    "morgan": "^1.7.0"
+  }
+}
