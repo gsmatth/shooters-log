@@ -6,17 +6,16 @@ const morgan = require('morgan');
 const debug = require('debug')('shooter:server');
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-const httpErrors = require('http-errors');
+// const httpErrors = require('http-errors');
 
 //app modules
 // const errorHandler = require('./lib/error-handler');
 // const userRouter = require('./route/user-router');
-//routes
 
 //module constants
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/auth';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/testshoot';
 
 
 mongoose.connect(mongoURI);
