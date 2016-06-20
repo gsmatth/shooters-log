@@ -3,14 +3,14 @@
 //npm modules
 const express = require('express');
 const morgan = require('morgan');
-const debug = require('debug')('auth:server');
+const debug = require('debug')('shooter:server');
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 const httpErrors = require('http-errors');
 
 //app modules
-const errorHandler = require('./lib/error-handler');
-const matchRouter = require('./route/match-router');
+// const errorHandler = require('./lib/error-handler');
+// const userRouter = require('./route/user-router');
 //routes
 
 //module constants
@@ -23,14 +23,16 @@ mongoose.connect(mongoURI);
 
 // app.use(httpErrors);
 app.use(morgan('dev'));
-app.use('/api', matchRouter);
-//routes
-app.all('*', function(req, res, next){
-  debug('entered app.all route in server.js:  this route is not registered');
-  next(httpErrors(404, 'this route is not registered'));
-});
+// app.use('/api', userRouter);
 
-app.use(errorHandler);
+
+
+// app.all('*', function(req, res, next){
+//   debug('entered app.all route in server.js:  this route is not registered');
+//   // next(httpErrors(404, 'this route is not registered'));
+// });
+
+// app.use(errorHandler);
 
 const server = app.listen(port, function(){
   debug('listen');
