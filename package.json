@@ -3,13 +3,9 @@
   "version": "0.1.0",
   "description": "api that accepts shooter data, stores the data persistantly, and returns data to user and match directors as well as supporting future front end use of data for graphing",
   "main": "server.js",
-  "directories": {
-    "doc": "doc",
-    "test": "./node_modules/mocha/bin/mocha"
-  },
   "scripts": {
-    "test": "test",
-    "start": "node server.js"
+    "lint": "./node_modules/eslint/bin/eslint.js .",
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -24,6 +20,7 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "debug": "^2.2.0",
+    "eslint": "^2.13.1",
     "gulp": "^3.9.1",
     "gulp-eslint": "^2.0.0",
     "gulp-mocha": "^2.2.0",
