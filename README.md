@@ -21,6 +21,7 @@
 
 ****
 #Schema
+[MVP Schema](/doc/schema.pdf)
 *For the first time, I could actually visualize the program before I started coding and determine what code needed to be modified to change the service to meet the objectives of lab-08.  Although I did not know the exact code that needed to be written, I understood it in general terms before I started coding.
 
 
