@@ -13,8 +13,7 @@ addons:
 env:
   - CXX=g++-4.8
 sudo: required
-before_script: npm install
+before_script: npm i
 script:
   - npm test
   - npm lint
-Status API Training Shop Blog About
