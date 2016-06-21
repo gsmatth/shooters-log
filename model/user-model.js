@@ -15,10 +15,11 @@ const userSchema = module.exports = mongoose.Schema({
 
 userSchema.methods.generateHash = function(password){
   debug('generateHash');
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     bcrypt.hash(password, 9, (err, hash) => {
       this.password = hash;
       resolve(this);
+      reject(err);
     });
   });
 };
