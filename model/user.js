@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('shooterLog:user');
+const debug = require('debug')('shooter:user');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
