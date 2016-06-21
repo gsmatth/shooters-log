@@ -6,11 +6,10 @@ const morgan = require('morgan');
 const debug = require('debug')('shooter:server');
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-// const httpErrors = require('http-errors');
 
 //app modules
 const httpErrors = require('http-errors');
-// const errorHandler = require('./lib/error-handler');
+const handleErrors = require('./lib/handle-errors');
 // const userRouter = require('./route/user-router');
 
 //module constants
@@ -21,7 +20,7 @@ const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/testshoot';
 
 mongoose.connect(mongoURI);
 
-// app.use(httpErrors);
+app.use(handleErrors);
 app.use(morgan('dev'));
 // app.use('/api', userRouter);
 
