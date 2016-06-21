@@ -4,6 +4,7 @@ const debug = require('debug')('shooter:authController');
 const User = require('../model/user-model');
 const httpErrors = require('http-errors');
 
+
 exports.newUser = function(reqBody){
   debug('authController:newUser');
   return new Promise((resolve, reject) => {

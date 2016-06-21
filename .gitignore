@@ -2,6 +2,7 @@ env.sh
 # Created by https://www.gitignore.io/api/osx,linux,node
 ###MONGO###
 db
+env.sh
 
 ### OSX ###
 *.DS_Store
