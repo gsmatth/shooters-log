@@ -15,7 +15,7 @@ const userSchema = module.exports = mongoose.Schema({
 
 userSchema.methods.generateHash = function(password){
   debug('generateHash');
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     bcrypt.hash(password, 9, (err, hash) => {
       this.password = hash;
       resolve(this);
