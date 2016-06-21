@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('shooter:authController');
-const User = require('../model/user');
+const User = require('../model/user-model');
 
 exports.newUser = function(reqBody){
   debug('authController:newUser');

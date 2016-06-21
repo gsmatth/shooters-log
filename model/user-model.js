@@ -18,8 +18,7 @@ userSchema.methods.generateHash = function(password){
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, 9, (err, hash) => {
       this.password = hash;
-      resolve(this)
-      .catch(reject); // added to appease the linter
+      resolve(this);
     });
   });
 };
@@ -57,7 +56,7 @@ userSchema.methods.generateFindHash = function(){
 userSchema.methods.generateToken = function() {
   debug('generateToken');
   return new Promise((resolve, reject) => {
-    this.generatefindHash()
+    this.generateFindHash()
     .then( findHash => resolve(jwt.sign({token: findHash}, process.env.APP_SECRET)))
     .catch(reject);
   });
