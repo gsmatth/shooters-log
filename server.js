@@ -31,8 +31,6 @@ app.all('*', function(req, res, next){
   next(httpErrors(404, 'this route is not registered'));
 });
 
-// app.use(errorHandler);
-
 const server = app.listen(port, function(){
   debug('listen');
   debug('express app up on port: ', port);
