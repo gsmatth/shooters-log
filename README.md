@@ -24,7 +24,7 @@
 ****
 #Schema
 ![MVP Schema](https://cloud.githubusercontent.com/assets/13153982/16182990/09b2dda0-3661-11e6-94dc-25679c1d617f.png)
-*Schema for mvp.  We need to add some more text explaining the schema to those who may be intersted in out API
+*Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
 
 
 
