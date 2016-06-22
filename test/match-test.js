@@ -53,6 +53,6 @@ describe('testing the match route', function(){
     it('should return a match', function(done){
       debug('match POST route');
       request.post()
-    })
-  })
+    });
+  });
 });

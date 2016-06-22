@@ -23,7 +23,7 @@ exports.fetchMatch = function(id){
   });
 };
 
-exports.removeMatch = function(id){debug('matchController: fetchMatch');
+exports.removeMatch = function(id){
   debug('matchController: removeMatch');
   return new Promise((resolve, reject) => {
     Match.remove({_id: id})
