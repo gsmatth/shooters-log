@@ -9,7 +9,7 @@ exports.createMatch = function(reqBody){
   return new Promise((resolve, reject) => {
     new Match(reqBody)
     .save()
-    .then(match => resolve(match)))
+    .then(match => resolve(match))
     .catch(err => reject(httpErrors(400, err.message)));
   });
 };
@@ -17,17 +17,16 @@ exports.createMatch = function(reqBody){
 exports.fetchMatch = function(id){
   debug('matchController: fetchMatch');
   return new Promise((resolve, reject) => {
-    match.findOne(_id: id)
+    Match.findOne({_id: id})
     .then(match => resolve(match))
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
 
 exports.removeMatch = function(id){debug('matchController: fetchMatch');
-  debug('matchController: removeMatch')
+  debug('matchController: removeMatch');
   return new Promise((resolve, reject) => {
-    match.findOne(_id: id)
-    .then(match => remove(match))
+    Match.remove({_id: id})
     .then(resolve)
     .catch(err => reject(httpErrors(404, err.message)));
   });
