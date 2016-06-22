@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = ('debug')('shoot:competition-controlller');
+const debug = require('debug')('shoot:competition-controlller');
 const Competition = require('../model/competition-model');
 // const handleErrors = require('../lib/handle-errors');
 
