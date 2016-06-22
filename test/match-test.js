@@ -9,6 +9,8 @@ const request = require('superagent-use');
 const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter: match test');
 
+const UserShema = require('../model/user-model.js');
+const userController = require('../controller/auth-controller');
 const compController = require('../controller/competition-controller');
 const matchController = require('../controller/match-controller');
 
@@ -46,10 +48,15 @@ describe('testing the match route', function(){
   });
   describe('testing POST route', function(){
     before((done) => {
-      compController.createCompetition({
+      new UserSchema({username: 'McTest', password: 'pass'})
+      .then( user => {
+        this.tempUserID = userId;
+      })
+      .then(compController.createCompetition({
+        user_id: token,
         location: 'test range',
         action: 'to test',
-      }).then(encounter => {
+      })).then(competition => {
         this.tempCompetition = competition;
         done();
       })
@@ -57,13 +64,16 @@ describe('testing the match route', function(){
     });
     after((done)=>{
       debug('POST-after-block');
-      matchController.removeAllMatches()
-      .then((compController.removeAllCompetition()) => done())
+      compController.removeAllCompetition()
+      .then((matchController.removeAllMatches()) => done())
       .catch(done);
     });
-    it('should return a match', function(done){
+    it('should return a match', (done) => {
       debug('match POST route');
-      request.post()
+      request.post(`${baseUrl}/competition/:${competition}/match`)
+      .send({
+        matchNumber:
+      })
     });
   });
 });
