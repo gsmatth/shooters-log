@@ -9,6 +9,7 @@ const request = require('superagent-use');
 const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter: match test');
 
+const compController = require('../controller/competition-controller');
 const matchController = require('../controller/match-controller');
 
 const port = process.env.PORT || 3000;
@@ -43,11 +44,21 @@ describe('testing the match route', function(){
     }
     done();
   });
-  describe('testing POST route removeAllMatches', function(){
+  describe('testing POST route', function(){
+    before((done) => {
+      compController.createCompetition({
+        location: 'test range',
+        action: 'to test',
+      }).then(encounter => {
+        this.tempCompetition = competition;
+        done();
+      })
+      .catch(done);
+    });
     after((done)=>{
       debug('POST-after-block');
       matchController.removeAllMatches()
-      .then(() => done())
+      .then((compController.removeAllCompetition()) => done())
       .catch(done);
     });
     it('should return a match', function(done){
