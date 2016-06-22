@@ -8,9 +8,8 @@ const httpErrors = require('http-errors');
 exports.newUser = function(reqBody){
   debug('authController:newUser');
   return new Promise((resolve, reject) => {
-    if(!reqBody.username || !reqBody.password){
-      return reject(httpErrors(400, 'No username or password provided'));
-    }
+    if(!reqBody.username || !reqBody.password)
+      return reject(httpErrors(404, 'No username or password provided'));
     var password = reqBody.password;
     delete reqBody.password;
     var user = new User(reqBody);
@@ -29,7 +28,10 @@ exports.removeAllUsers = function(){
 
 exports.signIn = function(auth) {
   debug('authController:signIn');
+  console.log('auth: ', auth);
   return new Promise((resolve, reject) => {
+    if(!auth.username || !auth.password)
+      return reject(httpErrors(400, 'missing username or password'));
     User.findOne({username: auth.username})
     .then(user => user.compareHash(auth.password))
     .then(user => user.generateToken())
