@@ -29,7 +29,7 @@ app.use(morgan('dev'));
 
 app.use('/api', authRouter);
 app.use('/api', competitionRouter);
-app.use('api', matchRouter);
+app.use('/api', matchRouter);
 
 app.all('*', function(req, res, next){
   debug('entered app.all route in server.js:  this route is not registered');

@@ -16,7 +16,7 @@ const matchController = require('../controller/match-controller');
 
 const port = process.env.PORT || 3000;
 
-const baseUrl = `localhost:${port}/api`;
+const baseUrl = `http://localhost:${port}/api`;
 const server = require('../server');
 request.use(superPromise);
 
@@ -49,11 +49,12 @@ describe('testing the match route', function(){ //setting up our server
 
   describe('testing POST route', function(){
     before((done) => { // creating our test resources
+      debug('before-block-post-match');
       //userController.newUser({username:'McTest', password: 'pass'})
       var user = new UserSchema({username: 'McTest', password: 'pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
-        this.temptoken = token;
+        this.tempToken = token;
         compController.createCompetition({
           user_id: user._id,
           location: 'test range',
@@ -83,12 +84,12 @@ describe('testing the match route', function(){ //setting up our server
     it('should return a match', (done) => {
       debug('match POST route');
       request.post(`${baseUrl}/competition/:${this.tempCompetition._id}/match`)
-      .set({Authorization: `Bearer ${this.tempToken}`})
       .send({
         userId: this.tempCompetition.user_id,
         competitionId: this.tempCompetition._id,
         matchNumber: 1
       })
+      .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
         expect(res.status).to.equal(200);
         expect(res.body.competitionId).to.equal(`${this.tempCompetition._id}`);

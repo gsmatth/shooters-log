@@ -8,7 +8,7 @@ const parseBearerAuth = require('../lib/parse-bearer-auth');
 
 const matchRouter = module.exports = new Router();
 
-matchRouter.post('/competition:id/match', jsonParser, parseBearerAuth, function(req, res, next){
+matchRouter.post('/competition/:id/match', jsonParser, parseBearerAuth, function(req, res, next){
   debug('match router POST');
   req.body.userId = req.userId;
   matchController.createMatch(req.params.id, req.body)
