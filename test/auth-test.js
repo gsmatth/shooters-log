@@ -64,4 +64,90 @@ describe('testing the signup post route', function(){
       .catch(done);
     });
   });
+
+  describe('testing signin GET route with valid request', function(){
+    before((done) => {
+      debug('GET-sigin-before-block');
+      authController.newUser({username: 'tester', password: 'openSaysMe!'})
+      .then(() => done())
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('GET-sigin-after-block');
+      authController.removeAllUsers()
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return a token', function(done) {
+      debug('GET-signin-valid-test');
+      request.get(`${baseUrl}/signin`)
+      .auth('tester', 'openSaysMe!')
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.text.length).to.equal(205);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  describe('testing signin GET route with incorrect username or password', function(){
+    before((done) => {
+      debug('GET-sigin-before-block');
+      authController.newUser({username: 'tester', password: 'openSaysMe!'})
+      .then(() => done())
+      .catch(done);
+    });
+    after((done) => {
+      debug('GET-sigin-after-block');
+      authController.removeAllUsers()
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return a 404 error', function(done) {
+      debug('GET-signin-valid-test');
+      request.get(`${baseUrl}/signin`)
+      .auth('noTesterWithThisName', 'noSuchPassword!')
+      .then(done)
+      .catch (err  => {
+        const res = err.response;
+        expect(res.status).to.equal(500);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+
+  describe('testing signin GET route with missing username', function(){
+    before((done) => {
+      debug('GET-sigin-before-block');
+      authController.newUser({username: 'tester', password: 'openSaysMe!'})
+      .then(() => done())
+      .catch(done);
+    });
+    after((done) => {
+      debug('GET-sigin-after-block');
+      authController.removeAllUsers()
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return a 401 error', function(done) {
+      debug('GET-signin-valid-test');
+      request.get(`${baseUrl}/signin`)
+      .auth('', 'noSuchPassword!')
+      .then(done)
+      .catch (err  => {
+        const res = err.response;
+        expect(res.status).to.equal(401);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
 });
