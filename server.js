@@ -11,6 +11,7 @@ mongoose.Promise = require('bluebird');
 const httpErrors = require('http-errors');
 const handleErrors = require('./lib/handle-errors');
 const authRouter = require('./route/auth-router');
+const competitionRouter = require('./route/competition-router');
 // const userRouter = require('./route/user-router');
 
 //module constants
@@ -26,6 +27,7 @@ app.use(morgan('dev'));
 // app.use('/api', userRouter);
 
 app.use('/api', authRouter);
+app.use('/api', competitionRouter);
 
 app.all('*', function(req, res, next){
   debug('entered app.all route in server.js:  this route is not registered');

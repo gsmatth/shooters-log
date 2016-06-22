@@ -23,7 +23,7 @@
 
 ****
 #Schema
-![MVP Schema](https://cloud.githubusercontent.com/assets/13153982/16182990/09b2dda0-3661-11e6-94dc-25679c1d617f.png)
+![MVP Schema](https://cloud.githubusercontent.com/assets/13153982/16252177/de6d96ae-37e0-11e6-9e36-b8bf3b28e334.png)
 *Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
 
 
