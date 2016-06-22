@@ -9,9 +9,4 @@ const competitionSchema = module.exports=mongoose.Schema({
   action: {type: String, required: true}
 });
 
-
-
-
-
-
 module.exports = mongoose.model('competition', competitionSchema );
