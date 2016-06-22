@@ -31,3 +31,7 @@ exports.deleteScore = function(scoreId){
   });
 
 };
+
+exports.removeAllScores = function(){
+  return score.remove({});
+}
