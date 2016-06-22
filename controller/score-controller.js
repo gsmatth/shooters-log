@@ -12,3 +12,22 @@ exports.createScore = function(scoreData){
     .catch(err => reject(httpErrors(400, err.message)));
   });
 };
+
+exports.getScore = function(scoreId){
+  debug('entered getScore function in score-controller.js');
+  return new Promise((resolve, reject) => {
+    score.findOne({_id: scoreId})
+    .then(score => resolve(score))
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
+exports.deleteScore = function(scoreId){
+  debug('entered deleteScore function in score-controller.js');
+  return new Promise((resolve, reject) => {
+    score.remove({_id: scoreId})
+    .then(resolve)
+    .catch(err => reject(httpErrors(404, err,message)));
+  });
+
+};
