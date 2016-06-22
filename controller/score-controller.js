@@ -5,7 +5,7 @@ const httpErrors = require('http-errors');
 const Score = require('../model/socre-model');
 
 exports.createScore = function(scoreData){
-  debug('entered createScore in score-controller');
+  debug('entered createScore function in score-controller.js');
   return new Promise ((resolve, reject) => {
     new Score(scoreData).save()
     .then score => resolve (score)
