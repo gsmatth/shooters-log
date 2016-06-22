@@ -1,6 +1,5 @@
 'use strict';
 
-const debug = require('debug')('shooter:match');
 const mongoose = require('mongoose');
 
 const matchSchema = module.exports = mongoose.Schema({
