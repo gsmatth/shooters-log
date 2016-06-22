@@ -2,7 +2,7 @@
 
 const debug = ('debug')('shoot:competition-controlller');
 const Competition = require('../model/competition-model');
-const handleErrors = require('../lib/handle-errors');
+// const handleErrors = require('../lib/handle-errors');
 
 
 exports.getCompetition = function(id){

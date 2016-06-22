@@ -7,6 +7,7 @@ const competitionController = require('../controller/competition-controller');
 const competitionRouter = module.exports = new Router();
 
 competitionRouter.get('/competition/:id', function(req, res, next){
+  debug('entered competitionRouter.get route');
   competitionController.getCompetition(req.params.id)
   .then(competition => res.send(competition))
   .catch(next);

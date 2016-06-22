@@ -1,6 +1,6 @@
 'use strict';
 
-const debug = require('debug')('shooter:competition-model');
+// const debug = require('debug')('shooter:competition-model');
 const mongoose = require('mongoose');
 
 const competitionSchema = module.exports=mongoose.Schema({
