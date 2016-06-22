@@ -24,3 +24,15 @@ exports.getCompetition = function(id){
     .catch(reject);
   });
 };
+
+exports.deleteCompetition = function(competitionId){
+  return new Promise((resolve, reject) => {
+    Competition.remove({_id:competitionId})
+    .then(resolve)
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
+exports.removeAllCompetition = function(){
+  return Competition.remove({});
+};
