@@ -111,6 +111,44 @@ describe('testing the match route', function(){ //setting up our server
         });
       });
     });
+
+    describe('testing POST unauthorized', () => {
+      it('should return a 401', (done) => {
+        debug('match-post-401-error');
+        request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
+        .send({matchNumber: 2})
+        .set({})
+        .then(done)
+        .catch( err => {
+          try {
+            const res = err.response;
+            expect(res.status).to.equal(401);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+    });
+
+    describe('testing POST not found', () => {
+      it('should return a 404', (done) => {
+        debug('match-post-404-error');
+        request.post(`${baseUrl}/competition/6132548761254/match`)
+        .send({matchNumber: 3})
+        .set({Authorization: `Bearer ${this.tempToken}`})
+        .then(done)
+        .catch( err => {
+          try {
+            const res = err.response;
+            expect(res.status).to.equal(404);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+    });
   });
 
   describe('testing GET route', function(){
