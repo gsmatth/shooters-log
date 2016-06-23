@@ -10,15 +10,15 @@ const matchRouter = module.exports = new Router();
 
 matchRouter.post('/competition/:id/match', jsonParser, parseBearerAuth, function(req, res, next){
   debug('match router POST');
-  req.body.userId = userId;
-  matchController.createMatch(req.body)
+  req.body.userId = req.userId;
+  matchController.createMatch(req.params.id, req.body)
   .then(match => res.json(match))
   .catch(next);
 });
 
 matchRouter.get('/competition/:id/match/:id', jsonParser, parseBearerAuth, function(req, res, next){
   debug('match router GET');
-  req.body.userId = userId;
+  req.body.userId = req.userId;
   matchController.fetchMatch(req.params.id)
   .then(match => res.json(match))
   .catch(next);
