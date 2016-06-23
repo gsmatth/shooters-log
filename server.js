@@ -23,7 +23,6 @@ const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/testshoot';
 
 mongoose.connect(mongoURI);
 
-app.use(handleErrors);
 app.use(morgan('dev'));
 // app.use('/api', userRouter);
 
@@ -35,6 +34,8 @@ app.all('*', function(req, res, next){
   debug('entered app.all route in server.js:  this route is not registered');
   next(httpErrors(404, 'this route is not registered'));
 });
+
+app.use(handleErrors);
 
 const server = app.listen(port, function(){
   debug('listen');
