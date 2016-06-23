@@ -2,16 +2,20 @@
 
 const debug = require('debug')('shooter:matchController');
 const Match = require('../model/match-model');
+const competitionController = require('./competition-controller')
 const httpErrors = require('http-errors');
 
-exports.createMatch = function(reqBody){
+exports.createMatch = function(competitionId, reqBody){
   debug('matchController: createMatch');
-  return new Promise((resolve, reject) => {
-    new Match(reqBody)
-    .save()
-    .then(match => resolve(match))
-    .catch(err => reject(httpErrors(400, err.message)));
-  });
+  if (competitionController.getCompetition(competitionId)){
+    return new Promise((resolve, reject) => {
+      new Match(reqBody)
+      .save()
+      .then(match => resolve(match))
+      .catch(err => reject(httpErrors(400, err.message)));
+    });
+  }
+  httpErrors(404, err.message);
 };
 
 exports.fetchMatch = function(id){
