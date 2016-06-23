@@ -141,7 +141,7 @@ describe('testing the match route', function(){ //setting up our server
     });
 
     it('should return a match', (done) => {
-      debug(`match GET route (tempMatch:)`);
+      debug('match GET route');
       request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {

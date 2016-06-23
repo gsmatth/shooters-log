@@ -2,14 +2,14 @@
 
 const debug = require('debug')('shooter:matchController');
 const Match = require('../model/match-model');
-const competitionController = require('./competition-controller')
+const competitionController = require('./competition-controller');
 const httpErrors = require('http-errors');
 
 exports.createMatch = function(competitionId, reqBody){
   debug('matchController: createMatch');
   return new Promise((resolve, reject) => {
     competitionController.getCompetition(competitionId)
-    .then( competition => {
+    .then( () => {
       return new Match(reqBody).save();
     })
     .catch( err => reject(httpErrors(400, err.message)))
