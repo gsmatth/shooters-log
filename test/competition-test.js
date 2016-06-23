@@ -89,6 +89,113 @@ describe('testing module competition-router', function(){
         })
         .catch(done);
       });
+      it('2 should return a 401', (done) => {
+        request.post(`${baseUrl}/competition`)
+        .send({
+          location: 'Hoolahoop',
+          action: 'can do like so many circles'
+        })
+        .set({
+          Authorization: 'Bearer '
+        })
+        .then(done)
+        .catch(err => {
+          const res = err.response;
+          expect(res.status).to.equal(401);
+          done();
+        });
+      });
+      it('3 should return a 400', (done) => {
+        request.post(`${baseUrl}/competition`)
+        .send({
+          name: 'bad request',
+          desc: 'not valid'
+        })
+        .set({
+          Authorization: `Bearer ${this.tempToken}`
+        })
+        .then(done)
+        .catch(err => {
+          const res = err.response;
+          expect(res.status).to.equal(400);
+          done();
+        });
+      });
+    });
+    describe('testing get api/competition/:id', () => {
+      it('should return a competition', (done) => {
+        request.get(`${baseUrl}/competition/${this.tempCompetition._id}`)
+        .set({
+          Authorization: `Bearer ${this.tempToken}`
+        })
+        .then(res => {
+          expect(res.status).to.equal(200);
+          done();
+        })
+        .catch(done);
+      });
+      it('should return a 401', (done) => {
+        request.get(`${baseUrl}/competition/${this.tempCompetition._id}`)
+        .set({
+          Authorization: 'Bearer'
+        })
+        .then(done)
+        .catch(err => {
+          const res = err.response;
+          expect(res.status).to.equal(401);
+          done();
+        });
+      });
+      it('should return a 404', (done) => {
+        request.get(`${baseUrl}/competition/32i4h23ij4b32ib23b2b`)
+        .set({
+          Authorization: `Bearer ${this.tempToken}`
+        })
+        .then(done)
+        .catch(err => {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        });
+      });
+      it('should return a 400', (done) => {
+        request.get(`${baseUrl}/competition`)
+        .then(done)
+        .catch(err => {
+          const res = err.response;
+          expect(res.status).to.equal(400);
+          done();
+        });
+      });
+    });
+    describe('testing PUT at api/competition/:id', ()=> {
+      it('should return a new talent', (done) => {
+        request.put(`${baseUrl}/competition/${this.tempCompetition._id}`)
+        .set({
+          Authorization: `Bearer ${this.tempToken}`
+        })
+        .send({
+          location: 'Best location',
+          action: 'Best action'
+        })
+        .then( res => {
+          expect(res.status).to.equal(200);
+          done();
+        }).catch(done);
+      });
+      it('should return a 401', (done)=> {
+        request.put(`${baseUrl}/competition/${this.tempCompetition._id}`)
+        .send({
+          location: 'blah',
+          action: 'deblah'
+        })
+        .then(done)
+        .catch(err => {
+          const res = err.response;
+          expect(res.status).to.equal(401);
+          done();
+        });
+      });
     });
   });
 });
