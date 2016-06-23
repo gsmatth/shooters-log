@@ -30,3 +30,7 @@ scoreRouter.delete('/competition/:id/match/:id/score/:id', function(req, res, ne
   .then(score => res.send(score))
   .catch(next);
 });
+
+scoreRouter.put('/competition/:id/match/:id/score/:id', function(req, res, next){
+  debug('entered scoreRouter.delete route');
+  scoreController.putScore()
