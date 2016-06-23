@@ -92,6 +92,25 @@ describe('testing the match route', function(){ //setting up our server
         done();
       }).catch(done);
     });
+
+    describe('testing POST bad request', () => {
+      it('should return a 400', (done) => {
+        debug('match-post-400-error');
+        request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
+        .send({})
+        .set({Authorization: `Bearer ${this.tempToken}`})
+        .then(done)
+        .catch(err => {
+          try {
+            const res = err.response;
+            expect(res.status).to.equal(400);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+    });
   });
 
   describe('testing GET route', function(){
