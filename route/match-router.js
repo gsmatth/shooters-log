@@ -12,7 +12,7 @@ matchRouter.post('/competition/:competitionId/match', jsonParser, parseBearerAut
   debug('match router POST');
   req.body.userId         = req.userId;
   req.body.competitionId  = req.params.competitionId;
-  matchController.createMatch(req.params.id, req.body)
+  matchController.createMatch(req.params.competitionId, req.body)
   .then(match => res.json(match))
   .catch(next);
 });

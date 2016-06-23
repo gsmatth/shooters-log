@@ -70,39 +70,6 @@ describe('testing the auth-controller signIn method ', function(){
     });
   });
 
-
-  // describe('testing signIn method with incorrect username or password', function(){
-  //   before((done) => {
-  //     debug('GET-sigin-before-block');
-  //     authController.newUser({username: 'tester', password: 'openSaysMe!'})
-  //     .then(() => done())
-  //     .catch(done);
-  //   });
-  //   after((done) => {
-  //     debug('GET-sigin-after-block');
-  //     authController.removeAllUsers()
-  //     .then(() => done())
-  //     .catch(done);
-  //   });
-  //
-  //   it('should return a 404 error', function(done) {
-  //     debug('GET-signin-valid-test');
-  //     authController.signIn({username: 'noSuchUserName', password: 'openSaysMe!'})
-  //     .then(done)
-  //     .catch(err =>  {
-  //       console.log('err: ', err);
-  //       console.log('err.stausCode: ', err.statusCode);
-  //       console.log('err.status: ', err.status);
-  //       console.log('err.message: ', err.message);
-  //       expect(err.statusCode).to.equal(400);
-  //       expect(err.message).to.equal('missing password or username');
-  //       done();
-  //     })
-  //     .catch(done);
-  //   });
-  // });
-
-
   describe('testing signIn method with missing username', function(){
     before((done) => {
       debug('GET-sigin-before-block');
@@ -117,7 +84,7 @@ describe('testing the auth-controller signIn method ', function(){
       .catch(done);
     });
 
-    it('should return a 404 error', function(done) {
+    it('should return a 400 error', function(done) {
       debug('GET-signin-valid-test');
       authController.signIn({username: '', password: 'openSaysMe!'})
       .then(done)
