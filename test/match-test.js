@@ -63,11 +63,8 @@ describe('testing the match route', function(){ //setting up our server
         .then(competition => {
           this.tempCompetition = competition;
           done();
-        }).catch(() => {
-          done();
-        });
-      })
-      .catch(done);
+        }).catch(done);
+      }).catch(done);
     });
 
     after((done)=>{
