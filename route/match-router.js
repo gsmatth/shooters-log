@@ -10,7 +10,8 @@ const matchRouter = module.exports = new Router();
 
 matchRouter.post('/competition/:id/match', jsonParser, parseBearerAuth, function(req, res, next){
   debug('match router POST');
-  req.body.userId = req.userId;
+  req.body.userId         = req.userId;
+  req.body.competitionId  = req.params.id;
   matchController.createMatch(req.params.id, req.body)
   .then(match => res.json(match))
   .catch(next);

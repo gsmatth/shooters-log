@@ -7,15 +7,15 @@ const httpErrors = require('http-errors');
 
 exports.createMatch = function(competitionId, reqBody){
   debug('matchController: createMatch');
-  if (competitionController.getCompetition(competitionId)){
-    return new Promise((resolve, reject) => {
-      new Match(reqBody)
-      .save()
-      .then(match => resolve(match))
-      .catch(err => reject(httpErrors(400, err.message)));
-    });
-  }
-  httpErrors(404, err.message);
+  return new Promise((resolve, reject) => {
+    competitionController.getCompetition(competitionId)
+    .then( competition => {
+      return new Match(reqBody).save();
+    })
+    .catch( err => reject(httpErrors(400, err.message)))
+    .then(resolve)
+    .catch( err => reject(httpErrors(404, err.message)));
+  });
 };
 
 exports.fetchMatch = function(id){
