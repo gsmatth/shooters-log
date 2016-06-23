@@ -9,7 +9,7 @@ const request = require('superagent-use');
 const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter: match test');
 
-const UserSchema = require('../model/user-model');
+const User = require('../model/user-model');
 const userController = require('../controller/auth-controller');
 const compController = require('../controller/competition-controller');
 const matchController = require('../controller/match-controller');
@@ -51,12 +51,12 @@ describe('testing the match route', function(){ //setting up our server
     before((done) => { // creating our test resources
       debug('before-block-post-match');
       //userController.newUser({username:'McTest', password: 'pass'})
-      var user = new UserSchema({username: 'McTest', password: 'pass'});
+      var user = new User({username: 'McTest', password: 'pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
         this.tempToken = token;
         compController.createCompetition({
-          user_id: user._id,
+          userId: user._id,
           location: 'test range',
           action: 'to test'
         })
@@ -80,10 +80,8 @@ describe('testing the match route', function(){ //setting up our server
 
     it('should return a match', (done) => {
       debug('match POST route');
-      request.post(`${baseUrl}/competition/:${this.tempCompetition._id}/match`)
+      request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
       .send({
-        userId: this.tempCompetition.user_id,
-        competitionId: this.tempCompetition._id,
         matchNumber: 1
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
@@ -95,4 +93,61 @@ describe('testing the match route', function(){ //setting up our server
       }).catch(done);
     });
   });
+
+  describe('testing GET route', function(){
+    before((done) => { // creating our test resources
+      debug('before-block-GET-match');
+      var user = new User({username: 'MrTest', password: 'ye-pass'});
+      userController.newUser({username: user.username, password: user.password})
+      .then( token => {
+        this.tempToken = token;
+        compController.createCompetition({
+          userId: user._id,
+          location: 'test range',
+          action: 'to test'
+        })
+        .then(competition => {
+          this.tempCompetition = competition;
+          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
+          matchController.createMatch(this.tempCompetition._id, {
+            competitionId: this.tempCompetition._id,
+            userId       :this.tempCompetition.userId,
+            matchNumber  : 1
+          })
+          .then(match => {
+            console.log('THIS! Match', match);
+            this.tempMatch = match;
+            done();
+          })
+          .catch(done);
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done)=>{
+      debug('GET-after-block');
+      Promise.all([
+        compController.removeAllCompetition(),
+        matchController.removeAllMatches(),
+        userController.removeAllUsers()
+      ])
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return a match', (done) => {
+      debug('match GET route');
+      request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then((res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.competitionId).to.equal(`${this.tempCompetition._id}`);
+        expect(res.body.matchNumber).to.equal(1);
+        done();
+      }).catch(done);
+    });
+  });
+
 });
