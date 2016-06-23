@@ -44,4 +44,4 @@ exports.putScore = function(scoreId, scoreData){
 exports.removeAllScores = function(){
   debug('entered removeAllScores in score-controller.js');
   return Score.remove({});
-}
+};

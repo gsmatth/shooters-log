@@ -31,6 +31,7 @@ scoreRouter.delete('/competition/:id/match/:id/score/:id', function(req, res, ne
   .catch(next);
 });
 
-scoreRouter.put('/competition/:id/match/:id/score/:id', function(req, res, next){
-  debug('entered scoreRouter.delete route');
-  scoreController.putScore()
+// scoreRouter.put('/competition/:id/match/:id/score/:id', function(req, res, next){
+//   debug('entered scoreRouter.delete route');
+//   scoreController.putScore()
+// });
