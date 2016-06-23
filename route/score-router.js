@@ -19,7 +19,14 @@ scoreRouter.get('/competition/:id/match/:id/score/:id', function(req, res, next)
 scoreRouter.post('/competition/:id/match/:id/score/', parseBearerAuth, jsonParser, function(req, res, next){
   debug('entered scoreRouter.post route');
   req.body.scoreId = req.scoreId;
-  scoreController.scoreCompetition(req.body)
+  scoreController.createScore(req.body)
   .then( score => res.json(score))
+  .catch(next);
+});
+
+scoreRouter.delete('/competition/:id/match/:id/score/:id', function(req, res, next){
+  debug('entered scoreRouter.delete route');
+  scoreController.deleteScore(req.params.id)
+  .then(score => res.send(score))
   .catch(next);
 });
