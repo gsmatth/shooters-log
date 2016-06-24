@@ -205,6 +205,21 @@ describe('testing the match route', function(){ //setting up our server
         done();
       }).catch(done);
     });
+    it('should return a 404', (done) => {
+      debug('match 404 GET route');
+      request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch( err => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
   });
 
 });
