@@ -17,7 +17,7 @@ gulp.task('eslint', function(){
 
 gulp.task('test', () => {
   return gulp.src('./test/*-test.js', {read: false})
-  .pipe(mocha({reporter: 'nyan'}));
+  .pipe(mocha({reporter: 'list'}));
 });
 
 gulp.task('nodemon', function(){
