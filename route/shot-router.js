@@ -31,7 +31,9 @@ shotRouter.delete('/competition/:competitionid/match/:matchid/shot/:shotid', fun
   .catch(next);
 });
 
-// shotRouter.put('/competition/:id/match/:id/shot/:id', function(req, res, next){
-//   debug('entered shotRouter.delete route');
-//   shotController.putShot()
-// });
+shotRouter.put('/competition/:competitionid/match/:matchid/shot/:shotid', function(req, res, next){
+  debug('entered shotRouter.put route');
+  shotController.putShot(req.params.shotid)
+  .then(shot => res.json(shot))
+  catch(next);
+});
