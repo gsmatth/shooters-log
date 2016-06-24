@@ -44,7 +44,7 @@ exports.updateMatch = function(id, reqBody){
       }
       if(!reqBody.matchNumber) {
         return reject(httpErrors(400, 'bad request'));
-      };
+      }
       var newNumber = reqBody.matchNumber;
       match.matchNumber = newNumber;
       resolve(match);
