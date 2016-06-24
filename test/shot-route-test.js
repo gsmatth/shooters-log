@@ -134,12 +134,6 @@ describe('Testing shot-route ', function() {
       matchNumber: 1,
       _id: '576c4f19965f8a8a0ab5397f'
     };
-    // var shotData = {
-    //   userId:'576c47d854d007350a734560' ,
-    //   matchId: '576c4f19965f8a8a0ab5397f',
-    //   xValue: false,
-    //   score: 'M'
-    // };
 
     before((done) => { // create token for authorization needed for post
       debug('shot-GET-route-test-before-block');
@@ -213,9 +207,8 @@ describe('Testing shot-route ', function() {
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
         expect(res.status).to.equal(200);
-        console.log(res.body);
-        // expect(res.body.xValue).to.equal(false);
-        // expect(res.body.score).to.equal('M');
+        expect(res.body.xValue).to.equal(false);
+        expect(res.body.score).to.equal('9');
         console.log('\nSCORE RES BODY: \n \n', res.body);
         done();
       })
