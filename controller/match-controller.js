@@ -24,7 +24,12 @@ exports.fetchMatch = function(id){
   debug('matchController: fetchMatch');
   return new Promise((resolve, reject) => {
     Match.findOne({_id: id})
-    .then(match => resolve(match))
+    .then(match => {
+      if(!match) {
+        return reject(httpErrors(404, 'not found'));
+      }
+      resolve(match);
+    })
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
