@@ -24,3 +24,12 @@ matchRouter.get('/competition/:competitionId/match/:matchId', jsonParser, parseB
   .then(match => res.json(match))
   .catch(next);
 });
+
+matchRouter.delete('/competition/:competitionId/match/:matchId', jsonParser, parseBearerAuth, function(req, res, next){
+  debug('match router DELETE');
+  req.body.userId = req.userId;
+  matchController.removeMatch(req.params.matchId)
+  .then(() => {
+    res.status(204).send();
+  }).catch(next);
+});

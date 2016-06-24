@@ -221,5 +221,70 @@ describe('testing the match route', function(){ //setting up our server
       });
     });
   });
+  describe('testing DELETE route', function(){
+    before((done) => { // creating our test resources
+      debug('before-block-DELETE-match');
+      var user = new User({username: 'MrTest', password: 'ye-pass'});
+      userController.newUser({username: user.username, password: user.password})
+      .then( token => {
+        this.tempToken = token;
+        compController.createCompetition({
+          userId: user._id,
+          location: 'test range',
+          action: 'to test'
+        })
+        .then(competition => {
+          this.tempCompetition = competition;
+          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
+          matchController.createMatch(this.tempCompetition._id, {
+            competitionId: this.tempCompetition._id,
+            userId       :this.tempCompetition.userId,
+            matchNumber  : 1
+          })
+          .then(match => {
+            this.tempMatch = match;
+            done();
+          })
+          .catch(done);
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
 
+    after((done)=>{
+      debug('DELETE-after-block');
+      Promise.all([
+        compController.removeAllCompetition(),
+        matchController.removeAllMatches(),
+        userController.removeAllUsers()
+      ])
+      .then(() => done())
+      .catch(done);
+    });
+    it('should return a 204', (done) => {
+      debug('match DELETE route');
+      request.del(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then((res) => {
+        expect(res.status).to.equal(204);
+        done();
+      }).catch(done);
+    });
+    it('should return a 404', (done) => {
+      debug('match 404 DELETE route');
+      request.del(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch( err => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+  });
 });

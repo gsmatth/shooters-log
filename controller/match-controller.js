@@ -37,7 +37,13 @@ exports.fetchMatch = function(id){
 exports.removeMatch = function(id){
   debug('matchController: removeMatch');
   return new Promise((resolve, reject) => {
-    Match.remove({_id: id})
+    console.log('DELETE ONE MATCH id =', id);
+    Match.findOne({_id: id})
+    .then(match => {
+      if(!match) {
+        return reject(httpErrors(404, 'not found'));
+      }
+    }).then( Match.remove({_id: id}))
     .then(resolve)
     .catch(err => reject(httpErrors(404, err.message)));
   });
