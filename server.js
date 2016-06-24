@@ -13,6 +13,7 @@ const handleErrors = require('./lib/handle-errors');
 const authRouter = require('./route/auth-router');
 const competitionRouter = require('./route/competition-router');
 const matchRouter = require('./route/match-router');
+const shotRouter = require('./route/shot-router');
 // const userRouter = require('./route/user-router');
 
 //module constants
@@ -29,6 +30,7 @@ app.use(morgan('dev'));
 app.use('/api', authRouter);
 app.use('/api', competitionRouter);
 app.use('/api', matchRouter);
+app.use('/api', shotRouter);
 
 app.all('*', function(req, res, next){
   debug('entered app.all route in server.js:  this route is not registered');

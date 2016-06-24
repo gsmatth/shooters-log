@@ -63,11 +63,8 @@ describe('testing the match route', function(){ //setting up our server
         .then(competition => {
           this.tempCompetition = competition;
           done();
-        }).catch(() => {
-          done();
-        });
-      })
-      .catch(done);
+        }).catch(done);
+      }).catch(done);
     });
 
     after((done)=>{
@@ -94,6 +91,63 @@ describe('testing the match route', function(){ //setting up our server
         expect(res.body.matchNumber).to.equal(1);
         done();
       }).catch(done);
+    });
+
+    describe('testing POST bad request', () => {
+      it('should return a 400', (done) => {
+        debug('match-post-400-error');
+        request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
+        .send({})
+        .set({Authorization: `Bearer ${this.tempToken}`})
+        .then(done)
+        .catch(err => {
+          try {
+            const res = err.response;
+            expect(res.status).to.equal(400);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+    });
+
+    describe('testing POST unauthorized', () => {
+      it('should return a 401', (done) => {
+        debug('match-post-401-error');
+        request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
+        .send({matchNumber: 2})
+        .set({})
+        .then(done)
+        .catch( err => {
+          try {
+            const res = err.response;
+            expect(res.status).to.equal(401);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+    });
+
+    describe('testing POST not found', () => {
+      it('should return a 404', (done) => {
+        debug('match-post-404-error');
+        request.post(`${baseUrl}/competition/623564512374/match`)
+        .send({matchNumber: 3})
+        .set({Authorization: `Bearer ${this.tempToken}`})
+        .then(done)
+        .catch( err => {
+          try {
+            const res = err.response;
+            expect(res.status).to.equal(404);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
     });
   });
 
@@ -151,6 +205,173 @@ describe('testing the match route', function(){ //setting up our server
         done();
       }).catch(done);
     });
+    it('should return a 404', (done) => {
+      debug('match 404 GET route');
+      request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch( err => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
   });
+  describe('testing PUT route', function(){
+    before((done) => { // creating our test resources
+      debug('before-block-PUT-match');
+      var user = new User({username: 'MrTest', password: 'ye-pass'});
+      userController.newUser({username: user.username, password: user.password})
+      .then( token => {
+        this.tempToken = token;
+        compController.createCompetition({
+          userId: user._id,
+          location: 'test range',
+          action: 'to test'
+        })
+        .then(competition => {
+          this.tempCompetition = competition;
+          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
+          matchController.createMatch(this.tempCompetition._id, {
+            competitionId: this.tempCompetition._id,
+            userId       :this.tempCompetition.userId,
+            matchNumber  : 1
+          })
+          .then(match => {
+            console.log('THIS! Match', match);
+            this.tempMatch = match;
+            done();
+          })
+          .catch(done);
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
 
+    after((done)=>{
+      debug('PUT-after-block');
+      Promise.all([
+        compController.removeAllCompetition(),
+        matchController.removeAllMatches(),
+        userController.removeAllUsers()
+      ])
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return a match', (done) => {
+      debug('match PUT route');
+      request.put(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}`)
+      .send({matchNumber: 3})
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then((res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.competitionId).to.equal(`${this.tempCompetition._id}`);
+        expect(res.body.matchNumber).to.equal(3);
+        done();
+      }).catch(done);
+    });
+    it('should return a 400', (done) => {
+      debug('match 400 PUT route');
+      request.put(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888`)
+      .send({})
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch( err => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+    it('should return a 404', (done) => {
+      debug('match 404 PUT route');
+      request.put(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch( err => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+  });
+  describe('testing DELETE route', function(){
+    before((done) => { // creating our test resources
+      debug('before-block-DELETE-match');
+      var user = new User({username: 'MrTest', password: 'ye-pass'});
+      userController.newUser({username: user.username, password: user.password})
+      .then( token => {
+        this.tempToken = token;
+        compController.createCompetition({
+          userId: user._id,
+          location: 'test range',
+          action: 'to test'
+        })
+        .then(competition => {
+          this.tempCompetition = competition;
+          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
+          matchController.createMatch(this.tempCompetition._id, {
+            competitionId: this.tempCompetition._id,
+            userId       :this.tempCompetition.userId,
+            matchNumber  : 1
+          })
+          .then(match => {
+            this.tempMatch = match;
+            done();
+          })
+          .catch(done);
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done)=>{
+      debug('DELETE-after-block');
+      Promise.all([
+        compController.removeAllCompetition(),
+        matchController.removeAllMatches(),
+        userController.removeAllUsers()
+      ])
+      .then(() => done())
+      .catch(done);
+    });
+    it('should return a 204', (done) => {
+      debug('match DELETE route');
+      request.del(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then((res) => {
+        expect(res.status).to.equal(204);
+        done();
+      }).catch(done);
+    });
+    it('should return a 404', (done) => {
+      debug('match 404 DELETE route');
+      request.del(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch( err => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+  });
 });
