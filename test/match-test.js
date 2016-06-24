@@ -134,7 +134,7 @@ describe('testing the match route', function(){ //setting up our server
     describe('testing POST not found', () => {
       it('should return a 404', (done) => {
         debug('match-post-404-error');
-        request.post(`${baseUrl}/competition/6132548761254/match`)
+        request.post(`${baseUrl}/competition/623564512374/match`)
         .send({matchNumber: 3})
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(done)

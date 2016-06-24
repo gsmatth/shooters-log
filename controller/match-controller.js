@@ -9,12 +9,14 @@ exports.createMatch = function(competitionId, reqBody){
   debug('matchController: createMatch');
   return new Promise((resolve, reject) => {
     competitionController.getCompetition(competitionId)
-    .then( () => {
+    .then( (competition) => {
+      if (!competition) {
+        return reject(httpErrors(404, 'not found'));
+      }
       return new Match(reqBody).save();
     })
-    .catch( err => reject(httpErrors(400, err.message)))
     .then(resolve)
-    .catch( err => reject(httpErrors(404, err.message)));
+    .catch( err => reject(httpErrors(400, err.message)));
   });
 };
 
