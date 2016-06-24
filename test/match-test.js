@@ -218,7 +218,7 @@ describe('testing the match route', function(){ //setting up our server
         } catch (err) {
           done(err);
         }
-      });;
+      });
     });
   });
 
