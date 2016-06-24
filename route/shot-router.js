@@ -11,7 +11,7 @@ const jsonParser = require('body-parser').json();
 
 shotRouter.get('/competition/:competitionId/match/:matchId/shot/:shotId', jsonParser, parseBearerAuth, function(req, res, next){
   debug('entered shotRouter.get route');
-  shotController.getShot(req.params.id)
+  shotController.getShot(req.params.shotId)
   .then(shot => res.json(shot))
   .catch(next);
 });
