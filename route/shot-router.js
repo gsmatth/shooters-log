@@ -2,38 +2,54 @@
 
 const Router = require('express').Router;
 const debug = require('debug')('shooter:shot-router');
-
+const httpErrors = require('http-errors');
+const jsonParser = require('body-parser').json();
 const shotController = require('../controller/shot-controller');
 const parseBearerAuth = require('../lib/parse-bearer-auth');
-
 const shotRouter = module.exports = new Router();
-const jsonParser = require('body-parser').json();
 
-shotRouter.get('/competition/:competitionId/match/:matchId/shot/:shotId', function(req, res, next){
+
+shotRouter.get('/competition/:competitionId/match/:matchId/shot/:shotId',parseBearerAuth, function(req, res, next){
   debug('entered shotRouter.get route');
-  shotController.getShot(req.params.id)
-  .then(shot => res.send(shot))
+  shotController.getShot(req.params.shotId)
+  .then(shot => {
+    if(!shot){
+      return next(httpErrors(404, 'shot not found'));
+    }
+    res.json(shot);
+  })
   .catch(next);
 });
 
-shotRouter.post('/competition/:competitionId/match/:matchId/shot', parseBearerAuth, jsonParser, function(req, res, next){
+shotRouter.get('/competition/:competitionId/match/:matchId/shot/', parseBearerAuth, (req, res, next) => {
+  next(httpErrors(400, 'no match id provided'));
+});
+
+shotRouter.post('/competition/:competitionId/match/:matchId/shot', parseBearerAuth, jsonParser, (req, res, next) => {
   debug('entered shotRouter.post route');
-  req.body.shotId = req.shotId;
+  // req.body.shotId = req.shotId;
   shotController.createShot(req.body)
   .then( shot => res.json(shot))
   .catch(next);
 });
 
-shotRouter.delete('/competition/:competitionid/match/:matchid/shot/:shotid', function(req, res, next){
+shotRouter.delete('/competition/:competitionid/match/:matchid/shot/:shotid', parseBearerAuth, (req, res, next) => {
   debug('entered shotRouter.delete route');
   shotController.deleteShot(req.params.shotid)
-  .then(shot => res.send(shot))
+  .then(() => {
+    res.status(204).send();
+  })
   .catch(next);
 });
 
-shotRouter.put('/competition/:competitionid/match/:matchid/shot/:shotid', function(req, res, next){
+shotRouter.put('/competition/:competitionid/match/:matchid/shot/:shotid', parseBearerAuth, jsonParser, (req, res, next) => {
   debug('entered shotRouter.put route');
-  shotController.putShot(req.params.shotid)
-  .then(shot => res.json(shot))
-  catch(next);
+  shotController.putShot(req.params.shotid, req.body)
+  .then(shot => {
+    if(!shot){
+      return next(httpErrors(404, 'no shot found'));
+    }
+    res.json(shot);
+  })
+  .catch(next);
 });
