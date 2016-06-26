@@ -4,11 +4,20 @@
 #Shooters-Log API  
 
 #Overview
+<<<<<<< HEAD
+Shooters-Log provides a data storage API meant to replace the log books currently kept by hand by competitive marksmen. Shooters-log provides
+*promises: getting comfortable with the basic syntax and the order of execution  
+*how to tie together the server, router object, route object, and registering the routes  
+*the value of abstracting simple repetitive tasks like err responses  
+*the value of adding additional properties to a req or res object so that the new property can be passed along and accessed by other methods  
+*getting the httpie commands right    
+=======
 * promises: getting comfortable with the basic syntax and the order of execution  
 * how to tie together the server, router object, route object, and registering the routes  
 * the value of abstracting simple repetitive tasks like err responses  
 * the value of adding additional properties to a req or res object so that the new property can be passed along and accessed by other methods  
 * getting the httpie commands right    
+>>>>>>> origin/staging
 
 ****
 #Introduction
@@ -27,6 +36,10 @@
 * Preferred way to submit issues/bugs:
 
 #Schema
+<<<<<<< HEAD
+![shooter-log-schema](https://cloud.githubusercontent.com/assets/13153982/16364957/38014a4c-3ba8-11e6-86b6-89d9eca2f961.png)
+*Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
+=======
 ![MVP Schema](https://cloud.githubusercontent.com/assets/13153982/16252177/de6d96ae-37e0-11e6-9e36-b8bf3b28e334.png)
 * Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
 
@@ -161,6 +174,7 @@ You will only receive a status code 204 when a successful deletion occurs.
 ###POST api/competition/:competitionID/match
 
 Example: shooters-log-staging.herokuapp.com/api/competition/577039ec29a8f22e2e5cecb7/match
+>>>>>>> origin/staging
 
 * Required in the body:
   * matchNumber: 1 - Must be a number
