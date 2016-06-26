@@ -80,7 +80,9 @@ describe('testing module competition-router', function(){
         request.post(`${baseUrl}/competition`)
         .send({
           location: 'another test location',
-          action: 'another test action'
+          action: 'another test action',
+          caliber: 308,
+          dateOf: 'May 28 2016'
         })
         .set({
           Authorization: `Bearer ${this.tempToken}`
