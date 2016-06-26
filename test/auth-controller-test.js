@@ -63,7 +63,7 @@ describe('testing the auth-controller signIn method ', function(){
       debug('GET-signin-valid-test');
       authController.signIn({username: 'tester', password: 'openSaysMe!'})
       .then(token => {
-        expect(token.length).to.equal(205);
+        expect(token.length).to.equal(253);
         done();
       })
       .catch(done);

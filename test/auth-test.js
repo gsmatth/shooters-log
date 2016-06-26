@@ -55,10 +55,10 @@ describe('testing the signup post route', function(){
     it('should return a token', function(done) {
       debug('POST-valid-test');
       request.post(`${baseUrl}/signup`)
-      .send({username: 'tester', password: 'openSaysMe!'})
+      .send({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master'})
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res.text.length).to.equal(205);
+        expect(res.text.length).to.equal(253);
         done();
       })
       .catch(done);
@@ -68,7 +68,7 @@ describe('testing the signup post route', function(){
   describe('testing signin GET route with valid request', function(){
     before((done) => {
       debug('GET-sigin-before-block');
-      authController.newUser({username: 'tester', password: 'openSaysMe!'})
+      authController.newUser({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master'})
       .then(() => done())
       .catch(done);
     });
@@ -86,7 +86,7 @@ describe('testing the signup post route', function(){
       .auth('tester', 'openSaysMe!')
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res.text.length).to.equal(205);
+        expect(res.text.length).to.equal(253);
         done();
       })
       .catch(done);
