@@ -4,7 +4,7 @@
 #Shooters-Log API  
 
 #Overview
-Shooters-Log provides a data storage API meant to replace the log books currently kept by hand by competitive marksmen. Shooters-log provides 
+Shooters-Log provides a data storage API meant to replace the log books currently kept by hand by competitive marksmen. Shooters-log provides
 *promises: getting comfortable with the basic syntax and the order of execution  
 *how to tie together the server, router object, route object, and registering the routes  
 *the value of abstracting simple repetitive tasks like err responses  
@@ -24,7 +24,7 @@ Shooters-Log provides a data storage API meant to replace the log books currentl
 
 ****
 #Schema
-![MVP Schema](https://cloud.githubusercontent.com/assets/13153982/16252177/de6d96ae-37e0-11e6-9e36-b8bf3b28e334.png)
+![shooter-log-schema](https://cloud.githubusercontent.com/assets/13153982/16364957/38014a4c-3ba8-11e6-86b6-89d9eca2f961.png)
 *Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
 
 
