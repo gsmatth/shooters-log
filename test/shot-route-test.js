@@ -116,10 +116,6 @@ describe('Testing shot-route ', function() {
       it('should should return a 400', (done) => {
         debug('shot-POST-route-test-it-block');
         request.post(`${baseUrl}/competition/${competition._id}/match/${match._id}/shot`)
-        .send({  userId:'576c47d854d007350a734560' ,
-          matchId: '576c4f19965f8a8a0ab5397f',
-          xValue: false,
-          score: '6'})
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(done)
         .catch(err => {
