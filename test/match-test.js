@@ -144,9 +144,9 @@ describe('testing the match route', function(){ //setting up our server
         request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
         .send({
           matchNumber: 1,
-        targetNumber: 4,
-        distanceToTarget: 600
-      })
+          targetNumber: 4,
+          distanceToTarget: 600
+        })
         .set({})
         .then(done)
         .catch( err => {

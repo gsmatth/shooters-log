@@ -12,9 +12,7 @@ const debug = require('debug')('shooter:shot-route-test');
 //const Shot = require('../model/shot-model');
 //const User = require('../model/user-model');
 const authController = require('../controller/auth-controller');
-const compController = require('../controller/competition-controller');
 const shotController = require('../controller/shot-controller');
-const matchController = require('../controller/match-controller');
 
 const port = process.env.PORT || 3000;
 
