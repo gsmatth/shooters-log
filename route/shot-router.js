@@ -8,7 +8,6 @@ const shotController = require('../controller/shot-controller');
 const parseBearerAuth = require('../lib/parse-bearer-auth');
 const shotRouter = module.exports = new Router();
 
-
 shotRouter.get('/competition/:competitionId/match/:matchId/shot/:shotId', parseBearerAuth, function(req, res, next){
   debug('entered shotRouter.get route');
   shotController.getShot(req.params.shotId)
@@ -27,6 +26,7 @@ shotRouter.get('/competition/:competitionId/match/:matchId/shot/', parseBearerAu
 
 shotRouter.post('/competition/:competitionId/match/:matchId/shot', parseBearerAuth, jsonParser, (req, res, next) => {
   debug('entered shotRouter.post route');
+  req.body.userId =req.userId;
   req.body.shotId = req.shotId;
   req.body.matchId = req.params.matchId;
   // req.body.competitionId = req.params.competitionId;

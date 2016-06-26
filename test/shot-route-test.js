@@ -10,10 +10,11 @@ const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter:shot-route-test');
 
 //const Shot = require('../model/shot-model');
+//const User = require('../model/user-model');
 const authController = require('../controller/auth-controller');
-// const competitionController = require('../controller/competition-controller');
+const compController = require('../controller/competition-controller');
 const shotController = require('../controller/shot-controller');
-// const matchController = require('../controller/match-controller');
+const matchController = require('../controller/match-controller');
 
 const port = process.env.PORT || 3000;
 
@@ -243,6 +244,7 @@ describe('Testing shot-route ', function() {
 
   });
 
+<<<<<<< HEAD
   describe('PUT', function() {
     before((done) => { // create token for authorization
       debug('shot-PUT-route-test-before-block');
@@ -302,5 +304,4 @@ describe('Testing shot-route ', function() {
       });
     });
   });
-
 });
