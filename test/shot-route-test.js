@@ -9,12 +9,9 @@ const request = require('superagent-use');
 const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter:shot-route-test');
 
-//const Shot = require('../model/shot-model');
-//const User = require('../model/user-model');
 const authController = require('../controller/auth-controller');
-const compController = require('../controller/competition-controller');
 const shotController = require('../controller/shot-controller');
-const matchController = require('../controller/match-controller');
+
 
 const port = process.env.PORT || 3000;
 
@@ -72,7 +69,8 @@ describe('Testing shot-route ', function() {
     userId:'576c47d854d007350a734560' ,
     matchId: '576c4f19965f8a8a0ab5397f',
     xValue: true,
-    score: '10'
+    score: '10',
+    dateOf: 'May 28 2016'
   };
 
   describe('POST', function(){
@@ -107,6 +105,7 @@ describe('Testing shot-route ', function() {
           expect(res.status).to.equal(200);
           expect(res.body.xValue).to.equal(true);
           expect(res.body.score).to.equal('10');
+          expect(res.body.dateOf).to.equal('May 28 2016');
           done();
         })
         .catch(done);
@@ -157,7 +156,8 @@ describe('Testing shot-route ', function() {
       userId:'576c47d854d007350a734560' ,
       matchId: '576c4f19965f8a8a0ab5397f',
       xValue: false,
-      score: 'M'
+      score: 'M',
+      dateOf: 'Feb 16 2010'
     };
 
     describe('with valid shotId', () => {
@@ -169,6 +169,7 @@ describe('Testing shot-route ', function() {
           expect(res.status).to.equal(200);
           expect(res.body.xValue).to.equal(false);
           expect(res.body.score).to.equal('M');
+          expect(res.body.dateOf).to.equal('Feb 16 2010');
           done();
         })
         .catch(done);
@@ -244,7 +245,6 @@ describe('Testing shot-route ', function() {
 
   });
 
-<<<<<<< HEAD
   describe('PUT', function() {
     before((done) => { // create token for authorization
       debug('shot-PUT-route-test-before-block');
@@ -279,12 +279,14 @@ describe('Testing shot-route ', function() {
           userId:'576c47d854d007350a734560' ,
           matchId: '576c4f19965f8a8a0ab5397f',
           xValue: false,
-          score: '9'
+          score: '9',
+          dateOf: 'Dec 12 1999'
         })
         .then((res) => {
           expect(res.status).to.equal(200);
           expect(res.body.xValue).to.equal(false);
           expect(res.body.score).to.equal('9');
+          expect(res.body.dateOf).to.equal('Dec 12 1999');
           done();
         })
         .catch(done);
