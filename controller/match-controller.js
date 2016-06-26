@@ -13,6 +13,12 @@ exports.createMatch = function(competitionId, reqBody){
       if (!competition) {
         return reject(httpErrors(404, 'not found'));
       }
+      if (!reqBody.matchNumber) {
+        return reject(httpErrors(400, 'bad request'));
+      }
+      if (!reqBody.distanceToTarget) {
+        return reject(httpErrors(400, 'bad request'));
+      }
       return new Match(reqBody).save();
     })
     .then(resolve)
@@ -42,11 +48,21 @@ exports.updateMatch = function(id, reqBody){
       if(!match) {
         return reject(httpErrors(404, 'not found'));
       }
-      if(!reqBody.matchNumber) {
+      if(!reqBody) {
         return reject(httpErrors(400, 'bad request'));
       }
-      var newNumber = reqBody.matchNumber;
-      match.matchNumber = newNumber;
+      if(reqBody.matchNumber){
+        var newNumber = reqBody.matchNumber;
+        match.matchNumber = newNumber;
+      }
+      if(reqBody.targetNumber){
+        var newTarget = reqBody.targetNumber;
+        match.targetNumber = newTarget;
+      }
+      if(reqBody.distanceToTarget){
+        var newDistance = reqBody.distanceToTarget;
+        match.distanceToTarget = newDistance;
+      }
       resolve(match);
     })
     .catch(err => reject(httpErrors(404, err.message)));
