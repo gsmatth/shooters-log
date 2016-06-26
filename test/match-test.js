@@ -58,7 +58,9 @@ describe('testing the match route', function(){ //setting up our server
         compController.createCompetition({
           userId: user._id,
           location: 'test range',
-          action: 'to test'
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
         })
         .then(competition => {
           this.tempCompetition = competition;
@@ -195,7 +197,9 @@ describe('testing the match route', function(){ //setting up our server
         compController.createCompetition({
           userId: user._id,
           location: 'test range',
-          action: 'to test'
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
         })
         .then(competition => {
           this.tempCompetition = competition;
@@ -267,7 +271,9 @@ describe('testing the match route', function(){ //setting up our server
         compController.createCompetition({
           userId: user._id,
           location: 'test range',
-          action: 'to test'
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
         })
         .then(competition => {
           this.tempCompetition = competition;
@@ -368,7 +374,9 @@ describe('testing the match route', function(){ //setting up our server
         compController.createCompetition({
           userId: user._id,
           location: 'test range',
-          action: 'to test'
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
         })
         .then(competition => {
           this.tempCompetition = competition;
