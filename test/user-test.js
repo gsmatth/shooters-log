@@ -10,7 +10,6 @@ const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter');
 
 const authController = require('../controller/auth-controller');
-const competitionController = require('../controller/competition-controller');
 
 const port = process.env.PORT || 3000;
 
@@ -93,7 +92,7 @@ describe('testing user router', function(){
         } catch (err) {
           done(err);
         }
-      })
+      });
     });
   });
 });
