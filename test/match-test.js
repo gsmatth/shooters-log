@@ -58,7 +58,9 @@ describe('testing the match route', function(){ //setting up our server
         compController.createCompetition({
           userId: user._id,
           location: 'test range',
-          action: 'to test'
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
         })
         .then(competition => {
           this.tempCompetition = competition;
@@ -82,18 +84,22 @@ describe('testing the match route', function(){ //setting up our server
       debug('match POST route');
       request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
       .send({
-        matchNumber: 1
+        matchNumber: 1,
+        targetNumber: 4,
+        distanceToTarget: 600
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
         expect(res.status).to.equal(200);
         expect(res.body.competitionId).to.equal(`${this.tempCompetition._id}`);
         expect(res.body.matchNumber).to.equal(1);
+        expect(res.body.targetNumber).to.equal(4);
+        expect(res.body.distanceToTarget).to.equal(600);
         done();
       }).catch(done);
     });
 
-    describe('testing POST bad request', () => {
+    describe('testing POST bad request empty send block', () => {
       it('should return a 400', (done) => {
         debug('match-post-400-error');
         request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
@@ -112,11 +118,37 @@ describe('testing the match route', function(){ //setting up our server
       });
     });
 
+    describe('testing POST bad request missing distanceToTarget', () => {
+      it('should return a 400', (done) => {
+        debug('match-post-400-error');
+        request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
+        .send({
+          matchNumber: 1,
+          targetNumber: 4
+        })
+        .set({Authorization: `Bearer ${this.tempToken}`})
+        .then(done)
+        .catch(err => {
+          try {
+            const res = err.response;
+            expect(res.status).to.equal(400);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        });
+      });
+    });
+
     describe('testing POST unauthorized', () => {
       it('should return a 401', (done) => {
         debug('match-post-401-error');
         request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
-        .send({matchNumber: 2})
+        .send({
+          matchNumber: 1,
+          targetNumber: 4,
+          distanceToTarget: 600
+        })
         .set({})
         .then(done)
         .catch( err => {
@@ -135,7 +167,11 @@ describe('testing the match route', function(){ //setting up our server
       it('should return a 404', (done) => {
         debug('match-post-404-error');
         request.post(`${baseUrl}/competition/623564512374/match`)
-        .send({matchNumber: 3})
+        .send({
+          matchNumber: 1,
+          targetNumber: 4,
+          distanceToTarget: 600
+        })
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(done)
         .catch( err => {
@@ -161,7 +197,9 @@ describe('testing the match route', function(){ //setting up our server
         compController.createCompetition({
           userId: user._id,
           location: 'test range',
-          action: 'to test'
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
         })
         .then(competition => {
           this.tempCompetition = competition;
@@ -169,7 +207,9 @@ describe('testing the match route', function(){ //setting up our server
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
-            matchNumber  : 1
+            matchNumber: 1,
+            targetNumber: 4,
+            distanceToTarget: 600
           })
           .then(match => {
             console.log('THIS! Match', match);
@@ -231,7 +271,9 @@ describe('testing the match route', function(){ //setting up our server
         compController.createCompetition({
           userId: user._id,
           location: 'test range',
-          action: 'to test'
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
         })
         .then(competition => {
           this.tempCompetition = competition;
@@ -239,7 +281,9 @@ describe('testing the match route', function(){ //setting up our server
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
-            matchNumber  : 1
+            matchNumber: 1,
+            targetNumber: 4,
+            distanceToTarget: 600
           })
           .then(match => {
             console.log('THIS! Match', match);
@@ -264,8 +308,8 @@ describe('testing the match route', function(){ //setting up our server
       .catch(done);
     });
 
-    it('should return a match', (done) => {
-      debug('match PUT route');
+    it('should return a match with new matchNumber', (done) => {
+      debug('match PUT route matchNumber');
       request.put(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}`)
       .send({matchNumber: 3})
       .set({Authorization: `Bearer ${this.tempToken}`})
@@ -273,6 +317,18 @@ describe('testing the match route', function(){ //setting up our server
         expect(res.status).to.equal(200);
         expect(res.body.competitionId).to.equal(`${this.tempCompetition._id}`);
         expect(res.body.matchNumber).to.equal(3);
+        done();
+      }).catch(done);
+    });
+    it('should return a match with new distanceToTarget', (done) => {
+      debug('match PUT route distanceToTarget');
+      request.put(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}`)
+      .send({distanceToTarget: 1000})
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then((res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.competitionId).to.equal(`${this.tempCompetition._id}`);
+        expect(res.body.distanceToTarget).to.equal(1000);
         done();
       }).catch(done);
     });
@@ -318,7 +374,9 @@ describe('testing the match route', function(){ //setting up our server
         compController.createCompetition({
           userId: user._id,
           location: 'test range',
-          action: 'to test'
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
         })
         .then(competition => {
           this.tempCompetition = competition;
@@ -326,7 +384,9 @@ describe('testing the match route', function(){ //setting up our server
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
-            matchNumber  : 1
+            matchNumber: 1,
+            targetNumber: 4,
+            distanceToTarget: 600
           })
           .then(match => {
             this.tempMatch = match;

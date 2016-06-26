@@ -4,11 +4,20 @@
 #Shooters-Log API  
 
 #Overview
+<<<<<<< HEAD
 * promises: getting comfortable with the basic syntax and the order of execution  
 * how to tie together the server, router object, route object, and registering the routes  
 * the value of abstracting simple repetitive tasks like err responses  
 * the value of adding additional properties to a req or res object so that the new property can be passed along and accessed by other methods  
 * getting the httpie commands right    
+=======
+Shooters-Log provides a data storage API meant to replace the log books currently kept by hand by competitive marksmen. Shooters-log provides 
+*promises: getting comfortable with the basic syntax and the order of execution  
+*how to tie together the server, router object, route object, and registering the routes  
+*the value of abstracting simple repetitive tasks like err responses  
+*the value of adding additional properties to a req or res object so that the new property can be passed along and accessed by other methods  
+*getting the httpie commands right    
+>>>>>>> 2149c07aa65a9801f9bc9f2694b9c786005e241e
 
 ****
 #Introduction
