@@ -21,6 +21,31 @@ exports.newUser = function(reqBody){
   });
 };
 
+exports.updateUser = function(userId, reqBody){
+  debug('authController:updateUser');
+  console.log('updateUser passed:', userId, reqBody);
+  return new Promise((resolve, reject) => {
+    if(!userId)
+      return reject(httpErrors(400, 'missing username'));
+    if(!reqBody)
+      return reject(httpErrors(400, 'bad request'));
+    User.findOne({_id: userId})
+    .then(user => {
+      if(reqBody.nraNumber){
+        var newNRA = reqBody.nraNumber;
+        user.nraNumber = newNRA;
+      }
+      if(reqBody.nraQualification){
+        var newQual = reqBody.nraQualification;
+        user.nraQualification = newQual;
+      }
+      return user.save();
+    })
+    .then(resolve)
+    .catch(reject);
+  });
+};
+
 exports.removeAllUsers = function(){
   debug('authController:removeAllUsers');
   return User.remove({});

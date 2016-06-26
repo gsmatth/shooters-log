@@ -8,9 +8,11 @@ const jwt = require('jsonwebtoken');
 const httpErrors = require('http-errors');
 
 const userSchema = module.exports = mongoose.Schema({
-  username: {type: String, required: true, unique: true},
-  password: {type: String, required: true},
-  findHash: {type: String, unique: true}
+  username:         {type: String, required: true, unique: true},
+  password:         {type: String, required: true},
+  findHash:         {type: String, unique: true},
+  nraNumber:        {type: Number},
+  nraQualification: {type: String}
 });
 
 userSchema.methods.generateHash = function(password){
@@ -58,7 +60,7 @@ userSchema.methods.generateToken = function() {
   debug('generateToken');
   return new Promise((resolve, reject) => {
     this.generateFindHash()
-    .then( findHash => resolve(jwt.sign({token: findHash}, process.env.APP_SECRET)))
+    .then( findHash => resolve(jwt.sign({token: findHash, userId: this._id}, process.env.APP_SECRET)))
     .catch(reject);
   });
 };
