@@ -3,7 +3,7 @@
 const debug = require('debug')('shooter:competition-controlller');
 const Competition = require('../model/competition-model');
 const httpErrors = require('http-errors');
-// const handleErrors = require('../lib/handle-errors');
+const Match = require('../model/match-model');
 
 
 exports.createCompetition = function(competitionData){
@@ -50,4 +50,10 @@ exports.deleteCompetition = function(competitionId){
 
 exports.removeAllCompetition = function(){
   return Competition.remove({});
+};
+
+exports.getAllMatchesForCompetitionId = function(competitionId){
+  return new Promises((resolve, reject) => {
+    Match.find({competitionId: competitionId})
+  });
 };

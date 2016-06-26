@@ -20,6 +20,12 @@ competitionRouter.get('/competition/:id', parseBearerAuth, function(req, res, ne
   }).catch(next);
 });
 
+
+competitionRouter.get('/competition', (req, res, next) => {
+  next(httpErrors(400, 'no competition id provided'));
+});
+
+
 competitionRouter.post('/competition', parseBearerAuth, jsonParser, function(req, res, next){
   debug('POST /api/competition');
   req.body.userId = req.userId;
@@ -28,9 +34,6 @@ competitionRouter.post('/competition', parseBearerAuth, jsonParser, function(req
   .catch(next);
 });
 
-competitionRouter.get('/competition', (req, res, next) => {
-  next(httpErrors(400, 'no competition id provided'));
-});
 
 competitionRouter.put('/competition/:id', parseBearerAuth, jsonParser, function(req, res, next){
   competitionController.updateCompetition(req.params.id, req.body)
@@ -46,4 +49,15 @@ competitionRouter.delete('/competition/:id', parseBearerAuth, function(req, res,
   .then(() => {
     res.status(204).send();
   }).catch(next);
+});
+
+
+competitionRouter.get('competition/:competitionId/matches', parseBearerAuth, (req, res, next) => {
+  competitionController.getAllMatchesForCompetitionId(req.params.competitionId)
+    .then(matches => {
+      if(!matches){
+        return next(httpErrors(404, 'matches not found'));
+      }
+      res.json(matches);
+    }).catch(next);
 });
