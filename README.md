@@ -76,9 +76,11 @@ Required data:
 * Required in the body of request:
   * location: 'example location'
   * action: 'example action'
+  * caliber: 'example caliber'
+  * dateOf: 'example date' - this date does not have a specific format and is up to the user to pick how they want this data to be presented.
 
 * Authorization:
-  * needs to be done in the following way: `Bearer <response token from signup>`
+  * needs to be done in the following way: `Bearer <response token from signin>`
 
 This route will create a new competition that will include the location of the range and action that the shooter is using for the particular competition.  userId is required and is used to tie the user to the new competition.
 
@@ -88,6 +90,8 @@ Example response:
   "__v": 0,
   "location": "Rio Salado",
   "action": "BAT",
+  "caliber": "308",
+  "dateOf": "Nov 09, 2016"
   "userId": "5770305229a8f22e2e5cecb5",
   "_id": "5770307e29a8f22e2e5cecb6"
 }
@@ -125,7 +129,7 @@ Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5c
   * location: 'new location'
   * action: 'new action'
 * Authorization
-  * needs to be done in the following way: `Bearer <response token from signup>`
+  * needs to be done in the following way: `Bearer <response token from signin>`
 * Required in the query:
   * Specific competition id which is provided when you complete a post request to `api/competition`
 
@@ -159,7 +163,12 @@ You will only receive a status code 204 when a successful deletion occurs.
 Example: shooters-log-staging.herokuapp.com/api/competition/577039ec29a8f22e2e5cecb7/match
 
 * Required in the body:
-  *
+  * matchNumber: 1 - Must be a number
+  * targetNumber: 17 - Must be a number
+  * distanceToTarget: 600 - Must be a number
+
+* Authorization
+  * needs to be done in the following way: `Bearer <response token from signin>`
 
 ****
 #What items do I still not understand or what gaps have I identified in my knowledge?
