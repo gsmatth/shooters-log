@@ -29,8 +29,9 @@ shotRouter.post('/competition/:competitionId/match/:matchId/shot', parseBearerAu
   req.body.userId =req.userId;
   req.body.shotId = req.shotId;
   req.body.matchId = req.params.matchId;
-  req.body.competitionId = req.params.competitionId;
-  req.body.userId = req.params.userId
+  // req.body.competitionId = req.params.competitionId;
+  req.body.userId = req.userId;
+  console.log('\nREQ params: \n', req.params);
   console.log('\nREQ BODY: \n', req.body);
   shotController.createShot(req.body)
   .then( shot => res.json(shot))
