@@ -66,7 +66,6 @@ describe('testing user router', function(){
 
     it('should return an object with username, NRA number and NRA qualification', (done) => {
       debug('PUT-update-NRAnumber-valid-test');
-      console.log('temp token', this.tempToken);
       request.put(`${baseUrl}/user`)
       .set({
         Authorization: `Bearer ${this.tempToken}`
@@ -78,6 +77,23 @@ describe('testing user router', function(){
         done();
       })
       .catch(done);
+    });
+    it('should return a 400', (done) => {
+      debug('PUT-update-invalid-test');
+      request.put(`${baseUrl}/user`)
+      .set({
+        Authorization: `Bearer ${this.tempToken}`
+      })
+      .then(done)
+      .catch( err => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(400);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      })
     });
   });
 });

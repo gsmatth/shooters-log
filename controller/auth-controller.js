@@ -27,7 +27,7 @@ exports.updateUser = function(userId, reqBody){
   return new Promise((resolve, reject) => {
     if(!userId)
       return reject(httpErrors(400, 'missing username'));
-    if(!reqBody)
+    if(!reqBody.nraNumber || reqBody.nraQualification)
       return reject(httpErrors(400, 'bad request'));
     User.findOne({_id: userId})
     .then(user => {
