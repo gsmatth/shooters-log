@@ -4,6 +4,7 @@
 #Shooters-Log API  
 
 #Overview
+Shooters-Log provides a data storage API meant to replace the log books currently kept by hand by competitive marksmen. Shooters-log provides 
 *promises: getting comfortable with the basic syntax and the order of execution  
 *how to tie together the server, router object, route object, and registering the routes  
 *the value of abstracting simple repetitive tasks like err responses  

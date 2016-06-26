@@ -12,7 +12,6 @@ const debug = require('debug')('shooter:shot-route-test');
 const authController = require('../controller/auth-controller');
 const shotController = require('../controller/shot-controller');
 
-
 const port = process.env.PORT || 3000;
 
 const baseUrl = `localhost:${port}/api`;
@@ -242,7 +241,6 @@ describe('Testing shot-route ', function() {
         });
       });
     });
-
   });
 
   describe('PUT', function() {
