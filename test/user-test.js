@@ -10,6 +10,7 @@ const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter');
 
 const authController = require('../controller/auth-controller');
+const competitionController = require('../controller/competition-controller');
 
 const port = process.env.PORT || 3000;
 
@@ -92,6 +93,51 @@ describe('testing user router', function(){
         } catch (err) {
           done(err);
         }
+      });
+    });
+  });
+  describe('testing get for user route to get all comps by userId', function(){
+    beforeEach((done)=>{
+      authController.newUser({username: 'pippy', password: 'stalkings'})
+      .then(token => this.tempToken = token)
+      .then(token => {
+        return request.post(`${baseUrl}/competition`)
+        .set({
+          Authorization: `Bearer ${token}`
+        })
+        .send({
+          location: 'test location',
+          action: 'test action',
+          caliber: 308,
+          dateOf: 'May 28 2016'
+        })
+        .then(res => {
+          return this.tempCompetition = res.body;
+        });
+      })
+      .then(() => done())
+      .catch(done);
+    });
+    afterEach((done)=> {
+      Promise.all([
+        authController.removeAllUsers(),
+        competitionController.removeAllCompetition()
+      ])
+      .then(()=> done())
+      .catch(done);
+    });
+    describe('testing get /api/user/userId/competitions', () => {
+      it('should return an array of competitions', (done) => {
+        request.get(`${baseUrl}/user/${this.tempCompetition.userId}/competitions`)
+        .set({
+          Authorization: `Bearer ${this.tempToken}`
+        })
+        .then(res => {
+          console.log(res.body);
+          expect(res.status).to.equal(200);
+          done();
+        })
+        .catch(done);
       });
     });
   });
