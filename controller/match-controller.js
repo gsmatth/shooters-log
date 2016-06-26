@@ -2,15 +2,21 @@
 
 const debug = require('debug')('shooter:matchController');
 const Match = require('../model/match-model');
+const competitionController = require('./competition-controller');
 const httpErrors = require('http-errors');
 
-exports.createMatch = function(reqBody){
+exports.createMatch = function(competitionId, reqBody){
   debug('matchController: createMatch');
   return new Promise((resolve, reject) => {
-    new Match(reqBody)
-    .save()
-    .then(match => resolve(match))
-    .catch(err => reject(httpErrors(400, err.message)));
+    competitionController.getCompetition(competitionId)
+    .then( (competition) => {
+      if (!competition) {
+        return reject(httpErrors(404, 'not found'));
+      }
+      return new Match(reqBody).save();
+    })
+    .then(resolve)
+    .catch( err => reject(httpErrors(400, err.message)));
   });
 };
 
@@ -18,15 +24,26 @@ exports.fetchMatch = function(id){
   debug('matchController: fetchMatch');
   return new Promise((resolve, reject) => {
     Match.findOne({_id: id})
-    .then(match => resolve(match))
+    .then(match => {
+      if(!match) {
+        return reject(httpErrors(404, 'not found'));
+      }
+      resolve(match);
+    })
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
 
-exports.removeMatch = function(id){debug('matchController: fetchMatch');
+exports.removeMatch = function(id){
   debug('matchController: removeMatch');
   return new Promise((resolve, reject) => {
-    Match.remove({_id: id})
+    console.log('DELETE ONE MATCH id =', id);
+    Match.findOne({_id: id})
+    .then(match => {
+      if(!match) {
+        return reject(httpErrors(404, 'not found'));
+      }
+    }).then( Match.remove({_id: id}))
     .then(resolve)
     .catch(err => reject(httpErrors(404, err.message)));
   });

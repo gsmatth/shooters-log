@@ -20,8 +20,23 @@ exports.getCompetition = function(id){
   debug('entered getCompetition in competition-controller');
   return new Promise((resolve, reject) => {
     Competition.findOne({_id: id})
-    .then(competition => resolve(competition))
-    .catch(reject);
+    .then(competition => {
+      resolve(competition);
+    })
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
+exports.updateCompetition = function(id, reqbody){
+  return new Promise((resolve, reject) => {
+    if(JSON.stringify(reqbody) === '{}') return reject(httpErrors(400, 'need to provide a body'));
+    Competition.findOne({_id: id})
+    .then(competition => {
+      competition.location = reqbody.location;
+      competition.action = reqbody.action;
+      competition.save();
+      resolve(competition);
+    }).catch(err => reject(httpErrors(404, err.message)));
   });
 };
 
