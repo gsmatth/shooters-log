@@ -52,8 +52,12 @@ exports.removeAllCompetition = function(){
   return Competition.remove({});
 };
 
-exports.getAllMatchesForCompetitionId = function(competitionId){
-  return new Promises((resolve, reject) => {
+exports.getAllMatchesByCompetitionId = function(competitionId){
+  return new Promise((resolve, reject) => {
     Match.find({competitionId: competitionId})
+    .then(competition => {
+      resolve(competition);
+    })
+  .catch(reject);
   });
 };

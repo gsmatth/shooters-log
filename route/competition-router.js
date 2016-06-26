@@ -53,7 +53,7 @@ competitionRouter.delete('/competition/:id', parseBearerAuth, function(req, res,
 
 
 competitionRouter.get('competition/:competitionId/matches', parseBearerAuth, (req, res, next) => {
-  competitionController.getAllMatchesForCompetitionId(req.params.competitionId)
+  competitionController.getAllMatchesByCompetitionId(req.params.competitionId)
     .then(matches => {
       if(!matches){
         return next(httpErrors(404, 'matches not found'));
