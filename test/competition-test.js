@@ -56,7 +56,9 @@ describe('testing module competition-router', function(){
         })
         .send({
           location: 'test location',
-          action: 'test action'
+          action: 'test action',
+          caliber: 308,
+          dateOf: 'May 28 2016'
         })
         .then(res => {
           return this.tempCompetition = res.body;
