@@ -19,7 +19,7 @@ const shotRouter = require('./route/shot-router');
 //module constants
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/testshoot';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/db';
 
 
 mongoose.connect(mongoURI);
