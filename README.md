@@ -89,9 +89,9 @@ Example response:
 }
 ```
 
-###GET api/competition/:id
+###GET api/competition/:competitionID
 
-example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
+Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
 
 * Required in the query:
   * Specific competition id which is provided when you complete a post request to `api/competition`
@@ -113,9 +113,9 @@ Example response:
 }
 ```
 
-###PUT api/competition/:id
+###PUT api/competition/:competitionID
 
-example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
+Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
 
 * Required in the body:
   * location: 'new location'
@@ -124,6 +124,8 @@ example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5c
   * needs to be done in the following way: `Bearer <response token from signup>`
 * Required in the query:
   * Specific competition id which is provided when you complete a post request to `api/competition`
+
+This route will allow you to update the location and action being used for a specific competition.
 
 Example response:
 ```
@@ -135,6 +137,25 @@ Example response:
   "__v": 0
 }
 ```
+
+###Delete api/competition/:competitionID
+
+Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
+
+* Required in the query:
+  * Specific competition id which is provided when you complete a post request to `api/competition`
+
+This route will allow you to delete specific competitions by their id.
+
+Example response:
+You will only receive a status code 204 when a successful deletion occurs.
+
+###POST api/competition/:competitionID/match
+
+Example: shooters-log-staging.herokuapp.com/api/competition/577039ec29a8f22e2e5cecb7/match
+
+* Required in the body:
+  *
 
 ****
 #What items do I still not understand or what gaps have I identified in my knowledge?
