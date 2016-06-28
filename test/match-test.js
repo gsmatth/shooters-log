@@ -498,7 +498,7 @@ describe('testing the match route', function(){ //setting up our server
           console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
-            userId       :this.tempCompetition.userId,
+            userId: this.tempCompetition.userId,
             matchNumber: 1,
             targetNumber: 4,
             distanceToTarget: 600,
