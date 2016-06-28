@@ -87,7 +87,14 @@ describe('testing the match route', function(){ //setting up our server
       .send({
         matchNumber: 1,
         targetNumber: 4,
-        distanceToTarget: 600
+        distanceToTarget: 600,
+        relay: 4,
+        startTime: '16:00',
+        temperature: 55,
+        windDirection: 12,
+        windSpeed:  12,
+        lightDirection: 2,
+        weather: 'Seattle Sunshine'
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
@@ -95,6 +102,9 @@ describe('testing the match route', function(){ //setting up our server
         expect(res.body.competitionId).to.equal(`${this.tempCompetition._id}`);
         expect(res.body.matchNumber).to.equal(1);
         expect(res.body.targetNumber).to.equal(4);
+        expect(res.body.relay).to.equal(4);
+        expect(res.body.windSpeed).to.equal(12);
+        expect(res.body.windDirection).to.equal(12);
         expect(res.body.distanceToTarget).to.equal(600);
         done();
       }).catch(done);
@@ -125,7 +135,14 @@ describe('testing the match route', function(){ //setting up our server
         request.post(`${baseUrl}/competition/${this.tempCompetition._id}/match`)
         .send({
           matchNumber: 1,
-          targetNumber: 4
+          targetNumber: 4,
+          relay: 4,
+          startTime: '16:00',
+          temperature: 55,
+          windDirection: 12,
+          windSpeed:  12,
+          lightDirection: 2,
+          weather: 'Seattle Sunshine'
         })
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(done)
@@ -148,7 +165,14 @@ describe('testing the match route', function(){ //setting up our server
         .send({
           matchNumber: 1,
           targetNumber: 4,
-          distanceToTarget: 600
+          distanceToTarget: 600,
+          relay: 4,
+          startTime: '16:00',
+          temperature: 55,
+          windDirection: 12,
+          windSpeed:  12,
+          lightDirection: 2,
+          weather: 'Seattle Sunshine'
         })
         .set({})
         .then(done)
@@ -210,7 +234,14 @@ describe('testing the match route', function(){ //setting up our server
             userId       :this.tempCompetition.userId,
             matchNumber: 1,
             targetNumber: 4,
-            distanceToTarget: 600
+            distanceToTarget: 600,
+            relay: 4,
+            startTime: '16:00',
+            temperature: 55,
+            windDirection: 12,
+            windSpeed:  12,
+            lightDirection: 2,
+            weather: 'Seattle Sunshine'
           })
           .then(match => {
             console.log('THIS! Match', match);
@@ -242,7 +273,11 @@ describe('testing the match route', function(){ //setting up our server
       .then((res) => {
         expect(res.status).to.equal(200);
         expect(res.body.competitionId).to.equal(`${this.tempCompetition._id}`);
-        expect(res.body.matchNumber).to.equal(1);
+        expect(res.body.targetNumber).to.equal(4);
+        expect(res.body.relay).to.equal(4);
+        expect(res.body.windSpeed).to.equal(12);
+        expect(res.body.windDirection).to.equal(12);
+        expect(res.body.distanceToTarget).to.equal(600);
         done();
       }).catch(done);
     });
@@ -284,7 +319,14 @@ describe('testing the match route', function(){ //setting up our server
             userId       :this.tempCompetition.userId,
             matchNumber: 1,
             targetNumber: 4,
-            distanceToTarget: 600
+            distanceToTarget: 600,
+            relay: 4,
+            startTime: '16:00',
+            temperature: 55,
+            windDirection: 12,
+            windSpeed:  12,
+            lightDirection: 2,
+            weather: 'Seattle Sunshine'
           })
           .then(match => {
             console.log('THIS! Match', match);
@@ -488,7 +530,8 @@ describe('testing the match route', function(){ //setting up our server
       Promise.all([
         compController.removeAllCompetition(),
         matchController.removeAllMatches(),
-        userController.removeAllUsers()
+        userController.removeAllUsers(),
+        shotController.removeAllShots()
       ])
       .then(() => done())
       .catch(done);
