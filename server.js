@@ -11,6 +11,7 @@ mongoose.Promise = require('bluebird');
 const httpErrors = require('http-errors');
 const handleErrors = require('./lib/handle-errors');
 const authRouter = require('./route/auth-router');
+const userRouter = require('./route/user-router');
 const competitionRouter = require('./route/competition-router');
 const matchRouter = require('./route/match-router');
 const shotRouter = require('./route/shot-router');
@@ -19,7 +20,7 @@ const shotRouter = require('./route/shot-router');
 //module constants
 const app = express();
 const port = process.env.PORT || 3000;
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/testshoot';
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/db';
 
 
 mongoose.connect(mongoURI);
@@ -28,6 +29,7 @@ app.use(morgan('dev'));
 // app.use('/api', userRouter);
 
 app.use('/api', authRouter);
+app.use('/api', userRouter);
 app.use('/api', competitionRouter);
 app.use('/api', matchRouter);
 app.use('/api', shotRouter);

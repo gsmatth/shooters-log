@@ -2,6 +2,7 @@
 
 const debug = require('debug')('shooter:authController');
 const User = require('../model/user-model');
+const Competition = require('../model/competition-model');
 const httpErrors = require('http-errors');
 
 
@@ -18,6 +19,42 @@ exports.newUser = function(reqBody){
     .then(user => user.generateToken())
     .then(token => resolve(token))
     .catch(reject);
+  });
+};
+
+exports.updateUser = function(userId, reqBody){
+  debug('authController:updateUser');
+  console.log('updateUser passed:', userId, reqBody);
+  return new Promise((resolve, reject) => {
+    if(!userId)
+      return reject(httpErrors(400, 'missing username'));
+    if(!reqBody.nraNumber || reqBody.nraQualification)
+      return reject(httpErrors(400, 'bad request'));
+    User.findOne({_id: userId})
+    .then(user => {
+      if(reqBody.nraNumber){
+        var newNRA = reqBody.nraNumber;
+        user.nraNumber = newNRA;
+      }
+      if(reqBody.nraQualification){
+        var newQual = reqBody.nraQualification;
+        user.nraQualification = newQual;
+      }
+      return user.save();
+    })
+    .then(resolve)
+    .catch(reject);
+  });
+};
+
+exports.fetchCompsByUser = function(userId) {
+  debug('authController:fetchCompsByUser');
+  return new Promise((resolve, reject) => {
+    Competition.find({userId: userId})
+    .then(competition => {
+      resolve(competition);
+    })
+    .catch(err => reject(httpErrors(404, err.message)));
   });
 };
 
