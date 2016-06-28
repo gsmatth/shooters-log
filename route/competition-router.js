@@ -52,7 +52,7 @@ competitionRouter.delete('/competition/:id', parseBearerAuth, function(req, res,
 });
 
 
-competitionRouter.get('competition/:competitionId/matches', parseBearerAuth, (req, res, next) => {
+competitionRouter.get('/competition/:competitionId/matches', parseBearerAuth, function(req, res, next) {
   competitionController.getAllMatchesByCompetitionId(req.params.competitionId)
     .then(matches => {
       if(!matches){

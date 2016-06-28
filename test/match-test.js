@@ -454,7 +454,7 @@ describe('testing the match route', function(){ //setting up our server
           console.log('this.tempCompetition', this.tempCompetition);
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
-            userId       :this.tempCompetition.userId,
+            userId: this.tempCompetition.userId,
             matchNumber: 1,
             targetNumber: 4,
             distanceToTarget: 600
@@ -466,16 +466,13 @@ describe('testing the match route', function(){ //setting up our server
               xValue: false,
               score: '6',
               dateOf: 'May 32 1986'
-            });
-            shotController.createShot({
-              xValue: false,
-              score: '7',
-              dateOf: 'May 36 1986'
-            }).then(shot => {
-            this.tempShot = shot
-            console.log('this.tempShot', this.tempShot);
-            done();
             })
+            .then(shot => {
+              
+              this.tempShot = shot;
+              console.log('this.tempShot', this.tempShot);
+              done();
+            });
           })
           .catch(done);
         })

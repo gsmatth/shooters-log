@@ -55,8 +55,8 @@ exports.removeAllCompetition = function(){
 exports.getAllMatchesByCompetitionId = function(competitionId){
   return new Promise((resolve, reject) => {
     Match.find({competitionId: competitionId})
-    .then(competition => {
-      resolve(competition);
+    .then(matches => {
+      resolve(matches);
     })
   .catch(reject);
   });
