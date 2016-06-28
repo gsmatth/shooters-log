@@ -2,6 +2,7 @@
 
 const debug = require('debug')('shooter:matchController');
 const Match = require('../model/match-model');
+const Shot = require('../model/shot-model');
 const competitionController = require('./competition-controller');
 const httpErrors = require('http-errors');
 
@@ -66,6 +67,16 @@ exports.updateMatch = function(id, reqBody){
       resolve(match);
     })
     .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
+exports.getAllShotsByMatchId = function(matchId){
+  debug('match controller GET ALL SHOTS BY MATCH ID');
+  return new Promise((resolve, reject) => {
+    Shot.find({matchId: matchId})
+    .then(match => {
+      resolve(match);
+    }).catch(reject);
   });
 };
 

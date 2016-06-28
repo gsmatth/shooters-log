@@ -25,6 +25,18 @@ matchRouter.get('/competition/:competitionId/match/:matchId', jsonParser, parseB
   .catch(next);
 });
 
+matchRouter.get('/competition/:competitionId/match/:matchId/shots', jsonParser, parseBearerAuth, function(req, res, next){
+  debug('match router GET');
+  req.body.userId = req.userId;
+  matchController.getAllShotsByMatchId(req.params.matchId)
+  .then(match => {
+    if(!match){
+      return next(httpErrors(404, 'match not found'));
+    }
+    res.json(match);
+  }).catch(next);
+});
+
 matchRouter.put('/competition/:competitionId/match/:matchId', jsonParser, parseBearerAuth, function(req, res, next){
   debug('match router UPDATE');
   matchController.updateMatch(req.params.matchId, req.body)

@@ -13,6 +13,7 @@ const User = require('../model/user-model');
 const userController = require('../controller/auth-controller');
 const compController = require('../controller/competition-controller');
 const matchController = require('../controller/match-controller');
+const shotController = require('../controller/shot-controller');
 
 const port = process.env.PORT || 3000;
 
@@ -421,6 +422,93 @@ describe('testing the match route', function(){ //setting up our server
     it('should return a 404', (done) => {
       debug('match 404 DELETE route');
       request.del(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch( err => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+  });
+  describe('testing GET all Shots by match ID route', function(){
+    before((done) => { // creating our test resources
+      debug('before-block-GET-all-shots-by-match');
+      var user = new User({username: 'MrTest', password: 'ye-pass'});
+      userController.newUser({username: user.username, password: user.password})
+      .then( token => {
+        this.tempToken = token;
+        compController.createCompetition({
+          userId: user._id,
+          location: 'test range',
+          action: 'to test',
+          caliber: '308',
+          dateOf: 'May 28 2016'
+        })
+        .then(competition => {
+          this.tempCompetition = competition;
+          console.log('this.tempCompetition', this.tempCompetition);
+          matchController.createMatch(this.tempCompetition._id, {
+            competitionId: this.tempCompetition._id,
+            userId       :this.tempCompetition.userId,
+            matchNumber: 1,
+            targetNumber: 4,
+            distanceToTarget: 600
+          })
+          .then(match => {
+            console.log('THIS! Match', match);
+            this.tempMatch = match;
+            shotController.createShot({
+              xValue: false,
+              score: '6',
+              dateOf: 'May 32 1986'
+            });
+            shotController.createShot({
+              xValue: false,
+              score: '7',
+              dateOf: 'May 36 1986'
+            }).then(shot => {
+            this.tempShot = shot
+            console.log('this.tempShot', this.tempShot);
+            done();
+            })
+          })
+          .catch(done);
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done)=>{
+      debug('GET-all-shots-by-match');
+      Promise.all([
+        compController.removeAllCompetition(),
+        matchController.removeAllMatches(),
+        userController.removeAllUsers()
+      ])
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return a match', (done) => {
+      debug('match GET-all-shots-by-match route');
+      request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}/shots`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then((res) => {
+        console.log('res.body:', res.body);
+        expect(res.status).to.equal(200);
+        expect(res.body.xValue).to.equal(false);
+        done();
+      }).catch(done);
+    });
+    it('should return a 404', (done) => {
+      debug('match 404 GET-all-shots-by-match route');
+      request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888/shots`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(done)
       .catch( err => {
