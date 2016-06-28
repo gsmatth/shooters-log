@@ -133,11 +133,31 @@ describe('testing user router', function(){
           Authorization: `Bearer ${this.tempToken}`
         })
         .then(res => {
-          console.log(res.body);
           expect(res.status).to.equal(200);
           done();
         })
         .catch(done);
+      });
+    });
+    it('should return an error of 404 for not found', (done) => {
+      request.get(`${baseUrl}/user/222/competitions`)
+      .set({
+        Authorization: `Bearer ${this.tempToken}`
+      })
+      .then(done)
+      .catch(err => {
+        const res = err.response;
+        expect(res.status).to.equal(404);
+        done();
+      });
+    });
+    it('should return an error of 401 not authorized', (done) => {
+      request.get(`${baseUrl}/user/${this.tempCompetition.userId}/competitions`)
+      .then(done)
+      .catch(err => {
+        const res = err.response;
+        expect(res.status).to.equal(401);
+        done();
       });
     });
   });
