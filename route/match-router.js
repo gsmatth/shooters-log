@@ -26,15 +26,11 @@ matchRouter.get('/competition/:competitionId/match/:matchId', jsonParser, parseB
 });
 
 matchRouter.get('/competition/:competitionId/match/:matchId/shots', jsonParser, parseBearerAuth, function(req, res, next){
-  debug('match router GET');
+  debug('match router GET-all-shots-by-match');
   req.body.userId = req.userId;
   matchController.getAllShotsByMatchId(req.params.matchId)
-  .then(match => {
-    if(!match){
-      return next(httpErrors(404, 'match not found'));
-    }
-    res.json(match);
-  }).catch(next);
+  .then(match => res.json(match))
+  .catch(next);
 });
 
 matchRouter.put('/competition/:competitionId/match/:matchId', jsonParser, parseBearerAuth, function(req, res, next){

@@ -436,8 +436,54 @@ describe('testing the match route', function(){ //setting up our server
     });
   });
   describe('testing GET all Shots by match ID route', function(){
+    // var user = {
+    //   _id: '576c47d854d007350a734560',
+    //   password: '$2a$09$4zNSZ5AtttLPnjs8KaXpaur4aRucsAqesMqSLe0wt4fXL.X7fDb1C',
+    //   username: 'McTest',
+    //   findHash: 'f517531581cb0323dea580d7c0016a79812e7ffa3790f04786ee836d2fac1822'
+    // };
+    // var competition = {
+    //   _id: '576c4a4011d3f63f0a05d475',
+    //   userId: '576c47d854d007350a734560',
+    //   location: 'Ben Avery',
+    //
+    //   competitionId: '576c4a4011d3f63f0a05d475',
+    //   userId: '576c47d854d007350a734560',
+    //   matchNumber: 1,
+    //   _id: '576c4f19965f8a8a0ab5397f'
+    // };
+    // var shotData = {
+    //   userId:'576c47d854d007350a734560' ,
+    //   matchId: '576c4f19965f8a8a0ab5397f',
+    //   xValue: true,
+    //   score: '10',
+    //   dateOf: 'May 28 2016'
+    // };
+    //
+    // before((done) => {
+    //   debug('shot-GET-route-test-before-block');
+    //   authController.newUser({username: user.username, password: 'testpassword'})
+    //   .then( token => {
+    //     this.tempToken = token;
+    //     shotController.createShot(shotData)
+    //   .then(shot => {
+    //     this.tempShot = shot;
+    //     done();
+    //   })
+    //   .catch(done);
+    //   });
+    // });
+    //
+    // after((done)=>{
+    //   debug('shot-GET-route-test-after-block');
+    //   Promise.all([
+    //     shotController.removeAllShots(),
+    //     authController.removeAllUsers()
+    //   ])
+    //   .then(() => done());
+    // });
     before((done) => { // creating our test resources
-      debug('before-block-GET-all-shots-by-match');
+      debug('before-block-GET-ALL-SHOTS-bY-match');
       var user = new User({username: 'MrTest', password: 'ye-pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
@@ -451,7 +497,7 @@ describe('testing the match route', function(){ //setting up our server
         })
         .then(competition => {
           this.tempCompetition = competition;
-          console.log('this.tempCompetition', this.tempCompetition);
+          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
@@ -460,22 +506,21 @@ describe('testing the match route', function(){ //setting up our server
             distanceToTarget: 600
           })
           .then(match => {
-            console.log('THIS! Match', match);
             this.tempMatch = match;
+            console.log('this.tempMatch', this.tempMatch);
             shotController.createShot({
-              xValue: false,
-              score: '6',
-              dateOf: 'May 32 1986'
-            });
-            shotController.createShot({
-              xValue: false,
-              score: '7',
-              dateOf: 'May 36 1986'
-            }).then(shot => {
-            this.tempShot = shot
-            console.log('this.tempShot', this.tempShot);
-            done();
+              userId:`${this.tempMatch.userId}` ,
+              matchId: `${this.tempMatch._id}`,
+              xValue: true,
+              score: '10',
+              dateOf: 'May 38 2016'
             })
+            .then(shot => {
+              this.tempShot = shot;
+              console.log('THIS NEW SHOT I MADE:', this.tempShot);
+              done();
+            })
+            .catch(done);
           })
           .catch(done);
         })
@@ -485,7 +530,7 @@ describe('testing the match route', function(){ //setting up our server
     });
 
     after((done)=>{
-      debug('GET-all-shots-by-match');
+      debug('GET-all-shots-by-match-after-block');
       Promise.all([
         compController.removeAllCompetition(),
         matchController.removeAllMatches(),
@@ -495,19 +540,19 @@ describe('testing the match route', function(){ //setting up our server
       .catch(done);
     });
 
-    it('should return a match', (done) => {
-      debug('match GET-all-shots-by-match route');
-      request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempMatch._id}/shots`)
+    it('should return all the shots in a match', (done) => {
+      debug('match GET-all-shots-by-match route with valid data');
+      request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempShot.matchId}/shots`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
         console.log('res.body:', res.body);
         expect(res.status).to.equal(200);
-        expect(res.body.xValue).to.equal(false);
+        expect(res.body[0].xValue).to.equal(true);
         done();
       }).catch(done);
     });
     it('should return a 404', (done) => {
-      debug('match 404 GET-all-shots-by-match route');
+      debug('match 404 GET-all-shots-by-match route with invalid match id');
       request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/576ca4133c21e4bd13fff888/shots`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(done)

@@ -73,9 +73,18 @@ exports.updateMatch = function(id, reqBody){
 exports.getAllShotsByMatchId = function(matchId){
   debug('match controller GET ALL SHOTS BY MATCH ID');
   return new Promise((resolve, reject) => {
-    Shot.find({matchId: matchId})
+    Match.findOne({_id: matchId})
     .then(match => {
-      resolve(match);
+      console.log('MATCH YA FUCK', match);
+      if(!match) {
+        return reject(httpErrors(404, 'not found'));
+      }
+      return match._id;
+    })
+    .then(matchId => Shot.find({matchId}))
+    .then(shot => {
+      console.log('ALL SHOTS FROM A MATCH', shot);
+      resolve(shot);
     }).catch(reject);
   });
 };
