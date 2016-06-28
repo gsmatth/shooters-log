@@ -4,35 +4,51 @@
 #Shooters-Log API  
 
 #Overview
-* promises: getting comfortable with the basic syntax and the order of execution  
-* how to tie together the server, router object, route object, and registering the routes  
-* the value of abstracting simple repetitive tasks like err responses  
-* the value of adding additional properties to a req or res object so that the new property can be passed along and accessed by other methods  
-* getting the httpie commands right    
-
-****
-#Introduction
-* For the first time, I could actually visualize the program before I started coding and determine what code needed to be modified to change the service to meet the objectives of lab-08.  Although I did not know the exact code that needed to be written, I understood it in general terms before I started coding.
-
+* This API provides the necessary back-end infrastructure and functionality to create, save, and return data related to shooting matches.  
+* Currently this data is collected on the firing line and noted on paper in one of the following: a score card, a detailed match data book, or a barrel-book.  Many times this data is collected once and then transferred manually to some or all of the three books mentioned above.     
+* By providing this API and supporting infrastructure, we are hoping to encourage developers of both client applications and web applications to develop applications that can provide value to the shooting community and a source of income for themselves.   
 
 ****
 #Current Version
-* For the first time, I could actually visualize the program before I started coding and determine what code needed to be modified to change the service to meet the objectives of lab-08.  Although I did not know the exact code that needed to be written, I understood it in general terms before I started coding.
-
-
+* The current version of this program is designed to collect and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.
 
 ****
 
 #Way to contribute
 * Preferred way to submit issues/bugs:
 
+*****
+#Architecture
+
+This API is structured on a Model View Control(MVC) framework.  The base technology is a Node.js server with the core node.http server module and a Mongo database.
+
+Middleware:  
+  *The express router middleware provides the base routing capability.  
+  * A custom handle-errors module implements and extends the http-errors npm middleware package.  
+  * An auth middleware module leverages both the bcrypt and node.crypto modules to provide user sign-up and user sign-in functionality.  
+  * Mongoose npm module is used for interaction with the Mongo database  
+
+![architecture](https://cloud.githubusercontent.com/assets/13153982/16399274/de6f96c6-3c85-11e6-878b-bfafd9cb2fc3.png)
+
+View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the nmp package parse-body. For details about the input and output of routes, see the Routes section below.
+
+Control: Individual resources (user, match...) have dedicated controller files.  These files implement the 'control' function of the MVC model.  These files provide the interaction with the both the "model" elements (database and model):
+  *model:  The controller files call the constructor methods in the "model" files to construct new resource objects in memory
+  * mongoose:  The controller files leverage the required mongoose client module to create new schemas in the mongo database and to create new documents for the resources supported by this API. Currently supported resources include:  
+    -user  
+    -competition  
+    -match  
+    -shot
+
+Model:  Individual resources (user, match...) have dedicated model files. These files provide the constructors and the mongoose schema creation syntax. For a detailed breakdown of models and the model properties, see the schema section below.  
+
+****
+
 #Schema
 ![MVP Schema](https://cloud.githubusercontent.com/assets/13153982/16252177/de6d96ae-37e0-11e6-9e36-b8bf3b28e334.png)
 * Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
 
-
-
-****
+*****
 #Routes
 ###POST api/signup
 Example: shooters-log-staging.heroapp.com/signup
@@ -171,8 +187,3 @@ Example: shooters-log-staging.herokuapp.com/api/competition/577039ec29a8f22e2e5c
   * needs to be done in the following way: `Bearer <response token from signin>`
 
 ****
-#What items do I still not understand or what gaps have I identified in my knowledge?
-* I was really strong at using the browser debugging tool.  I am very weak at using debugging tools with node.  
-* how to automate test when you have dynamically generated items like UUID?  We did a work around in GET test that required nested requests.  Not sure if that is a good solution.  
-* how do you list multiple files under your 'test' task in mocha-gulp?  
-* need more work with mocha gulp-mocha and chai.  Tests are not running properly from gulp file
