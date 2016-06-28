@@ -436,52 +436,6 @@ describe('testing the match route', function(){ //setting up our server
     });
   });
   describe('testing GET all Shots by match ID route', function(){
-    // var user = {
-    //   _id: '576c47d854d007350a734560',
-    //   password: '$2a$09$4zNSZ5AtttLPnjs8KaXpaur4aRucsAqesMqSLe0wt4fXL.X7fDb1C',
-    //   username: 'McTest',
-    //   findHash: 'f517531581cb0323dea580d7c0016a79812e7ffa3790f04786ee836d2fac1822'
-    // };
-    // var competition = {
-    //   _id: '576c4a4011d3f63f0a05d475',
-    //   userId: '576c47d854d007350a734560',
-    //   location: 'Ben Avery',
-    //
-    //   competitionId: '576c4a4011d3f63f0a05d475',
-    //   userId: '576c47d854d007350a734560',
-    //   matchNumber: 1,
-    //   _id: '576c4f19965f8a8a0ab5397f'
-    // };
-    // var shotData = {
-    //   userId:'576c47d854d007350a734560' ,
-    //   matchId: '576c4f19965f8a8a0ab5397f',
-    //   xValue: true,
-    //   score: '10',
-    //   dateOf: 'May 28 2016'
-    // };
-    //
-    // before((done) => {
-    //   debug('shot-GET-route-test-before-block');
-    //   authController.newUser({username: user.username, password: 'testpassword'})
-    //   .then( token => {
-    //     this.tempToken = token;
-    //     shotController.createShot(shotData)
-    //   .then(shot => {
-    //     this.tempShot = shot;
-    //     done();
-    //   })
-    //   .catch(done);
-    //   });
-    // });
-    //
-    // after((done)=>{
-    //   debug('shot-GET-route-test-after-block');
-    //   Promise.all([
-    //     shotController.removeAllShots(),
-    //     authController.removeAllUsers()
-    //   ])
-    //   .then(() => done());
-    // });
     before((done) => { // creating our test resources
       debug('before-block-GET-ALL-SHOTS-bY-match');
       var user = new User({username: 'MrTest', password: 'ye-pass'});
