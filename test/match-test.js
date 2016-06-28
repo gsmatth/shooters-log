@@ -195,7 +195,8 @@ describe('testing the match route', function(){ //setting up our server
         .send({
           matchNumber: 1,
           targetNumber: 4,
-          distanceToTarget: 600
+          distanceToTarget: 600,
+          relay: 2
         })
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(done)
@@ -429,7 +430,8 @@ describe('testing the match route', function(){ //setting up our server
             userId       :this.tempCompetition.userId,
             matchNumber: 1,
             targetNumber: 4,
-            distanceToTarget: 600
+            distanceToTarget: 600,
+            relay: 2
           })
           .then(match => {
             this.tempMatch = match;
@@ -499,7 +501,8 @@ describe('testing the match route', function(){ //setting up our server
             userId       :this.tempCompetition.userId,
             matchNumber: 1,
             targetNumber: 4,
-            distanceToTarget: 600
+            distanceToTarget: 600,
+            relay: 1
           })
           .then(match => {
             this.tempMatch = match;

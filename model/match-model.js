@@ -8,7 +8,7 @@ const matchSchema = module.exports = mongoose.Schema({
   matchNumber:      {type: Number, required: true},
   targetNumber:     {type: Number, required: true},
   distanceToTarget: {type: Number, required: true},
-  relay:            {type: Number},
+  relay:            {type: Number, required: true},
   startTime:        {type: String},
   temperature:      {type: Number},
   windDirection:    {type: Number},
