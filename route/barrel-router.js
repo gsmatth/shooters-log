@@ -30,8 +30,8 @@ barrelRouter.post('/user/:userid/barrel', parseBearerAuth, jsonParser, function(
 
 barrelRouter.put('/user/:userid/barrel/:barrelid', parseBearerAuth, jsonParser, function(req, res, next){
   debug('entered barrel.put route');
-  req.body.barrelId = req.params.barrelid;
-  barrelController.updateBarrel(req.body)
+  var barrelId = req.params.barrelid;
+  barrelController.updateBarrel(barrelId, req.body)
   .then(barrel => res.json(barrel))
   .catch(next);
 });

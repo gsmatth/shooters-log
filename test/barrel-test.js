@@ -252,14 +252,32 @@ describe('Testing barrel route, ', () =>  {
 
   describe('PUT barrel with userId.  ', () => {
     before((done) => {
-      debug('barrel-put-test-before-block');
+      debug('barrel-delete-test-before-block');
     // var user = new User({username: 'McTest', password: 'pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
         this.tempToken = token;
-        done();
+        barrelController.createBarrel({
+          barrelName: 'mid-range F-TR',
+          barrelManufacturer: 'Kreiger',
+          barrelType: 'medium palma',
+          barrelTwist: '1:10',
+          barrelLength: 30,
+          barrelLife: 3500,
+          barrelCaliber: 30,
+          roundCount: 1700,
+          userId: user._id,
+          matchId: match._id,
+          competitionId: competition._id,
+          rifleId: rifle._id
+        })
+        .then(barrel => {
+          this.tempBarrel = barrel;
+          done();
+        })
+      .catch(done);
       })
-        .catch(done);
+    .catch(done);
     });
 
     after((done) => {
@@ -272,7 +290,8 @@ describe('Testing barrel route, ', () =>  {
     });
 
     it('should return an updated barrel', (done) => {
-      request.put(`${baseUrl}/user/${user._id}/barrel`)
+      console.log('\n\nthis.tempbarrel._id added to reqparams of put request\n\n', this.tempBarrel._id);
+      request.put(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
       .send({
         barrelName: 'CMP Palma',
         barrelManufacturer: 'Kreiger',

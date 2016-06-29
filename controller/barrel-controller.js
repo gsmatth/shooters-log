@@ -31,11 +31,12 @@ exports.deleteBarrel = function(barrelId){
   });
 };
 
-exports.updateBarrel = function(barrelData){
+exports.updateBarrel = function(barrelId, barrelData){
   debug('entered updateBarrel function');
   console.log('\n\nbarrelData passed to updateBarrel in barrel-controller\n\n', barrelData);
   return new Promise((resolve, reject) => {
-    Barrel.findOne({_id: barrelData._id})
+    console.log('\n\nbarrelId passed to updateBarrel in barrel-controller\n\n', barrelId);
+    Barrel.findOne({_id: barrelId})
     .then(barrel => {
       barrel.barrelName = barrelData.barrelName;
       barrel.barrelManufacturer = barrelData.barrelManufacturer;
