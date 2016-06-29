@@ -27,6 +27,16 @@ exports.getCompetition = function(id){
   });
 };
 
+exports.getAllCompsByUserId = function(userId){
+  return new Promise((resolve, reject) => {
+    Competition.find({userId: userId})
+    .then(competitions => {
+      resolve(competitions);
+    })
+    .catch(reject);
+  });
+};
+
 exports.updateCompetition = function(id, reqbody){
   return new Promise((resolve, reject) => {
     if(JSON.stringify(reqbody) === '{}') return reject(httpErrors(400, 'need to provide a body'));
