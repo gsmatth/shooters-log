@@ -30,3 +30,28 @@ exports.deleteBarrel = function(barrelId){
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
+
+exports.updateBarrel = function(barrelData){
+  debug('entered updateBarrel function');
+  console.log('\n\nbarrelData passed to updateBarrel in barrel-controller\n\n', barrelData);
+  return new Promise((resolve, reject) => {
+    Barrel.findOne({_id: barrelData._id})
+    .then(barrel => {
+      barrel.barrelName = barrelData.barrelName;
+      barrel.barrelManufacturer = barrelData.barrelManufacturer;
+      barrel.barrelType =  barrelData.barrelType;
+      barrel.barrelTwist = barrelData.barrelTwist;
+      barrel.barrelLength =  barrelData.barrelLength;
+      barrel.barrelLife =  barrelData.barrelLife;
+      barrel.barrelCaliber =  barrelData.barrelCaliber;
+      barrel.roundCount =  barrelData.roundCount;
+      barrel.matchId = barrelData.matchId;
+      barrel.competitionId = barrelData.competitionId;
+      barrel.userId = barrelData.userId;
+      barrel.rifleId =  barrelData.rifleId;
+      barrel.save();
+      resolve(barrel);
+    })
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
