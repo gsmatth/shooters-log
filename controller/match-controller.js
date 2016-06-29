@@ -70,6 +70,16 @@ exports.updateMatch = function(id, reqBody){
   });
 };
 
+exports.getAllMatchesByUserId = function(userId){
+  return new Promise((resolve, reject) => {
+    Match.find({userId: userId})
+    .then(matches => {
+      resolve(matches);
+    })
+    .catch(reject);
+  });
+};
+
 exports.getAllShotsByMatchId = function(matchId){
   debug('match controller GET ALL SHOTS BY MATCH ID');
   return new Promise((resolve, reject) => {

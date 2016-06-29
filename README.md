@@ -23,7 +23,7 @@
 This API is structured on a Model View Control(MVC) framework.  The base technology is a Node.js server with the core node.http server module and a Mongo database.
 
 Middleware:  
-  *The express router middleware provides the base routing capability.  
+  * The express router middleware provides the base routing capability.  
   * A custom handle-errors module implements and extends the http-errors npm middleware package.  
   * An auth middleware module leverages both the bcrypt and node.crypto modules to provide user sign-up and user sign-in functionality.  
   * Mongoose npm module is used for interaction with the Mongo database  
@@ -33,7 +33,7 @@ Middleware:
 View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the nmp package parse-body. For details about the input and output of routes, see the Routes section below.
 
 Control: Individual resources (user, match...) have dedicated controller files.  These files implement the 'control' function of the MVC model.  These files provide the interaction with the both the "model" elements (database and model):
-  *model:  The controller files call the constructor methods in the "model" files to construct new resource objects in memory
+  * model:  The controller files call the constructor methods in the "model" files to construct new resource objects in memory
   * mongoose:  The controller files leverage the required mongoose client module to create new schemas in the mongo database and to create new documents for the resources supported by this API. Currently supported resources include:  
     -user  
     -competition  
@@ -185,5 +185,10 @@ Example: shooters-log-staging.herokuapp.com/api/competition/577039ec29a8f22e2e5c
 
 * Authorization
   * needs to be done in the following way: `Bearer <response token from signin>`
+
+This route will allow you to create new matches that correlate to specific competitions.
+
+Example response:
+
 
 ****
