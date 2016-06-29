@@ -9,8 +9,8 @@ const request = require('superagent-use');
 const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter: barrel-test');
 
-const Barrel = require('../model/barrel-model');
-const barrelController = require('../controller/barrel-controller');
+// const Barrel = require('../model/barrel-model');
+// const barrelController = require('../controller/barrel-controller');
 const userController = require('../controller/auth-controller');
 // const compController = require('../controller/competition-controller');
 // const matchController = require('../controller/match-controller');
@@ -76,7 +76,7 @@ describe('Testing barrel route, ', () =>  {
   };
 
   var rifle = {
-    _id: '576c4f19965f8a8a0ab83402'
+    _id: '576c4f19965f8a8a0ab83402',
     rifleName: 'Ol Betsy',
     rifleAction: 'Remington',
     rifleCategory: 'F-TR',
@@ -100,8 +100,17 @@ describe('Testing barrel route, ', () =>  {
         .catch(done);
       });
 
-    it('should return a barrel response', () => {
-      request.post(`${baseUrl}/user/:userid/barrel`)
+    after((done) => {
+      debug('barrel-post-test-after-block');
+      Promise.all([
+        userController.removeAllUsers()
+      ])
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return a barrel response', (done) => {
+      request.post(`${baseUrl}/user/${user._id}/barrel`)
       .send({
         barrelName: 'mid-range F-TR',
         barrelManufacturer: 'Kreiger',
@@ -124,13 +133,9 @@ describe('Testing barrel route, ', () =>  {
         expect(res.body.roundCount).to.equal(1700);
         expect(res.body.barrelType).to.equal('medium palma');
         expect(res.body.userId).to.equal('576c47d854d007350a734560');
-        expect(res.body.rifelId).to.equal('576c4f19965f8a8a0ab83402');
+        expect(res.body.rifleId).to.equal('576c4f19965f8a8a0ab83402');
         done();
       }).catch(done);
     });
     });
   });
-
-
-
-});
