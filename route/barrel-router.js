@@ -12,7 +12,7 @@ const barrelRouter = module.exports = new Router();
 
 
 
-barrelRouter.get('/user/:userid/barrel/:barrelid', parseBearerAuth, function(req, res, next){
+barrelRouter.get('/user/:userid/barrel/:barrelid', parseBearerAuth, jsonParser, function(req, res, next){
   debug('entered barrel.get route');
   req.body.barrelId = req.params.barrelid;
   barrelController.getBarrel(req.body.barrelId)
