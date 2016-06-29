@@ -3,11 +3,12 @@
 
 const Router = require('express').Router;
 const debug = require('debug')('shooter:barrel-router');
-const barrelController = require('../controller/barrel-controller');
-const parseBearerAuth = require('../lib/parse-bearer-auth');
-const barrelRouter = module.exports = new Router();
 const jsonParser = require('body-parser').json();
 const httpErrors = require('http-errors');
+const parseBearerAuth = require('../lib/parse-bearer-auth');
+const barrelController = require('../controller/barrel-controller');
+const barrelRouter = module.exports = new Router();
+
 
 
 
