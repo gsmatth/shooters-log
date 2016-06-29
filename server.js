@@ -15,7 +15,7 @@ const userRouter = require('./route/user-router');
 const competitionRouter = require('./route/competition-router');
 const matchRouter = require('./route/match-router');
 const shotRouter = require('./route/shot-router');
-const scorecardRouter = require('./route/scorecard-router')
+const scorecardRouter = require('./route/scorecard-router');
 // const userRouter = require('./route/user-router');
 
 //module constants
