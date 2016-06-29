@@ -199,7 +199,7 @@ describe('Testing barrel route, ', () =>  {
 
   describe('DELETE barrel with barrelId. ', () => {
     before((done) => {
-      debug('barrel-post-test-before-block');
+      debug('barrel-delete-test-before-block');
     // var user = new User({username: 'McTest', password: 'pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
@@ -236,17 +236,65 @@ describe('Testing barrel route, ', () =>  {
       .catch(done);
     });
 
-    it('should return a barrel response', (done) => {
-      debug('barrel-get-test-it-block');
+    it('should return a status of 204', (done) => {
+      debug('barrel-delete-test-it-block');
       console.log('\nthis.tempbarrel\n', this.tempBarrel._id);
-      request.get(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
+      request.del(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then((res) => {
+        expect(res.status).to.equal(204);
+        done();
+      }).catch(done);
+    });
+  });
+
+
+
+  describe('PUT barrel with userId.  ', () => {
+    before((done) => {
+      debug('barrel-put-test-before-block');
+    // var user = new User({username: 'McTest', password: 'pass'});
+      userController.newUser({username: user.username, password: user.password})
+      .then( token => {
+        this.tempToken = token;
+        done();
+      })
+        .catch(done);
+    });
+
+    after((done) => {
+      debug('barrel-put-test-after-block');
+      Promise.all([
+        userController.removeAllUsers()
+      ])
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return an updated barrel', (done) => {
+      request.put(`${baseUrl}/user/${user._id}/barrel`)
+      .send({
+        barrelName: 'CMP Palma',
+        barrelManufacturer: 'Kreiger',
+        barrelType: 'heavy palma',
+        barrelTwist: '1:12',
+        barrelLength: 28,
+        barrelLife: 3500,
+        barrelCaliber: 30,
+        roundCount: 500,
+        userId: user._id,
+        matchId: match._id,
+        competitionId: competition._id,
+        rifleId: rifle._id
+      })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
         expect(res.status).to.equal(200);
+        expect(res.body.barrelName).to.equal('CMP Palma');
         expect(res.body.barrelManufacturer).to.equal('Kreiger');
         expect(res.body.barrelLife).to.equal(3500);
-        expect(res.body.roundCount).to.equal(1700);
-        expect(res.body.barrelType).to.equal('medium palma');
+        expect(res.body.roundCount).to.equal(500);
+        expect(res.body.barrelType).to.equal('heavy palma');
         expect(res.body.userId).to.equal('576c47d854d007350a734560');
         expect(res.body.rifleId).to.equal('576c4f19965f8a8a0ab83402');
         done();

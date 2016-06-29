@@ -21,3 +21,12 @@ exports.getBarrel = function(barrelId){
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
+
+exports.deleteBarrel = function(barrelId){
+  debug('entered deleteBarrel function');
+  return new Promise((resolve, reject) => {
+    Barrel.remove({_id: barrelId})
+    .then(resolve)
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};

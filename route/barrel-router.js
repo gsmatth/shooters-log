@@ -30,8 +30,17 @@ barrelRouter.post('/user/:userid/barrel', parseBearerAuth, jsonParser, function(
 
 barrelRouter.put('/user/:userid/barrel/:barrelid', parseBearerAuth, jsonParser, function(req, res, next){
   debug('entered barrel.put route');
+  req.body.barrelId = req.params.barrelid;
+  barrelController.updateBarrel(req.body)
+  .then(barrel => res.json(barrel))
+  .catch(next);
 });
 
-barrelRouter.delete('/user/:userid/barrel/:barrelid', parseBearerAuth, function(req, res, next){
+barrelRouter.delete('/user/:userid/barrel/:barrelid', parseBearerAuth, jsonParser, function(req, res, next){
   debug('entered barrel.delete route');
+  req.body.barrelId = req.params.barrelid;
+  barrelController.deleteBarrel(req.body.barrelId)
+  .then(() => {
+    res.status(204).send();
+  }).catch(next);
 });
