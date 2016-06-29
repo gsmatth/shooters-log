@@ -15,12 +15,21 @@ exports.createRifle = function(rifleInfo) {
 };
 
 exports.getRifle = function(rifleid) {
-  debug('get-rifle0controller');
+  debug('get-rifle-controller');
   return new Promise((resolve, reject) => {
     Rifle.findOne({_id: rifleid})
     .then(rifle => {
       resolve(rifle);
     })
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
+exports.deleteRifle = function(rifleid) {
+  debug('delete-rifle-controller');
+  return new Promise((resolve, reject) => {
+    Rifle.remove({_id: rifleid})
+    .then(resolve)
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
