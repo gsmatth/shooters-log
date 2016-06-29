@@ -15,11 +15,11 @@ barrelRouter.get('/user/:userid/barrel/:barrelid', parseBearerAuth, function(req
 
 });
 
-barrelRouter.post('/user/:userid/barrel', parseBearerAuth, function(req, res, next){
+barrelRouter.post('/user/:userid/barrel', parseBearerAuth, jsonParser, function(req, res, next){
   debug('entered barrel.post route');
 });
 
-barrelRouter.put('/user/:userid/barrel/:barrelid', parseBearerAuth, function(req, res, next){
+barrelRouter.put('/user/:userid/barrel/:barrelid', parseBearerAuth, jsonParser, function(req, res, next){
   debug('entered barrel.put route');
 });
 
