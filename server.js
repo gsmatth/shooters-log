@@ -15,6 +15,7 @@ const userRouter = require('./route/user-router');
 const competitionRouter = require('./route/competition-router');
 const matchRouter = require('./route/match-router');
 const shotRouter = require('./route/shot-router');
+const scoreCardRouter = require('./route/score-card-router')
 // const userRouter = require('./route/user-router');
 
 //module constants
@@ -33,6 +34,7 @@ app.use('/api', userRouter);
 app.use('/api', competitionRouter);
 app.use('/api', matchRouter);
 app.use('/api', shotRouter);
+app.use('/api', scoreCardRouter)
 
 app.all('*', function(req, res, next){
   debug('entered app.all route in server.js:  this route is not registered');

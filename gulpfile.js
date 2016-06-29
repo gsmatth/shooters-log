@@ -20,6 +20,11 @@ gulp.task('test', () => {
   .pipe(mocha({reporter: 'list'}));
 });
 
+gulp.task('test-card', () => {
+  return gulp.src('./test/score-card-test.js', {read: false})
+  .pipe(mocha({reporter: 'list'}));
+});
+
 gulp.task('nodemon', function(){
   nodemon({
     script: 'server.js',
