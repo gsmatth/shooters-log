@@ -10,7 +10,7 @@ const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter: barrel-test');
 
 // const Barrel = require('../model/barrel-model');
-// const barrelController = require('../controller/barrel-controller');
+const barrelController = require('../controller/barrel-controller');
 const userController = require('../controller/auth-controller');
 // const compController = require('../controller/competition-controller');
 // const matchController = require('../controller/match-controller');
@@ -98,7 +98,7 @@ describe('Testing barrel route, ', () =>  {
         done();
       })
         .catch(done);
-      });
+    });
 
     after((done) => {
       debug('barrel-post-test-after-block');
@@ -137,11 +137,66 @@ describe('Testing barrel route, ', () =>  {
         done();
       }).catch(done);
     });
+  });
+
+
+  describe('GET barrel with userId. ', () => {
+    before((done) => {
+      debug('barrel-post-test-before-block');
+    // var user = new User({username: 'McTest', password: 'pass'});
+      userController.newUser({username: user.username, password: user.password})
+      .then( token => {
+        this.tempToken = token;
+        barrelController.createBarrel({
+          barrelName: 'mid-range F-TR',
+          barrelManufacturer: 'Kreiger',
+          barrelType: 'medium palma',
+          barrelTwist: '1:10',
+          barrelLength: 30,
+          barrelLife: 3500,
+          barrelCaliber: 30,
+          roundCount: 1700,
+          userId: user._id,
+          matchId: match._id,
+          competitionId: competition._id,
+          rifleId: rifle._id
+        })
+        .then(barrel => {
+          this.tempBarrel = barrel;
+          done();
+        })
+      .catch(done);
+      })
+    .catch(done);
     });
 
+    after((done) => {
+      debug('barrel-get-test-after-block');
+      Promise.all([
+        userController.removeAllUsers()
+      ])
+      .then(() => done())
+      .catch(done);
+    });
 
-
-
-
-
+    it('should return a barrel response', (done) => {
+      debug('barrel-get-test-it-block');
+      request.get(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
+      .send({})
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then((res) => {
+        expect(res.status).to.equal(200);
+        expect(res.body.barrelManufacturer).to.equal('Kreiger');
+        expect(res.body.barrelLife).to.equal(3500);
+        expect(res.body.roundCount).to.equal(1700);
+        expect(res.body.barrelType).to.equal('medium palma');
+        expect(res.body.userId).to.equal('576c47d854d007350a734560');
+        expect(res.body.rifleId).to.equal('576c4f19965f8a8a0ab83402');
+        done();
+      }).catch(done);
+    });
   });
+
+
+
+});

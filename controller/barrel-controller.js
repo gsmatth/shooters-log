@@ -12,3 +12,12 @@ exports.createBarrel = function(barrelData){
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
+
+exports.getBarrel = function(barrelId){
+  debug('entered get-barrel');
+  return new Promise((resolve, reject) => {
+    Barrel.findOne({_id: barrelId})
+    .then(barrel => resolve(barrel))
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};

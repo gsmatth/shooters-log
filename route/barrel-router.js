@@ -15,9 +15,9 @@ const barrelRouter = module.exports = new Router();
 barrelRouter.get('/user/:userid/barrel/:barrelid', parseBearerAuth, function(req, res, next){
   debug('entered barrel.get route');
   req.body.barrelId = req.params.barrelid;
-  barrelController.get(req.body.barrelId)
+  barrelController.getBarrel(req.body.barrelId)
   .then(barrel => res.json(barrel))
-  .catch(err => httpErrors(404, err.message));
+  .catch(next);
 });
 
 barrelRouter.post('/user/:userid/barrel', parseBearerAuth, jsonParser, function(req, res, next){
@@ -25,7 +25,7 @@ barrelRouter.post('/user/:userid/barrel', parseBearerAuth, jsonParser, function(
   req.body.userId = req.params.userid;
   barrelController.createBarrel(req.body)
   .then(barrel => res.json(barrel))
-  .catch(err => httpErrors(404, err.message));
+  .catch(next);
 });
 
 barrelRouter.put('/user/:userid/barrel/:barrelid', parseBearerAuth, jsonParser, function(req, res, next){
