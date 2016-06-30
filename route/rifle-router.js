@@ -41,7 +41,7 @@ rifleRouter.put('/user/:userid/rifle/:rifleid', parseBearerAuth, jsonParser, fun
 rifleRouter.delete('/user/:userid/rifle/:rifleid', parseBearerAuth, jsonParser, function(req, res, next) {
   debug('rifle-delete-route');
   req.body.userid = req.params.userid;
-  req.body.rifle = req.params.rifleid;
+  req.body.rifleid = req.params.rifleid;
   rifleController.deleteRifle(req.params.rifleid)
   .then(() => res.status(204).send())
   .catch(next);
