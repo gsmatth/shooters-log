@@ -4,13 +4,34 @@
 #Shooters-Log API  
 
 #Overview
-* This API provides the necessary back-end infrastructure and functionality to create, save, and return data related to shooting matches.  
-* Currently this data is collected on the firing line and noted on paper in one of the following: a score card, a detailed match data book, or a barrel-book.  Many times this data is collected once and then transferred manually to some or all of the three books mentioned above.     
-* By providing this API and supporting infrastructure, we are hoping to encourage developers of both client applications and web applications to develop applications that can provide value to the shooting community and a source of income for themselves.   
+* This RESTful API provides the necessary back-end infrastructure and functionality to create, read, update and delete data related to shooting matches.  
+* Currently, data for shooting matches is recorded after each shot during an  event.  The score is typically recorded using a pencil and a paper document like the scorecard below.    
+
+    ![small-scorecard](https://cloud.githubusercontent.com/assets/13153982/16487336/1d2edd36-3e7f-11e6-8061-87390578fec6.png)
+
+
+* After a match is completed, the recorded data is then manually transferred to other documents for later retrieval and analysis. This is a burdensome process that can be greatly reduced or eliminated through the adoption of automation.  Examples of other documents that are updated include the following:  
+  - Aggregate Score Card.  This document or spreadsheet is created by the range master after an event when all the individual shooter score cards are handed in.  It lists all the match and aggregate scores for each shooter in a match.  This information is forwarded to the NRA, so that the NRA can track an dif necessary change your qualification level.  
+  - Load Development Book.  This book contains very detailed information on the components  that make up a specific load.  It lists all the specific components of a load(primer, brass, bullet, powder) as well as very precise measurements (lengths, weights, environment, distance)
+  - Round Count Book.  This book lists the number of rounds that have been fired through a specific barrel as well as a reference to the load for those rounds.  The load book provides the shooter with a means to track the life of a barrel. Once a barrel has exceeded its life, the barrel is less accurate and needs to be replaced.  
+  - Detailed Data Card (image below). This is a more detailed version of the scorecard.  It includes called shot values as well as clock values for both the actual and called shots.  It also contains  data related to your rifle, ammunition, and your environment( barometric pressure, temperature, light direction, wind direction..)
+
+    ![small-data-sheet](https://cloud.githubusercontent.com/assets/13153982/16487287/b43dee84-3e7e-11e6-9dc6-3c34234b4a6f.png)
+
+*   This API provides a means to reduce the redundancy  for the shooter and the range master.  It provides an infrastructure and data persistence that can be easily consumed by applications (both client and web based). By providing this API and supporting infrastructure, we are encouraging developers of both to create applications that can provide value to the shooting community and a source of income for themselves.
+
 
 ****
-#Current Version
-* The current version of this program is designed to collect and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.
+#Current Version (0.7.0)
+* The current version of this program is designed to collect, store, and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.
+
+****
+#Future Releases
+* Future releases will include the following enhancements:  
+  - store and return  detailed data cards  
+  - store and return load development books  
+  - store and return round count books  
+  - store and return aggregate score cards
 
 ****
 
@@ -20,7 +41,7 @@
 *****
 #Architecture
 
-This API is structured on a Model View Control(MVC) framework.  The base technology is a Node.js server with the core node.http server module and a Mongo database.
+This API is structured on a Model View Controller(MVC) architecture pattern.  The base technologies are node.js server, node.http module, express middleware, and a mongo database. This architecture is currently deployed in a two tier environment(staging, production), leveraging the heroku platform.
 
 Middleware:  
   * The express router middleware provides the base routing capability.  
@@ -28,25 +49,36 @@ Middleware:
   * An auth middleware module leverages both the bcrypt and node.crypto modules to provide user sign-up and user sign-in functionality.  
   * Mongoose npm module is used for interaction with the Mongo database  
 
-![architecture2](https://cloud.githubusercontent.com/assets/13153982/16473542/e395e3dc-3e22-11e6-9c3b-a636606a7642.png)
+![architecture3](https://cloud.githubusercontent.com/assets/13153982/16500548/f306a3e6-3eb9-11e6-95c1-ad9984ddfbef.png)
 
 View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the nmp package parse-body. For details about the input and output of routes, see the Routes section below.
 
-Control: Individual resources (user, match...) have dedicated controller files.  These files implement the 'control' function of the MVC model.  These files provide the interaction with the both the "model" elements (database and model):
+Controller: Individual resources (user, match...) have dedicated controller files.  These files implement the 'control' function of the MVC model.  These files provide the interaction with the both the "model" elements (database and model):
   * model:  The controller files call the constructor methods in the "model" files to construct new resource objects in memory
-  * mongoose:  The controller files leverage the required mongoose client module to create new schemas in the mongo database and to create new documents for the resources supported by this API. Currently supported resources include:  
-    -user  
-    -competition  
-    -match  
-    -shot
+  * mongoose:  The controller files leverage the required mongoose client module to create new schemas in the mongo database and to create new mongo documents for the resources supported by this API. Currently supported resources include:  
+      -user  
+      -competition  
+      -match  
+      -shot  
+      -rifle  
+      -barrel  
+      -load  
 
 Model:  Individual resources (user, match...) have dedicated model files. These files provide the constructors and the mongoose schema creation syntax. For a detailed breakdown of models and the model properties, see the schema section below.  
 
 ****
 
 #Schema
-![schema3](https://cloud.githubusercontent.com/assets/13153982/16475733/c3745f12-3e35-11e6-878d-32a3095fb271.png)
-* Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
+###MVP Schema Diagram  
+![mvp-schema](https://cloud.githubusercontent.com/assets/13153982/16500144/3bb137e8-3eb8-11e6-8392-ca5b0efbe525.png)
+
+
+******
+
+###Currently Deployed Schema Diagram
+
+![schema4](https://cloud.githubusercontent.com/assets/13153982/16500771/f069d170-3eba-11e6-8855-a05efdf34c47.png)
+
 
 *****
 #Routes
@@ -192,3 +224,12 @@ Example response:
 
 
 ****
+#Testing
+###Continous Integration
+travis-ci is integrated into this project through the use of the included .travis.yml file.  All pull requests initiated in git will launch travis, which in turn runs the included mocha tests and the eslint tests.  Pull requests are not merged until all travis-ci tests pass.
+
+###Testing Framework
+mocha test runner  
+chai  
+bluebird promise library  
+eslint
