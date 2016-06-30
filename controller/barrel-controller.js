@@ -8,7 +8,12 @@ exports.createBarrel = function(barrelData){
   debug('entered createBarrel in barrel-controller.js');
   return new Promise((resolve, reject) => {
     new Barrel(barrelData).save()
-    .then(barrel => resolve(barrel))
+    .then(barrel => {
+      if(!barrel.userId){
+        return reject(httpErrors(400, 'bad request'));
+      }
+      resolve(barrel);
+    })
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
@@ -33,9 +38,7 @@ exports.deleteBarrel = function(barrelId){
 
 exports.updateBarrel = function(barrelId, barrelData){
   debug('entered updateBarrel function');
-  console.log('\n\nbarrelData passed to updateBarrel in barrel-controller\n\n', barrelData);
   return new Promise((resolve, reject) => {
-    console.log('\n\nbarrelId passed to updateBarrel in barrel-controller\n\n', barrelId);
     Barrel.findOne({_id: barrelId})
     .then(barrel => {
       barrel.barrelName = barrelData.barrelName;

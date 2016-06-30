@@ -128,7 +128,7 @@ describe('Testing barrel route, ', () =>  {
         done();
       }).catch(done);
     });
-    it('should return a status code of 404', done => {
+    it('should return a status code of 401', done => {
       request.post(`${baseUrl}/user/123456/barrel`)
       .send({
         barrelName: 'mid-range F-TR',
@@ -137,14 +137,14 @@ describe('Testing barrel route, ', () =>  {
       .then(done)
       .catch(err => {
         const res = err.response;
-        expect(res.status).to.equal(400);
+        expect(res.status).to.equal(401);
         done();
       });
       done();
     });
     it('should return a status code of 400', done => {
-      request.post(`${baseUrl}/${user._id}/123456/barrel`)
-      .send('')
+      request.post(`${baseUrl}/user/${user._id}/barrel`)
+      .send({})
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(done)
       .catch(err => {
@@ -154,13 +154,11 @@ describe('Testing barrel route, ', () =>  {
       });
       done();
     });
-
   });
-
 
   describe('GET barrel with barrelId. ', () => {
     before((done) => {
-      debug('barrel-post-test-before-block');
+      debug('barrel-get-test-before-block');
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
         this.tempToken = token;
@@ -334,8 +332,9 @@ describe('Testing barrel route, ', () =>  {
         done();
       }).catch(done);
     });
+
     it('should return a status code of 404', done => {
-      request.put(`${baseUrl}/user/${user._id}/barrel/123456`)
+      request.put(`${baseUrl}/user/${user._id}/barrel/1234`)
       .send({
         barrelName: 'mid-range F-TR',
         barrelManufacturer: 'Kreiger'})
@@ -346,8 +345,8 @@ describe('Testing barrel route, ', () =>  {
         expect(res.status).to.equal(404);
         done();
       });
-      done();
     });
+
     it('should return a status code of 400', done => {
       request.put(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
       .send('')

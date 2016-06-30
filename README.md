@@ -45,7 +45,7 @@ Model:  Individual resources (user, match...) have dedicated model files. These 
 ****
 
 #Schema
-![MVP Schema](https://cloud.githubusercontent.com/assets/13153982/16252177/de6d96ae-37e0-11e6-9e36-b8bf3b28e334.png)
+![schema3](https://cloud.githubusercontent.com/assets/13153982/16475733/c3745f12-3e35-11e6-878d-32a3095fb271.png)
 * Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
 
 *****

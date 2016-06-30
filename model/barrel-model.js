@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 const barrelSchema = module.exports = mongoose.Schema({
-  barrelName: {type: String},
+  barrelName: {type: String, required:true},
   barrelManufacturer: {type: String},
   barrelType: {type: String},
   barrelTwist: {type: String},
