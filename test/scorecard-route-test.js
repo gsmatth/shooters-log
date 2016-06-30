@@ -63,7 +63,6 @@ describe('testing the ScoreCard route', function(){ //setting up our server
         })
         .then(competition => {
           this.tempCompetition = competition;
-          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
@@ -78,7 +77,6 @@ describe('testing the ScoreCard route', function(){ //setting up our server
             lightDirection: 2,
             weather: 'Seattle Sunshine'
           }).then(match => {
-            console.log('THIS! Match', match);
             this.tempMatch = match;
             shotController.createShot({
               userId: this.tempCompetition.userId,
@@ -117,7 +115,6 @@ describe('testing the ScoreCard route', function(){ //setting up our server
             weather: 'Seattle Sunshine'
           })
           .then(match => {
-            console.log('THIS! Match', match);
             this.tempMatch = match;
             shotController.createShot({
               userId: this.tempCompetition.userId,
@@ -155,7 +152,6 @@ describe('testing the ScoreCard route', function(){ //setting up our server
             lightDirection: 2,
             weather: 'Seattle Sunshine'
           }).then(match => {
-            console.log('THIS! Match', match);
             this.tempMatch = match;
             shotController.createShot({
               userId: this.tempCompetition.userId,
@@ -204,8 +200,7 @@ describe('testing the ScoreCard route', function(){ //setting up our server
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
         expect(res.status).to.equal(200);
-        expect(res.body.matches.length).to.equal(3)
-        console.log(res.body);
+        console.log('RES>BODY', res.body);
         done();
       }).catch(done);
     });

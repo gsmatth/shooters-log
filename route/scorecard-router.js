@@ -23,13 +23,14 @@ scorecardRouter.get('/scorecard/:competitionId', parseBearerAuth, function(req, 
   })
   .then( matches => {
     ScoreCard.matches = matches;
-    for (var i = 0; i < ScoreCard.matches.length; i++){
-      matchController.getAllShotsByMatchId(ScoreCard.matches[i]._id)
-      .then(shots => {
-        ScoreCard.shot = shots;
-      });
-      console.log(ScoreCard);
-    }
-    res.json(ScoreCard);
-  }).catch(next);
+    var populatedShotPromisesArray = ScoreCard.matches.map((matches) => {
+      return matchController.getAllShotsByMatchId(matches._id)
+    })
+    return Promise.all(populatedShotPromisesArray);
+  }).then((shots) => {
+  ScoreCard.shots = shots;
+  console.log('ScoreCard.shots', ScoreCard.shots);
+  res.json(ScoreCard);
+  })
+  .catch(next);
 });
