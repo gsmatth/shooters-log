@@ -1,29 +1,30 @@
 [![Stories in Ready](https://badge.waffle.io/gsmatth/shooters-log.png?label=ready&title=Ready)](https://waffle.io/gsmatth/shooters-log)
 
 [![Throughput Graph](https://graphs.waffle.io/gsmatth/shooters-log/throughput.svg)](https://waffle.io/gsmatth/shooters-log/metrics/throughput)
-#Shooters-Log API  
+#Shooters-Log RESTful API  
 
 #Overview
 * This RESTful API provides the necessary back-end infrastructure and functionality to create, read, update and delete data related to shooting matches.  
-* Currently, data for shooting matches is recorded after each shot during an  event.  The score is typically recorded using a pencil and a paper document like the scorecard below.    
+* Currently, data for shooting matches is manually recorded after each shot during an  event.  The score is typically recorded using a pencil and a paper document like the scorecard below.    
 
-    ![small-scorecard](https://cloud.githubusercontent.com/assets/13153982/16487336/1d2edd36-3e7f-11e6-8061-87390578fec6.png)
+  ![matchscore450x348](https://cloud.githubusercontent.com/assets/13153982/16502309/9e0302e6-3ec2-11e6-9429-a778105f1635.png)
 
 
-* After a match is completed, the recorded data is then manually transferred to other documents for later retrieval and analysis. This is a burdensome process that can be greatly reduced or eliminated through the adoption of automation.  Examples of other documents that are updated include the following:  
-  - Aggregate Score Card.  This document or spreadsheet is created by the range master after an event when all the individual shooter score cards are handed in.  It lists all the match and aggregate scores for each shooter in a match.  This information is forwarded to the NRA, so that the NRA can track an dif necessary change your qualification level.  
+* After a match is completed, the recorded data is then manually transferred to other documents for later retrieval and analysis. This is a burdensome process that can be greatly reduced or eliminated through the adoption of automation.  Examples of other documents that are manually updated include the following:  
+  - Aggregate Score Card.  This document or spreadsheet is created by the range master after an event when all the individual shooter score cards are handed in.  It lists all the match and aggregate scores for each shooter in a match.  This information is forwarded to the NRA, so that the NRA can track, and if necessary, change a shooters qualification level.  
   - Load Development Book.  This book contains very detailed information on the components  that make up a specific load.  It lists all the specific components of a load(primer, brass, bullet, powder) as well as very precise measurements (lengths, weights, environment, distance)
   - Round Count Book.  This book lists the number of rounds that have been fired through a specific barrel as well as a reference to the load for those rounds.  The load book provides the shooter with a means to track the life of a barrel. Once a barrel has exceeded its life, the barrel is less accurate and needs to be replaced.  
-  - Detailed Data Card (image below). This is a more detailed version of the scorecard.  It includes called shot values as well as clock values for both the actual and called shots.  It also contains  data related to your rifle, ammunition, and your environment( barometric pressure, temperature, light direction, wind direction..)
+  - Detailed Data Card (image below). This is a more detailed version of the scorecard.  It includes called shot score values as well as clock values for both the actual and called shots.  It also contains  data related to the shooters rifle, ammunition, and match environment( barometric pressure, temperature, light direction, wind direction..)  
 
-    ![small-data-sheet](https://cloud.githubusercontent.com/assets/13153982/16487287/b43dee84-3e7e-11e6-9dc6-3c34234b4a6f.png)
+      ![small-data-sheet](https://cloud.githubusercontent.com/assets/13153982/16487287/b43dee84-3e7e-11e6-9dc6-3c34234b4a6f.png)
 
-*   This API provides a means to reduce the redundancy  for the shooter and the range master.  It provides an infrastructure and data persistence that can be easily consumed by applications (both client and web based). By providing this API and supporting infrastructure, we are encouraging developers of both to create applications that can provide value to the shooting community and a source of income for themselves.
+*   This API provides a means to reduce the redundancy  for the shooter and the range master.  It provides an infrastructure and data persistence that can be easily consumed by applications (both client and web based) using the reliable and proven standards of a RESTful API. By providing this API and supporting infrastructure, we are encouraging developers to create applications that can provide value to the shooting community and a source of income for themselves.
 
 
 ****
 #Current Version (0.7.0)
-* The current version of this program is designed to collect, store, and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.
+* The current version of this program is designed to collect, store, and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.  
+* This API was designed to be extensible so that multiple shooting match types can be supported in the future.  
 
 ****
 #Future Releases
@@ -31,12 +32,15 @@
   - store and return  detailed data cards  
   - store and return load development books  
   - store and return round count books  
-  - store and return aggregate score cards
+  - store and return aggregate score cards  
 
 ****
 
 #Way to contribute
-* Preferred way to submit issues/bugs:
+* Reporting Bugs: Open up an issue through this git repository and select "bug" as the label
+* Recommending Enhancements: Open up an issue through this git repository and select "enhancement" as the label  
+* Issues are reviewed weekly
+
 
 *****
 #Architecture
@@ -46,23 +50,23 @@ This API is structured on a Model View Controller(MVC) architecture pattern.  Th
 Middleware:  
   * The express router middleware provides the base routing capability.  
   * A custom handle-errors module implements and extends the http-errors npm middleware package.  
-  * An auth middleware module leverages both the bcrypt and node.crypto modules to provide user sign-up and user sign-in functionality.  
+  * An auth middleware module leverages two npm modules (bcrypt, jsonwebtoken) and the node.crypto module to provide user sign-up and user sign-in functionality as well as session authentication/authorization.  
   * Mongoose npm module is used for interaction with the Mongo database  
 
 ![architecture3](https://cloud.githubusercontent.com/assets/13153982/16500548/f306a3e6-3eb9-11e6-95c1-ad9984ddfbef.png)
 
 View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the nmp package parse-body. For details about the input and output of routes, see the Routes section below.
 
-Controller: Individual resources (user, match...) have dedicated controller files.  These files implement the 'control' function of the MVC model.  These files provide the interaction with the both the "model" elements (database and model):
-  * model:  The controller files call the constructor methods in the "model" files to construct new resource objects in memory
-  * mongoose:  The controller files leverage the required mongoose client module to create new schemas in the mongo database and to create new mongo documents for the resources supported by this API. Currently supported resources include:  
-      -user  
-      -competition  
-      -match  
-      -shot  
-      -rifle  
-      -barrel  
-      -load  
+Controller: Individual resources (user, match, load...) have dedicated controller files.  These files are the interface between the routers (view) and the model files and mongo database(model).  The controllers take in a request from a route and call the necessary functions to interact with the model.  They then return a response to the route once a request has been processed in the model:
+  * model:  The controller files call the constructor methods in the "model" files to construct new resource objects in memory.
+  * mongoose:  The controller files leverage the required mongoose client module to create new schemas in the mongo database and to execute CRUD operations on mongo documents. Currently supported resources include:  
+      - user  
+      - competition  
+      - match  
+      - shot  
+      - rifle  
+      - barrel  
+      - load  
 
 Model:  Individual resources (user, match...) have dedicated model files. These files provide the constructors and the mongoose schema creation syntax. For a detailed breakdown of models and the model properties, see the schema section below.  
 
@@ -225,11 +229,11 @@ Example response:
 
 ****
 #Testing
-###Continous Integration
-travis-ci is integrated into this project through the use of the included .travis.yml file.  All pull requests initiated in git will launch travis, which in turn runs the included mocha tests and the eslint tests.  Pull requests are not merged until all travis-ci tests pass.
 
 ###Testing Framework
 mocha test runner  
-chai  
+chai (expect)
 bluebird promise library  
-eslint
+eslint  
+###Continous Integration
+travis-ci is integrated into this project through the use of the included .travis.yml file.  All pull requests initiated in git will launch travis, which in turn runs the included mocha tests and the eslint tests.  Pull requests are not merged until all travis-ci tests pass.
