@@ -84,22 +84,22 @@ describe('testing the ScoreCard route', function(){ //setting up our server
               xValue: true,
               score: '10',
               dateOf: 'March 29th'
-            })
+            });
             shotController.createShot({
               userId: this.tempCompetition.userId,
               matchId: this.tempMatch._id,
               xValue: true,
               score: '10',
               dateOf: 'March 29th'
-            })
+            });
             shotController.createShot({
               userId: this.tempCompetition.userId,
               matchId: this.tempMatch._id,
               xValue: true,
               score: '10',
               dateOf: 'March 29th'
-            })
-          })
+            });
+          });
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
@@ -122,13 +122,6 @@ describe('testing the ScoreCard route', function(){ //setting up our server
               xValue: true,
               score: '10',
               dateOf: 'March 29th'
-            })
-            shotController.createShot({
-              userId: this.tempCompetition.userId,
-              matchId: this.tempMatch._id,
-              xValue: true,
-              score: '10',
-              dateOf: 'March 29th'
             });
             shotController.createShot({
               userId: this.tempCompetition.userId,
@@ -137,7 +130,14 @@ describe('testing the ScoreCard route', function(){ //setting up our server
               score: '10',
               dateOf: 'March 29th'
             });
-          })
+            shotController.createShot({
+              userId: this.tempCompetition.userId,
+              matchId: this.tempMatch._id,
+              xValue: true,
+              score: '10',
+              dateOf: 'March 29th'
+            });
+          });
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
@@ -159,21 +159,21 @@ describe('testing the ScoreCard route', function(){ //setting up our server
               xValue: true,
               score: '10',
               dateOf: 'March 29th'
-            })
+            });
             shotController.createShot({
               userId: this.tempCompetition.userId,
               matchId: this.tempMatch._id,
               xValue: true,
               score: '10',
               dateOf: 'March 29th'
-            })
+            });
             shotController.createShot({
               userId: this.tempCompetition.userId,
               matchId: this.tempMatch._id,
               xValue: true,
               score: '10',
               dateOf: 'March 29th'
-            })
+            });
             done();
           })
           .catch(done);
@@ -214,6 +214,6 @@ describe('testing the ScoreCard route', function(){ //setting up our server
         expect(res.status).to.equal(404);
         done();
       });
-    })
+    });
   });
 });
