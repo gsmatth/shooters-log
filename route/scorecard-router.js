@@ -14,7 +14,6 @@ const scorecardRouter = module.exports = new Router();
 
 const ScoreCard = new Object();
 
-
 scorecardRouter.get('/scorecard/:competitionId', parseBearerAuth, function(req, res, next){
   debug('entered scorecardRouter.get route');
   competitionController.getCompetition(req.params.competitionId)
