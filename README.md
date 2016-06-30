@@ -28,7 +28,7 @@ Middleware:
   * An auth middleware module leverages both the bcrypt and node.crypto modules to provide user sign-up and user sign-in functionality.  
   * Mongoose npm module is used for interaction with the Mongo database  
 
-![architecture](https://cloud.githubusercontent.com/assets/13153982/16399274/de6f96c6-3c85-11e6-878b-bfafd9cb2fc3.png)
+![architecture2](https://cloud.githubusercontent.com/assets/13153982/16473542/e395e3dc-3e22-11e6-9c3b-a636606a7642.png)
 
 View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the nmp package parse-body. For details about the input and output of routes, see the Routes section below.
 
@@ -45,7 +45,7 @@ Model:  Individual resources (user, match...) have dedicated model files. These 
 ****
 
 #Schema
-![MVP Schema](https://cloud.githubusercontent.com/assets/13153982/16252177/de6d96ae-37e0-11e6-9e36-b8bf3b28e334.png)
+![schema3](https://cloud.githubusercontent.com/assets/13153982/16475733/c3745f12-3e35-11e6-878d-32a3095fb271.png)
 * Schema for mvp.  We need to add some more text explaining the schema to those who may be interested in out API
 
 *****
