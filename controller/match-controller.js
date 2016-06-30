@@ -85,7 +85,6 @@ exports.getAllShotsByMatchId = function(matchId){
   return new Promise((resolve, reject) => {
     Match.findOne({_id: matchId})
     .then(match => {
-      console.log('MATCH YA FUCK', match);
       if(!match) {
         return reject(httpErrors(404, 'not found'));
       }
@@ -93,7 +92,6 @@ exports.getAllShotsByMatchId = function(matchId){
     })
     .then(matchId => Shot.find({matchId}))
     .then(shot => {
-      console.log('ALL SHOTS FROM A MATCH', shot);
       resolve(shot);
     }).catch(reject);
   });
