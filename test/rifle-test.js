@@ -9,12 +9,11 @@ const request = require('superagent-use');
 const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter: match test');
 
-//const User = require('../model/user-model');
+// application modules
 const userController = require('../controller/auth-controller');
 const rifleController = require('../controller/rifle-controller');
 const compController = require('../controller/competition-controller');
 const matchController = require('../controller/match-controller');
-// const shotController = require('../controller/shot-controller');
 
 const port = process.env.PORT || 3000;
 
@@ -112,6 +111,47 @@ describe('testing our rifle model', function() {
         done();
       }).catch(done);
     });
+
+    it('should return a 400 with a bad request', (done) => {
+      debug('post-400-test');
+      request.post(`${baseUrl}/user/${user._id}/rifle`)
+      .send({})
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(400);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    it('should return a 401 when Unauthorized', (done) => {
+      debug('post-401-test');
+      request.post(`${baseUrl}/user/${user._id}/rifle`)
+      .send({
+        rifleName: 'Debra',
+        rifleAction: 'Remington',
+        rifleCategory: 'FTR',
+        matchId: match._id,
+        competitionId: competition._id,
+        userId: user._id,
+        barrelId: barrel._id
+      }).set({})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(401);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
   });
 
   describe('testing the rifle GET route', function() {
@@ -158,6 +198,38 @@ describe('testing our rifle model', function() {
         done();
       }).catch(done);
     });
+
+    it('should return a 404 with invalid id', (done) => {
+      debug('get-404-test');
+      request.get(`${baseUrl}/user/${user._id}/rifle/198723649172364`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    it('should return a 401 when Unauthorized', (done) => {
+      debug('get-401-test');
+      request.get(`${baseUrl}/user/${user._id}/rifle/${this.tempRifle._id}`)
+      .set({})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(401);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
   });
 
   describe('testing the rifle DELETE route', function() {
@@ -201,6 +273,38 @@ describe('testing our rifle model', function() {
         expect(res.body._id).to.equal(undefined);
         done();
       }).catch(done);
+    });
+
+    it('should return a 404 with invalid id', (done) => {
+      debug('delete-404-test');
+      request.del(`${baseUrl}/user/${user._id}/rifle/7234987234`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    it('should return a 401 when unauthorized', (done) => {
+      debug('delete-401-test');
+      request.del(`${baseUrl}/user/${user._id}.rifle/${this.tempRifle._id}`)
+      .set({})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
     });
   });
 
@@ -249,6 +353,60 @@ describe('testing our rifle model', function() {
         expect(res.body.rifleAction).to.equal('Defiance');
         done();
       }).catch(done);
+    });
+
+    it('should return a 404 with invalid id', (done) => {
+      debug('put-404-test');
+      request.put(`${baseUrl}/user/${user._id}/rifle/12313134324`)
+      .send({
+        rifleName: 'test rifle',
+        rifleAction: 'test category'
+      }).set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    it('should return a 400 with a bad request', (done) => {
+      debug('put-400-test');
+      request.put(`${baseUrl}/user/${user._id}/rifle/${this.tempRifle._id}`)
+      .send({})
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(400);
+          done();
+        } catch (err) {
+          done(err);
+        }
+      });
+    });
+
+    it('should return a 401 when unauthorized', (done) => {
+      debug('put-401-test');
+      request.put(`${baseUrl}/user/${user._id}/rifle/${this.tempRifle._id}`)
+      .send({
+        rifleName: 'I changed my rifle Name!'
+      }).set({})
+      .then(done)
+      .catch((err) => {
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(401);
+          done();
+        } catch (err) {
+          done (err);
+        }
+      });
     });
   });
 });
