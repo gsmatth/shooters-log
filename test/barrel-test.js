@@ -128,6 +128,33 @@ describe('Testing barrel route, ', () =>  {
         done();
       }).catch(done);
     });
+    it('should return a status code of 404', done => {
+      request.post(`${baseUrl}/user/123456/barrel`)
+      .send({
+        barrelName: 'mid-range F-TR',
+        barrelManufacturer: 'Kreiger'})
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch(err => {
+        const res = err.response;
+        expect(res.status).to.equal(400);
+        done();
+      });
+      done();
+    });
+    it('should return a status code of 400', done => {
+      request.post(`${baseUrl}/${user._id}/123456/barrel`)
+      .send('')
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch(err => {
+        const res = err.response;
+        expect(res.status).to.equal(400);
+        done();
+      });
+      done();
+    });
+
   });
 
 
@@ -306,6 +333,32 @@ describe('Testing barrel route, ', () =>  {
         expect(res.body.rifleId).to.equal('576c4f19965f8a8a0ab83402');
         done();
       }).catch(done);
+    });
+    it('should return a status code of 404', done => {
+      request.put(`${baseUrl}/user/${user._id}/barrel/123456`)
+      .send({
+        barrelName: 'mid-range F-TR',
+        barrelManufacturer: 'Kreiger'})
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch(err => {
+        const res = err.response;
+        expect(res.status).to.equal(404);
+        done();
+      });
+      done();
+    });
+    it('should return a status code of 400', done => {
+      request.put(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
+      .send('')
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(done)
+      .catch(err => {
+        const res = err.response;
+        expect(res.status).to.equal(400);
+        done();
+      });
+      done();
     });
   });
 
