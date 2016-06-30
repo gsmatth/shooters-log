@@ -9,16 +9,11 @@ const request = require('superagent-use');
 const superPromise = require('superagent-promise-plugin');
 const debug = require('debug')('shooter: barrel-test');
 
-// const Barrel = require('../model/barrel-model');
 const barrelController = require('../controller/barrel-controller');
 const userController = require('../controller/auth-controller');
-// const compController = require('../controller/competition-controller');
-// const matchController = require('../controller/match-controller');
-// const rifleController = require('../controller/rifle-controller');
-// const shotController = require('../controller/shot-controller');
+
 
 const port = process.env.PORT || 3000;
-
 const baseUrl = `http://localhost:${port}/api`;
 const server = require('../server');
 request.use(superPromise);
@@ -91,7 +86,6 @@ describe('Testing barrel route, ', () =>  {
   describe('POST barrel with userId.  ', () => {
     before((done) => {
       debug('barrel-post-test-before-block');
-    // var user = new User({username: 'McTest', password: 'pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
         this.tempToken = token;
@@ -103,7 +97,8 @@ describe('Testing barrel route, ', () =>  {
     after((done) => {
       debug('barrel-post-test-after-block');
       Promise.all([
-        userController.removeAllUsers()
+        userController.removeAllUsers(),
+        barrelController.removeAllBarrels()
       ])
       .then(() => done())
       .catch(done);
@@ -143,7 +138,6 @@ describe('Testing barrel route, ', () =>  {
   describe('GET barrel with barrelId. ', () => {
     before((done) => {
       debug('barrel-post-test-before-block');
-    // var user = new User({username: 'McTest', password: 'pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
         this.tempToken = token;
@@ -173,7 +167,8 @@ describe('Testing barrel route, ', () =>  {
     after((done) => {
       debug('barrel-get-test-after-block');
       Promise.all([
-        userController.removeAllUsers()
+        userController.removeAllUsers(),
+        barrelController.removeAllBarrels()
       ])
       .then(() => done())
       .catch(done);
@@ -181,7 +176,6 @@ describe('Testing barrel route, ', () =>  {
 
     it('should return a barrel response', (done) => {
       debug('barrel-get-test-it-block');
-      console.log('\nthis.tempbarrel\n', this.tempBarrel._id);
       request.get(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
@@ -200,7 +194,6 @@ describe('Testing barrel route, ', () =>  {
   describe('DELETE barrel with barrelId. ', () => {
     before((done) => {
       debug('barrel-delete-test-before-block');
-    // var user = new User({username: 'McTest', password: 'pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
         this.tempToken = token;
@@ -230,7 +223,8 @@ describe('Testing barrel route, ', () =>  {
     after((done) => {
       debug('barrel-get-test-after-block');
       Promise.all([
-        userController.removeAllUsers()
+        userController.removeAllUsers(),
+        barrelController.removeAllBarrels()
       ])
       .then(() => done())
       .catch(done);
@@ -238,7 +232,6 @@ describe('Testing barrel route, ', () =>  {
 
     it('should return a status of 204', (done) => {
       debug('barrel-delete-test-it-block');
-      console.log('\nthis.tempbarrel\n', this.tempBarrel._id);
       request.del(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
@@ -253,7 +246,6 @@ describe('Testing barrel route, ', () =>  {
   describe('PUT barrel with userId.  ', () => {
     before((done) => {
       debug('barrel-delete-test-before-block');
-    // var user = new User({username: 'McTest', password: 'pass'});
       userController.newUser({username: user.username, password: user.password})
       .then( token => {
         this.tempToken = token;
@@ -283,14 +275,14 @@ describe('Testing barrel route, ', () =>  {
     after((done) => {
       debug('barrel-put-test-after-block');
       Promise.all([
-        userController.removeAllUsers()
+        userController.removeAllUsers(),
+        barrelController.removeAllBarrels()
       ])
       .then(() => done())
       .catch(done);
     });
 
     it('should return an updated barrel', (done) => {
-      console.log('\n\nthis.tempbarrel._id added to reqparams of put request\n\n', this.tempBarrel._id);
       request.put(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
       .send({
         barrelName: 'CMP Palma',

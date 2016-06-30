@@ -56,3 +56,7 @@ exports.updateBarrel = function(barrelId, barrelData){
     .catch(err => reject(httpErrors(404, err.message)));
   });
 };
+
+exports.removeAllBarrels = function(){
+  return Barrel.remove({});
+};

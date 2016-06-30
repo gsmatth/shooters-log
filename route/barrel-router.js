@@ -4,12 +4,10 @@
 const Router = require('express').Router;
 const debug = require('debug')('shooter:barrel-router');
 const jsonParser = require('body-parser').json();
-const httpErrors = require('http-errors');
+// const httpErrors = require('http-errors');
 const parseBearerAuth = require('../lib/parse-bearer-auth');
 const barrelController = require('../controller/barrel-controller');
 const barrelRouter = module.exports = new Router();
-
-
 
 
 barrelRouter.get('/user/:userid/barrel/:barrelid', parseBearerAuth, jsonParser, function(req, res, next){
