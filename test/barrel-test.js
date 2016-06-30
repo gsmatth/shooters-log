@@ -66,10 +66,6 @@ describe('Testing barrel route, ', () =>  {
     _id: '576c4f19965f8a8a0ab5397f'
   };
 
-  var shot = {
-    _id: '576c4f19965f8a8a0ab3d367'
-  };
-
   var rifle = {
     _id: '576c4f19965f8a8a0ab83402',
     rifleName: 'Ol Betsy',
