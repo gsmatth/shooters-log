@@ -147,7 +147,7 @@ describe('testing our rifle model', function() {
     });
 
     it('should return a rifle', (done) => {
-      debug('get-test');
+      debug('get-rifle-test');
       request.get(`${baseUrl}/user/${user._id}/rifle/${this.tempRifle._id}`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
@@ -155,6 +155,98 @@ describe('testing our rifle model', function() {
         expect(res.body.rifleName).to.equal('Shooter McGavin');
         expect(res.body.rifleAction).to.equal('Remington');
         expect(res.body.rifleCategory).to.equal('sling');
+        done();
+      }).catch(done);
+    });
+  });
+
+  describe('testing the rifle DELETE route', function() {
+    before((done) => {
+      debug('rifle-delete-test-before-block');
+      userController.newUser({username: user.username, password: user.password})
+      .then(token => {
+        this.tempToken = token;
+        rifleController.createRifle({
+          rifleName: 'Bang Bang',
+          rifleAction: 'Defiance',
+          rifleCategory: 'FTR',
+          matchId: match._id,
+          competitionId: competition._id,
+          userId: user._id,
+          barrelId: barrel._id
+        }).then(rifle => {
+          this.tempRifle = rifle;
+          done();
+        }).catch(done);
+      }).catch(done);
+    });
+
+    after((done) => {
+      debug('rifle-get-test-after-block');
+      Promise.all([
+        compController.removeAllCompetition(),
+        rifleController.removeAllRifles(),
+        matchController.removeAllMatches(),
+        userController.removeAllUsers()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should delete a rifle', (done) => {
+      debug('delete-rifle-test');
+      request.del(`${baseUrl}/user/${user._id}/rifle/${this.tempRifle._id}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(204);
+        expect(res.body._id).to.equal(undefined);
+        done();
+      }).catch(done);
+    });
+  });
+
+  describe('testing the PUT route', function() {
+    before((done) => {
+      debug('rifle-delete-test-before-block');
+      userController.newUser({username: user.username, password: user.password})
+      .then(token => {
+        this.tempToken = token;
+        rifleController.createRifle({
+          rifleName: 'Shooty Shooty McBang',
+          rifleAction: 'Remington',
+          rifleCategory: 'sling',
+          matchId: match._id,
+          competitionId: competition._id,
+          userId: user._id,
+          barrelId: barrel._id
+        }).then(rifle => {
+          this.tempRifle = rifle;
+          done();
+        }).catch(done);
+      }).catch(done);
+    });
+
+    after((done) => {
+      debug('rifle-get-test-after-block');
+      Promise.all([
+        compController.removeAllCompetition(),
+        rifleController.removeAllRifles(),
+        matchController.removeAllMatches(),
+        userController.removeAllUsers()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should update a rifle', (done) => {
+      debug('put-rifle-test');
+      request.put(`${baseUrl}/user/${user._id}/rifle/${this.tempRifle._id}`)
+      .send({
+        rifleName: 'Pew Pew McAccuracy',
+        rifleAction: 'Defiance'
+      }).set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.body.rifleName).to.equal('Pew Pew McAccuracy');
+        expect(res.body.rifleAction).to.equal('Defiance');
         done();
       }).catch(done);
     });
