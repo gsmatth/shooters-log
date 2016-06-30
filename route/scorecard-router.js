@@ -6,7 +6,7 @@ const debug = require('debug')('shooter:userRouter');
 // const authController = require('../controller/auth-controller');
 const parseBearerAuth = require('../lib/parse-bearer-auth');
 const competitionController = require('../controller/competition-controller');
-// const matchController = require('../controller/match-controller');
+const matchController = require('../controller/match-controller');
 // const shotController = require('../controller/shot-controller');
 // const httpErrors = require('http-errors');
 
@@ -24,6 +24,13 @@ scorecardRouter.get('/scorecard/:competitionId', parseBearerAuth, function(req, 
   })
   .then( matches => {
     ScoreCard.matches = matches;
+    for (var i = 0; i < ScoreCard.matches.length; i++){
+      matchController.getAllShotsByMatchId(ScoreCard.matches[i]._id)
+      .then(shots => {
+        ScoreCard.shot = shots;
+      });
+      console.log(ScoreCard);
+    }
     res.json(ScoreCard);
   }).catch(next);
 });
