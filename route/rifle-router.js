@@ -29,6 +29,15 @@ rifleRouter.get('/user/:userid/rifle/:rifleid', parseBearerAuth, jsonParser, fun
   .catch(next);
 });
 
+rifleRouter.put('/user/:userid/rifle/:rifleid', parseBearerAuth, jsonParser, function(req, res, next) {
+  debug('rifle-put-route');
+  req.body.userid = req.params.userid;
+  req.body.rifleid = req.params.rifleid;
+  rifleController.updateRifle(req.params.rifleid, req.body)
+  .then(rifle => res.json(rifle))
+  .catch(next);
+});
+
 rifleRouter.delete('/user/:userid/rifle/:rifleid', parseBearerAuth, jsonParser, function(req, res, next) {
   debug('rifle-delete-route');
   req.body.userid = req.params.userid;

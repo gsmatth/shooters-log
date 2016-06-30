@@ -203,4 +203,52 @@ describe('testing our rifle model', function() {
       }).catch(done);
     });
   });
+
+  describe('testing the PUT route', function() {
+    before((done) => {
+      debug('rifle-delete-test-before-block');
+      userController.newUser({username: user.username, password: user.password})
+      .then(token => {
+        this.tempToken = token;
+        rifleController.createRifle({
+          rifleName: 'Shooty Shooty McBang',
+          rifleAction: 'Remington',
+          rifleCategory: 'sling',
+          matchId: match._id,
+          competitionId: competition._id,
+          userId: user._id,
+          barrelId: barrel._id
+        }).then(rifle => {
+          this.tempRifle = rifle;
+          done();
+        }).catch(done);
+      }).catch(done);
+    });
+
+    after((done) => {
+      debug('rifle-get-test-after-block');
+      Promise.all([
+        compController.removeAllCompetition(),
+        rifleController.removeAllRifles(),
+        matchController.removeAllMatches(),
+        userController.removeAllUsers()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should update a rifle', (done) => {
+      debug('put-rifle-test');
+      request.put(`${baseUrl}/user/${user._id}/rifle/${this.tempRifle._id}`)
+      .send({
+        rifleName: 'Pew Pew McAccuracy',
+        rifleAction: 'Defiance'
+      }).set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.body.rifleName).to.equal('Pew Pew McAccuracy');
+        expect(res.body.rifleAction).to.equal('Defiance');
+        done();
+      }).catch(done);
+    });
+  });
 });
