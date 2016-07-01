@@ -128,7 +128,7 @@ describe('Testing barrel route, ', () =>  {
         done();
       }).catch(done);
     });
-    it('should return a status code of 401', done => {
+    it('should return a status code of 401', (done) => {
       request.post(`${baseUrl}/user/123456/barrel`)
       .send({
         barrelName: 'mid-range F-TR',
@@ -142,7 +142,7 @@ describe('Testing barrel route, ', () =>  {
       });
       done();
     });
-    it('should return a status code of 400', done => {
+    it('should return a status code of 400', (done) => {
       request.post(`${baseUrl}/user/${user._id}/barrel`)
       .send({})
       .set({Authorization: `Bearer ${this.tempToken}`})
@@ -333,7 +333,7 @@ describe('Testing barrel route, ', () =>  {
       }).catch(done);
     });
 
-    it('should return a status code of 404', done => {
+    it('should return a status code of 404', (done) => {
       request.put(`${baseUrl}/user/${user._id}/barrel/1234`)
       .send({
         barrelName: 'mid-range F-TR',
@@ -347,7 +347,7 @@ describe('Testing barrel route, ', () =>  {
       });
     });
 
-    it('should return a status code of 400', done => {
+    it('should return a status code of 400', (done) => {
       request.put(`${baseUrl}/user/${user._id}/barrel/${this.tempBarrel._id}`)
       .send('')
       .set({Authorization: `Bearer ${this.tempToken}`})
