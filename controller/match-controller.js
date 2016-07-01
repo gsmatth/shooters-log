@@ -100,7 +100,6 @@ exports.getAllShotsByMatchId = function(matchId){
 exports.removeMatch = function(id){
   debug('matchController: removeMatch');
   return new Promise((resolve, reject) => {
-    console.log('DELETE ONE MATCH id =', id);
     Match.findOne({_id: id})
     .then(match => {
       if(!match) {

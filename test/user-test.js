@@ -51,7 +51,6 @@ describe('testing user router', function(){
       authController.newUser({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master'})
       .then( token => {
         this.tempToken = token;
-        console.log('temp token', this.tempToken);
         done();
       })
       .catch(done);

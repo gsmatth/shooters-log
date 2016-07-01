@@ -1,6 +1,5 @@
 'use strict';
 
-// const debug = require('debug')('shooter:competition-model');
 const mongoose = require('mongoose');
 
 const competitionSchema = mongoose.Schema({

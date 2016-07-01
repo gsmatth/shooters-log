@@ -4,8 +4,8 @@
 #Shooters-Log RESTful API  
 
 #Overview
-* This RESTful API provides the necessary back-end infrastructure and functionality to create, read, update and delete data related to shooting matches.  
-* Currently, data for shooting matches is manually recorded after each shot during an  event.  The score is typically recorded using a pencil and a paper document like the scorecard below.    
+* This RESTful API provides the necessary back-end infrastructure and functionality to create, read, update and delete data related to competitive shooting matches.  
+* Currently, data for shooting matches is manually recorded after each shot during an event.  The score is typically recorded using a pencil and a paper document like the scorecard below.    
 
   ![matchscore450x348](https://cloud.githubusercontent.com/assets/13153982/16502309/9e0302e6-3ec2-11e6-9429-a778105f1635.png)
 
@@ -24,7 +24,7 @@
 ****
 #Current Version (0.7.0)
 * The current version of this program is designed to collect, store, and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.  
-* This API was designed to be extensible so that multiple shooting match types can be supported in the future.  
+* This API was designed to be extendable so that multiple shooting match types can be supported in the future.  
 
 ****
 #Future Releases
