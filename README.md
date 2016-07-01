@@ -102,7 +102,6 @@ Example response:
   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImFkMzY0MzZlNzNiMmI1MmNiYmNjZTQ2MWY5YTk1OGIwODYxZTZmYjIyMmUzMWU2MDNiNWJjNzQzMDBlYjA1NTEiLCJpYXQiOjE0NjY5NjY2NzR9.2xOVdorLQP-LtnmYCaRTX2V8enOTX-p3SJNF_8Gyoew`
   ```
 
-
 ###GET api/signin
 
 Example: shooters-log-staging.herokuapp.com/api/signin
@@ -118,6 +117,88 @@ Example response:
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImE0N2Y4NjQ5MzY5ZGI3YjVhYjQxOWE3OWI2OTVmYzZiYzUwYjBkZWFlZTUzOTAzYTliZDFiYTM5ZjU4NDkyZTAiLCJpYXQiOjE0NjY5NjMzMDZ9.1jA6zUfTW8m19AUEPn0TburTTiJARUzuMh93Ver4Bq8
 ```
+
+###POST api/scorecard/:competitionID
+Example:https://shooters-log-staging.herokuapp.com/api/scorecard/5775cdcd8023621100ee87f6
+
+Required Data:
+* None
+
+This route will return a scorecard that contains a competition, the matches associated with that competition, and the shots for each match.
+
+* Required data: competitionId
+
+* Authorization
+  * needs to be done in the following way: `Bearer <response token from signin>`
+
+A scorecard object will be returned.  The object will contain a competition object, an array of "matches" containing match objects with the specific competitionId, and an array of of shots arrays, containing individual shot data objects.
+
+Example response:
+  ```
+  {
+    "competition": {
+      "_id": "5775cdcd8023621100ee87f6",
+      "location": "Rio Salado",
+      "action": "BAT",
+      "caliber": 308,
+      "userId": "5775cd1b8023621100ee87f5",
+      "__v": 0
+    },
+    "matches": [
+      {
+        "_id": "5775ce208023621100ee87f7",
+        "matchNumber": 2,
+        "targetNumber": 6,
+        "distanceToTarget": 500,
+        "relay": 1,
+        "userId": "5775a9aa3f776111007d6b40",
+        "competitionId": "5775cdcd8023621100ee87f6",
+        "__v": 0
+      },
+      {
+        "_id": "5775ce5c8023621100ee87f8",
+        "matchNumber": 1,
+        "targetNumber": 6,
+        "distanceToTarget": 500,
+        "relay": 1,
+        "userId": "5775a9aa3f776111007d6b40",
+        "competitionId": "5775cdcd8023621100ee87f6",
+        "__v": 0
+      },
+      {
+        "_id": "5775ce7c8023621100ee87f9",
+        "matchNumber": 3,
+        "targetNumber": 6,
+        "distanceToTarget": 500,
+        "relay": 1,
+        "userId": "5775a9aa3f776111007d6b40",
+        "competitionId": "5775cdcd8023621100ee87f6",
+        "__v": 0
+      }
+    ],
+    "shots": [
+      [],
+      [],
+      [
+        {
+          "_id": "5775cf858023621100ee87fa",
+          "userId": "5775cd1b8023621100ee87f5",
+          "matchId": "5775ce7c8023621100ee87f9",
+          "xValue": false,
+          "score": "3",
+          "__v": 0
+        },
+        {
+          "_id": "5775cfa48023621100ee87fb",
+          "userId": "5775cd1b8023621100ee87f5",
+          "matchId": "5775ce7c8023621100ee87f9",
+          "xValue": false,
+          "score": "3",
+          "__v": 0
+        },
+
+  ```
+
 
 ###POST api/competition
 
