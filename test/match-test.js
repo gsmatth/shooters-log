@@ -229,7 +229,6 @@ describe('testing the match route', function(){ //setting up our server
         })
         .then(competition => {
           this.tempCompetition = competition;
-          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
@@ -245,7 +244,6 @@ describe('testing the match route', function(){ //setting up our server
             weather: 'Seattle Sunshine'
           })
           .then(match => {
-            console.log('THIS! Match', match);
             this.tempMatch = match;
             done();
           })
