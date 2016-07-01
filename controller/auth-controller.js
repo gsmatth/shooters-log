@@ -24,7 +24,6 @@ exports.newUser = function(reqBody){
 
 exports.updateUser = function(userId, reqBody){
   debug('authController:updateUser');
-  console.log('updateUser passed:', userId, reqBody);
   return new Promise((resolve, reject) => {
     if(!userId)
       return reject(httpErrors(400, 'missing username'));
@@ -65,7 +64,6 @@ exports.removeAllUsers = function(){
 
 exports.signIn = function(auth) {
   debug('authController:signIn');
-  console.log('auth: ', auth);
   return new Promise((resolve, reject) => {
     if(!auth.username || !auth.password)
       return reject(httpErrors(400, 'missing username or password'));

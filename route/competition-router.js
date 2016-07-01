@@ -4,7 +4,6 @@ const Router = require('express').Router;
 const debug = require('debug')('shooter:competition-router');
 const competitionController = require('../controller/competition-controller');
 const parseBearerAuth = require('../lib/parse-bearer-auth');
-//do we need to authenticate token for each route?
 const competitionRouter = module.exports = new Router();
 const jsonParser = require('body-parser').json();
 const httpErrors = require('http-errors');
