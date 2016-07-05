@@ -53,7 +53,7 @@ Middleware:
   * An auth middleware module leverages two npm modules (bcrypt, jsonwebtoken) and the node.crypto module to provide user sign-up and user sign-in functionality as well as session authentication/authorization.  
   * Mongoose npm module is used for interaction with the mongo database  
 
-![architecture4](https://cloud.githubusercontent.com/assets/13153982/16572219/1b7cfcf8-421b-11e6-9455-d765a9cad764.png)
+![architecture5](https://cloud.githubusercontent.com/assets/13153982/16576405/e330cb62-4243-11e6-947d-6c44c2d131e3.png)
 
 View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the npm package parse-body. For details about the input and output of routes, see the Routes section below.
 
