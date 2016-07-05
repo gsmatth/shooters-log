@@ -23,7 +23,7 @@
 
 ****
 #Current Version (0.7.0)
-* The current version of this program is designed to collect, store, and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.  
+* The current version of this program is designed to create, read, update,  delete and return data that used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.  
 * This API was designed to be extensible, so that multiple match types can be supported in the future.  
 
 ****
@@ -121,14 +121,14 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImE0N2Y4NjQ5MzY5ZGI3YjVhYjQxOWE
 Example:https://shooters-log-staging.herokuapp.com/api/scorecard/5775cdcd8023621100ee87f6
 
 Required Data:
-* CompetitionId
+* CompetitionId parameter
 
 This route will return a scorecard that contains a competition, the matches associated with that competition, and the shots for each of the matches.
 
 * Authorization Header
   * `Bearer <response token from signin>`
 
-A scorecard will be returned in JSON format.  The object will contain a competition object, an array of "matches" containing match objects with a shared  competitionId, and an array of shots arrays.  Each shot array will contain individual shot data objects.
+A scorecard will be returned in JSON format once a user's token is verified.  The scorecard will contain a competition object, an array of "matches" containing match objects with a shared  competitionId, and an array of shots arrays.  Each shot array will contain individual shot data objects.
 
 Example response:
   ```
