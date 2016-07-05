@@ -24,7 +24,7 @@
 ****
 #Current Version (0.7.0)
 * The current version of this program is designed to create, read, update,  delete and return data that used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.  
-* This API was designed to be extensible, so that multiple match types can be supported in the future.  
+* This API was designed to be extensible, so that multiple match types and scorecards/data-books can be supported in the future.
 
 ****
 #Future Releases
@@ -51,7 +51,7 @@ Middleware:
   * The express router middleware provides the base routing capability.  
   * A custom handle-errors module implements and extends the http-errors npm middleware package.  
   * An auth middleware module leverages two npm modules (bcrypt, jsonwebtoken) and the node.crypto module to provide user sign-up and user sign-in functionality as well as session authentication/authorization.  
-  * Mongoose npm module is used for interaction with the mongo database  
+  * The mongoose npm module is used for interaction with the mongo database  
 
 ![architecture5](https://cloud.githubusercontent.com/assets/13153982/16576405/e330cb62-4243-11e6-947d-6c44c2d131e3.png)
 
@@ -193,9 +193,57 @@ Example response:
           "score": "3",
           "__v": 0
         },
-
   ```
 
+
+###GET /api/competition/:competitionId/matches
+Example:https://shooters-log-staging.herokuapp.com/api/competition/5775cdcd8023621100ee87f6/matches
+
+Required Data:
+  * CompetitionId parameter
+
+This route will return all matches that have the provided competitionId
+
+  * Authorization Header
+    * `Bearer <response token from signin>`
+
+The matches will be returned in JSON format once a user's token is verified.  The individual match objects will contain the properties of a match. All matches will have the same values for all properties with the exception of the "matchNumber" and the "_id" properties.
+
+Example response:
+  ```
+    [
+  {
+    "_id": "5775ce208023621100ee87f7",
+    "matchNumber": 2,
+    "targetNumber": 6,
+    "distanceToTarget": 500,
+    "relay": 1,
+    "userId": "5775a9aa3f776111007d6b40",
+    "competitionId": "5775cdcd8023621100ee87f6",
+    "__v": 0
+  },
+  {
+    "_id": "5775ce5c8023621100ee87f8",
+    "matchNumber": 1,
+    "targetNumber": 6,
+    "distanceToTarget": 500,
+    "relay": 1,
+    "userId": "5775a9aa3f776111007d6b40",
+    "competitionId": "5775cdcd8023621100ee87f6",
+    "__v": 0
+  },
+  {
+    "_id": "5775ce7c8023621100ee87f9",
+    "matchNumber": 3,
+    "targetNumber": 6,
+    "distanceToTarget": 500,
+    "relay": 1,
+    "userId": "5775a9aa3f776111007d6b40",
+    "competitionId": "5775cdcd8023621100ee87f6",
+    "__v": 0
+  }
+]
+  ```
 
 ###POST /api/competition
 
