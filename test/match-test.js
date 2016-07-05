@@ -312,7 +312,6 @@ describe('testing the match route', function(){ //setting up our server
         })
         .then(competition => {
           this.tempCompetition = competition;
-          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
@@ -328,7 +327,6 @@ describe('testing the match route', function(){ //setting up our server
             weather: 'Seattle Sunshine'
           })
           .then(match => {
-            console.log('THIS! Match', match);
             this.tempMatch = match;
             done();
           })
@@ -493,7 +491,6 @@ describe('testing the match route', function(){ //setting up our server
         })
         .then(competition => {
           this.tempCompetition = competition;
-          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId: this.tempCompetition.userId,
@@ -504,7 +501,6 @@ describe('testing the match route', function(){ //setting up our server
           })
           .then(match => {
             this.tempMatch = match;
-            console.log('this.tempMatch', this.tempMatch);
             shotController.createShot({
               userId:`${this.tempMatch.userId}` ,
               matchId: `${this.tempMatch._id}`,
@@ -514,7 +510,6 @@ describe('testing the match route', function(){ //setting up our server
             })
             .then(shot => {
               this.tempShot = shot;
-              console.log('THIS NEW SHOT I MADE:', this.tempShot);
               done();
             })
             .catch(done);
@@ -543,7 +538,6 @@ describe('testing the match route', function(){ //setting up our server
       request.get(`${baseUrl}/competition/${this.tempCompetition._id}/match/${this.tempShot.matchId}/shots`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
-        console.log('res.body:', res.body);
         expect(res.status).to.equal(200);
         expect(res.body[0].xValue).to.equal(true);
         done();
