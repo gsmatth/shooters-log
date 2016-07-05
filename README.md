@@ -117,7 +117,7 @@ Example response:
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImE0N2Y4NjQ5MzY5ZGI3YjVhYjQxOWE3OWI2OTVmYzZiYzUwYjBkZWFlZTUzOTAzYTliZDFiYTM5ZjU4NDkyZTAiLCJpYXQiOjE0NjY5NjMzMDZ9.1jA6zUfTW8m19AUEPn0TburTTiJARUzuMh93Ver4Bq8
 ```
 
-###POST /api/scorecard/:competitionID
+###GET /api/scorecard/:competitionID
 Example:https://shooters-log-staging.herokuapp.com/api/scorecard/5775cdcd8023621100ee87f6
 
 Required Data:
