@@ -7,7 +7,7 @@
 * This RESTful API provides the necessary back-end infrastructure and functionality to create, read, update and delete data related to competitive shooting matches.  
 * Currently, data for shooting matches is manually recorded after each shot during an event.  The score is typically recorded using a pencil and a paper document like the scorecard below.    
 
-  ![matchscore450x348](https://cloud.githubusercontent.com/assets/13153982/16502309/9e0302e6-3ec2-11e6-9429-a778105f1635.png)
+  ![scorecard750x580](https://cloud.githubusercontent.com/assets/13153982/16515546/69d733b0-3f27-11e6-9653-1148ff7f485a.png)
 
 
 * After a match is completed, the recorded data is then manually transferred to other documents for later retrieval and analysis. This is a burdensome process that can be greatly reduced or eliminated through the adoption of automation.  Examples of other documents that are manually updated include the following:  
@@ -16,7 +16,7 @@
   - Round Count Book.  This book lists the number of rounds that have been fired through a specific barrel as well as a reference to the load for those rounds.  The load book provides the shooter with a means to track the life of a barrel. Once a barrel has exceeded its life, the barrel is less accurate and needs to be replaced.  
   - Detailed Data Card (image below). This is a more detailed version of the scorecard.  It includes called shot score values as well as clock values for both the actual and called shots.  It also contains  data related to the shooters rifle, ammunition, and match environment( barometric pressure, temperature, light direction, wind direction..)  
 
-      ![small-data-sheet](https://cloud.githubusercontent.com/assets/13153982/16487287/b43dee84-3e7e-11e6-9dc6-3c34234b4a6f.png)
+      ![plotsheet750x451](https://cloud.githubusercontent.com/assets/13153982/16572213/f8172d6a-421a-11e6-9458-cae56012a6f3.png)
 
 *   This API provides a means to reduce the redundancy  for the shooter and the range master.  It provides an infrastructure and data persistence that can be easily consumed by applications (both client and web based) using the reliable and proven standards of a RESTful API. By providing this API and supporting infrastructure, we are encouraging developers to create applications that can provide value to the shooting community and a source of income for themselves.
 
@@ -53,7 +53,7 @@ Middleware:
   * An auth middleware module leverages two npm modules (bcrypt, jsonwebtoken) and the node.crypto module to provide user sign-up and user sign-in functionality as well as session authentication/authorization.  
   * Mongoose npm module is used for interaction with the Mongo database  
 
-![architecture3](https://cloud.githubusercontent.com/assets/13153982/16500548/f306a3e6-3eb9-11e6-95c1-ad9984ddfbef.png)
+![architecture4](https://cloud.githubusercontent.com/assets/13153982/16572219/1b7cfcf8-421b-11e6-9455-d765a9cad764.png)
 
 View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the nmp package parse-body. For details about the input and output of routes, see the Routes section below.
 
@@ -74,19 +74,19 @@ Model:  Individual resources (user, match...) have dedicated model files. These 
 
 #Schema
 ###MVP Schema Diagram  
-![mvp-schema](https://cloud.githubusercontent.com/assets/13153982/16500144/3bb137e8-3eb8-11e6-8392-ca5b0efbe525.png)
+![mvp-schema-final](https://cloud.githubusercontent.com/assets/13153982/16572236/4cdf438c-421b-11e6-8e0b-047f91e1b9d1.png)
 
 
 ******
 
 ###Currently Deployed Schema Diagram
 
-![schema4](https://cloud.githubusercontent.com/assets/13153982/16500771/f069d170-3eba-11e6-8855-a05efdf34c47.png)
+![schema5](https://cloud.githubusercontent.com/assets/13153982/16572261/a1531c7c-421b-11e6-9016-8f9aba4abc42.png)
 
 
 *****
 #Routes
-###POST api/signup
+###POST /api/signup
 Example: shooters-log-staging.heroapp.com/signup
 
 Required Data:
@@ -102,7 +102,7 @@ Example response:
   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImFkMzY0MzZlNzNiMmI1MmNiYmNjZTQ2MWY5YTk1OGIwODYxZTZmYjIyMmUzMWU2MDNiNWJjNzQzMDBlYjA1NTEiLCJpYXQiOjE0NjY5NjY2NzR9.2xOVdorLQP-LtnmYCaRTX2V8enOTX-p3SJNF_8Gyoew`
   ```
 
-###GET api/signin
+###GET /api/signin
 
 Example: shooters-log-staging.herokuapp.com/api/signin
 
@@ -118,7 +118,7 @@ Example response:
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImE0N2Y4NjQ5MzY5ZGI3YjVhYjQxOWE3OWI2OTVmYzZiYzUwYjBkZWFlZTUzOTAzYTliZDFiYTM5ZjU4NDkyZTAiLCJpYXQiOjE0NjY5NjMzMDZ9.1jA6zUfTW8m19AUEPn0TburTTiJARUzuMh93Ver4Bq8
 ```
 
-###POST api/scorecard/:competitionID
+###POST /api/scorecard/:competitionID
 Example:https://shooters-log-staging.herokuapp.com/api/scorecard/5775cdcd8023621100ee87f6
 
 Required Data:
@@ -200,7 +200,7 @@ Example response:
   ```
 
 
-###POST api/competition
+###POST /api/competition
 
 example: shooters-log-staging.herokuapp.com/api/competition
 
@@ -230,7 +230,7 @@ Example response:
 }
 ```
 
-###GET api/competition/:competitionID
+###GET /api/competition/:competitionID
 
 Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
 
@@ -254,7 +254,7 @@ Example response:
 }
 ```
 
-###PUT api/competition/:competitionID
+###PUT /api/competition/:competitionID
 
 Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
 
@@ -279,7 +279,7 @@ Example response:
 }
 ```
 
-###Delete api/competition/:competitionID
+###Delete /api/competition/:competitionID
 
 Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
 
@@ -291,7 +291,7 @@ This route will allow you to delete specific competitions by their id.
 Example response:
 You will only receive a status code 204 when a successful deletion occurs.
 
-###POST api/competition/:competitionID/match
+###POST /api/competition/:competitionID/match
 
 Example: shooters-log-staging.herokuapp.com/api/competition/577039ec29a8f22e2e5cecb7/match
 
@@ -313,7 +313,7 @@ Example response:
 
 ###Testing Framework
 mocha test runner  
-chai (expect)
+chai (expect)  
 bluebird promise library  
 eslint  
 ###Continous Integration
