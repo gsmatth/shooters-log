@@ -24,7 +24,7 @@
 ****
 #Current Version (0.7.0)
 * The current version of this program is designed to collect, store, and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.  
-* This API was designed to be extendable so that multiple shooting match types can be supported in the future.  
+* This API was designed to be extensible, so that multiple match types can be supported in the future.  
 
 ****
 #Future Releases
@@ -51,11 +51,11 @@ Middleware:
   * The express router middleware provides the base routing capability.  
   * A custom handle-errors module implements and extends the http-errors npm middleware package.  
   * An auth middleware module leverages two npm modules (bcrypt, jsonwebtoken) and the node.crypto module to provide user sign-up and user sign-in functionality as well as session authentication/authorization.  
-  * Mongoose npm module is used for interaction with the Mongo database  
+  * Mongoose npm module is used for interaction with the mongo database  
 
 ![architecture4](https://cloud.githubusercontent.com/assets/13153982/16572219/1b7cfcf8-421b-11e6-9455-d765a9cad764.png)
 
-View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the nmp package parse-body. For details about the input and output of routes, see the Routes section below.
+View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the npm package parse-body. For details about the input and output of routes, see the Routes section below.
 
 Controller: Individual resources (user, match, load...) have dedicated controller files.  These files are the interface between the routers (view) and the model files and mongo database(model).  The controllers take in a request from a route and call the necessary functions to interact with the model.  They then return a response to the route once a request has been processed in the model:
   * model:  The controller files call the constructor methods in the "model" files to construct new resource objects in memory.
@@ -92,12 +92,12 @@ Example: shooters-log-staging.heroapp.com/signup
 Required Data:
 * Provide username and password as JSON
 
-This route will create a new user by providing a username and password in the body of the request.  Creating a new user is required to store and access data later.  This route but be completed before attempting to use the `api/signin` route.
+This route will create a new user by providing a username and password in the body of the request.  Creating a new user is required to store and access data later.  This route must be completed before attempting to use the `api/signin` route.
 
 A token will be returned that will only be used for the `api/signin` route.
 after signing-in, you will receive a new token that will be a reference for all future routes.
 
-Example response:
+Example response (token):
   ```
   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImFkMzY0MzZlNzNiMmI1MmNiYmNjZTQ2MWY5YTk1OGIwODYxZTZmYjIyMmUzMWU2MDNiNWJjNzQzMDBlYjA1NTEiLCJpYXQiOjE0NjY5NjY2NzR9.2xOVdorLQP-LtnmYCaRTX2V8enOTX-p3SJNF_8Gyoew`
   ```
@@ -106,10 +106,9 @@ Example response:
 
 Example: shooters-log-staging.herokuapp.com/api/signin
 
-Required data:
-
+Required Data:
 * Authorization header
-  * Provide username and password as JSON
+* Provide username and password as JSON
 
 This route will require an authorization header that needs to include the `username:password` of the specific user to be authenticated.  Signing in will return a brand new token that will be used for future user ID reference.
 
@@ -122,16 +121,14 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImE0N2Y4NjQ5MzY5ZGI3YjVhYjQxOWE
 Example:https://shooters-log-staging.herokuapp.com/api/scorecard/5775cdcd8023621100ee87f6
 
 Required Data:
-* None
+* CompetitionId
 
-This route will return a scorecard that contains a competition, the matches associated with that competition, and the shots for each match.
+This route will return a scorecard that contains a competition, the matches associated with that competition, and the shots for each of the matches.
 
-* Required data: competitionId
+* Authorization Header
+  * `Bearer <response token from signin>`
 
-* Authorization
-  * needs to be done in the following way: `Bearer <response token from signin>`
-
-A scorecard object will be returned.  The object will contain a competition object, an array of "matches" containing match objects with the specific competitionId, and an array of of shots arrays, containing individual shot data objects.
+A scorecard will be returned in JSON format.  The object will contain a competition object, an array of "matches" containing match objects with a shared  competitionId, and an array of shots arrays.  Each shot array will contain individual shot data objects.
 
 Example response:
   ```

@@ -1,6 +1,6 @@
 {
   "name": "shooters-log",
-  "version": "0.1.0",
+  "version": "0.7.0",
   "description": "api that accepts shooter data, stores the data persistantly, and returns data to user and match directors as well as supporting future front end use of data for graphing",
   "main": "server.js",
   "scripts": {
