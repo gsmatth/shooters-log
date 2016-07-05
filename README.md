@@ -23,8 +23,8 @@
 
 ****
 #Current Version (0.7.0)
-* The current version of this program is designed to collect, store, and return data that can be used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.  
-* This API was designed to be extendable so that multiple shooting match types can be supported in the future.  
+* The current version of this program is designed to create, read, update,  delete and return data that used to produce a scorecard for a National Rifle Association (NRA) Mid-Range High Power rifle match.  
+* This API was designed to be extensible, so that multiple match types and scorecards/data-books can be supported in the future.
 
 ****
 #Future Releases
@@ -51,11 +51,11 @@ Middleware:
   * The express router middleware provides the base routing capability.  
   * A custom handle-errors module implements and extends the http-errors npm middleware package.  
   * An auth middleware module leverages two npm modules (bcrypt, jsonwebtoken) and the node.crypto module to provide user sign-up and user sign-in functionality as well as session authentication/authorization.  
-  * Mongoose npm module is used for interaction with the Mongo database  
+  * The mongoose npm module is used for interaction with the mongo database  
 
-![architecture4](https://cloud.githubusercontent.com/assets/13153982/16572219/1b7cfcf8-421b-11e6-9455-d765a9cad764.png)
+![architecture5](https://cloud.githubusercontent.com/assets/13153982/16576405/e330cb62-4243-11e6-947d-6c44c2d131e3.png)
 
-View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the nmp package parse-body. For details about the input and output of routes, see the Routes section below.
+View:  Individual resources (user, match......) have dedicated router files located in the route folder. In addition to providing an interface to the complimentary controller files, these files also parse the json content in the incoming request (where applicable) and create and populate a req.body property using the npm package parse-body. For details about the input and output of routes, see the Routes section below.
 
 Controller: Individual resources (user, match, load...) have dedicated controller files.  These files are the interface between the routers (view) and the model files and mongo database(model).  The controllers take in a request from a route and call the necessary functions to interact with the model.  They then return a response to the route once a request has been processed in the model:
   * model:  The controller files call the constructor methods in the "model" files to construct new resource objects in memory.
@@ -92,12 +92,12 @@ Example: shooters-log-staging.heroapp.com/signup
 Required Data:
 * Provide username and password as JSON
 
-This route will create a new user by providing a username and password in the body of the request.  Creating a new user is required to store and access data later.  This route but be completed before attempting to use the `api/signin` route.
+This route will create a new user by providing a username and password in the body of the request.  Creating a new user is required to store and access data later.  This route must be completed before attempting to use the `api/signin` route.
 
 A token will be returned that will only be used for the `api/signin` route.
 after signing-in, you will receive a new token that will be a reference for all future routes.
 
-Example response:
+Example response (token):
   ```
   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImFkMzY0MzZlNzNiMmI1MmNiYmNjZTQ2MWY5YTk1OGIwODYxZTZmYjIyMmUzMWU2MDNiNWJjNzQzMDBlYjA1NTEiLCJpYXQiOjE0NjY5NjY2NzR9.2xOVdorLQP-LtnmYCaRTX2V8enOTX-p3SJNF_8Gyoew`
   ```
@@ -106,10 +106,9 @@ Example response:
 
 Example: shooters-log-staging.herokuapp.com/api/signin
 
-Required data:
-
+Required Data:
 * Authorization header
-  * Provide username and password as JSON
+* Provide username and password as JSON
 
 This route will require an authorization header that needs to include the `username:password` of the specific user to be authenticated.  Signing in will return a brand new token that will be used for future user ID reference.
 
@@ -118,20 +117,18 @@ Example response:
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6ImE0N2Y4NjQ5MzY5ZGI3YjVhYjQxOWE3OWI2OTVmYzZiYzUwYjBkZWFlZTUzOTAzYTliZDFiYTM5ZjU4NDkyZTAiLCJpYXQiOjE0NjY5NjMzMDZ9.1jA6zUfTW8m19AUEPn0TburTTiJARUzuMh93Ver4Bq8
 ```
 
-###POST /api/scorecard/:competitionID
+###GET /api/scorecard/:competitionID
 Example:https://shooters-log-staging.herokuapp.com/api/scorecard/5775cdcd8023621100ee87f6
 
 Required Data:
-* None
+* CompetitionId parameter
 
-This route will return a scorecard that contains a competition, the matches associated with that competition, and the shots for each match.
+This route will return a scorecard that contains a competition, the matches associated with that competition, and the shots for each of the matches.
 
-* Required data: competitionId
+* Authorization Header
+  * `Bearer <response token from signin>`
 
-* Authorization
-  * needs to be done in the following way: `Bearer <response token from signin>`
-
-A scorecard object will be returned.  The object will contain a competition object, an array of "matches" containing match objects with the specific competitionId, and an array of of shots arrays, containing individual shot data objects.
+A scorecard will be returned in JSON format once a user's token is verified.  The scorecard will contain a competition object, an array of "matches" containing match objects with a shared  competitionId, and an array of shots arrays.  Each shot array will contain individual shot data objects.
 
 Example response:
   ```
@@ -185,20 +182,68 @@ Example response:
           "userId": "5775cd1b8023621100ee87f5",
           "matchId": "5775ce7c8023621100ee87f9",
           "xValue": false,
-          "score": "3",
+          "score": "9",
           "__v": 0
         },
         {
           "_id": "5775cfa48023621100ee87fb",
           "userId": "5775cd1b8023621100ee87f5",
           "matchId": "5775ce7c8023621100ee87f9",
-          "xValue": false,
-          "score": "3",
+          "xValue": true,
+          "score": "10",
           "__v": 0
         },
-
   ```
 
+
+###GET /api/competition/:competitionId/matches
+Example:https://shooters-log-staging.herokuapp.com/api/competition/5775cdcd8023621100ee87f6/matches
+
+Required Data:
+  * CompetitionId parameter
+
+This route will return all matches that have the provided competitionId
+
+  * Authorization Header
+    * `Bearer <response token from signin>`
+
+An array of matches will be returned in JSON format once a user's token is verified.  The individual match objects will contain the properties of a match. All matches will have the same values for properties with the exception of the "matchNumber" and the "_id" properties.
+
+Example response:
+  ```
+    [
+  {
+    "_id": "5775ce208023621100ee87f7",
+    "matchNumber": 2,
+    "targetNumber": 6,
+    "distanceToTarget": 500,
+    "relay": 1,
+    "userId": "5775a9aa3f776111007d6b40",
+    "competitionId": "5775cdcd8023621100ee87f6",
+    "__v": 0
+  },
+  {
+    "_id": "5775ce5c8023621100ee87f8",
+    "matchNumber": 1,
+    "targetNumber": 6,
+    "distanceToTarget": 500,
+    "relay": 1,
+    "userId": "5775a9aa3f776111007d6b40",
+    "competitionId": "5775cdcd8023621100ee87f6",
+    "__v": 0
+  },
+  {
+    "_id": "5775ce7c8023621100ee87f9",
+    "matchNumber": 3,
+    "targetNumber": 6,
+    "distanceToTarget": 500,
+    "relay": 1,
+    "userId": "5775a9aa3f776111007d6b40",
+    "competitionId": "5775cdcd8023621100ee87f6",
+    "__v": 0
+  }
+]
+  ```
 
 ###POST /api/competition
 
