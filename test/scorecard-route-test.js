@@ -200,7 +200,6 @@ describe('testing the ScoreCard route', function(){ //setting up our server
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then((res) => {
         expect(res.status).to.equal(200);
-        console.log('RES>BODY', res.body);
         done();
       }).catch(done);
     });
