@@ -182,15 +182,15 @@ Example response:
           "userId": "5775cd1b8023621100ee87f5",
           "matchId": "5775ce7c8023621100ee87f9",
           "xValue": false,
-          "score": "3",
+          "score": "9",
           "__v": 0
         },
         {
           "_id": "5775cfa48023621100ee87fb",
           "userId": "5775cd1b8023621100ee87f5",
           "matchId": "5775ce7c8023621100ee87f9",
-          "xValue": false,
-          "score": "3",
+          "xValue": true,
+          "score": "10",
           "__v": 0
         },
   ```
@@ -207,7 +207,7 @@ This route will return all matches that have the provided competitionId
   * Authorization Header
     * `Bearer <response token from signin>`
 
-The matches will be returned in JSON format once a user's token is verified.  The individual match objects will contain the properties of a match. All matches will have the same values for all properties with the exception of the "matchNumber" and the "_id" properties.
+An array of matches will be returned in JSON format once a user's token is verified.  The individual match objects will contain the properties of a match. All matches will have the same values for properties with the exception of the "matchNumber" and the "_id" properties.
 
 Example response:
   ```
