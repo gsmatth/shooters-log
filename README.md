@@ -28,7 +28,7 @@
 
 ****
 #Future Releases
-* Future releases will include the following enhancements:  
+* V 1.0.0 scheduled for 08/18/2016 will include the following enhancements:  
   - store and return  detailed data cards  
   - store and return load development books  
   - store and return round count books  
@@ -74,10 +74,6 @@ Model:  Individual resources (user, match...) have dedicated model files. These 
 
 #Schema
 ###MVP Schema Diagram  
-![mvp-schema-final](https://cloud.githubusercontent.com/assets/13153982/16572236/4cdf438c-421b-11e6-8e0b-047f91e1b9d1.png)
-
-
-******
 
 ###Currently Deployed Schema Diagram
 
@@ -87,7 +83,7 @@ Model:  Individual resources (user, match...) have dedicated model files. These 
 *****
 #Routes
 ###POST /api/signup
-Example: shooters-log-staging.heroapp.com/signup
+Example: https://shooters-log-staging.heroapp.com/signup
 
 Required Data:
 * Provide username and password as JSON
@@ -104,7 +100,7 @@ Example response (token):
 
 ###GET /api/signin
 
-Example: shooters-log-staging.herokuapp.com/api/signin
+Example: https://shooters-log-staging.herokuapp.com/api/signin
 
 Required Data:
 * Authorization header
@@ -130,7 +126,7 @@ This route will return a scorecard that contains a competition, the matches asso
 
 A scorecard will be returned in JSON format once a user's token is verified.  The scorecard will contain a competition object, an array of "matches" containing match objects with a shared  competitionId, and an array of shots arrays.  Each shot array will contain individual shot data objects.
 
-Example response:
+Example response("shots" truncated for brevity):
   ```
   {
     "competition": {
@@ -247,7 +243,7 @@ Example response:
 
 ###POST /api/competition
 
-example: shooters-log-staging.herokuapp.com/api/competition
+example: https://shooters-log-staging.herokuapp.com/api/competition
 
 Required data:
 
@@ -277,7 +273,7 @@ Example response:
 
 ###GET /api/competition/:competitionID
 
-Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
+Example: https://shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
 
 * Required in the query:
   * Specific competition id which is provided when you complete a post request to `api/competition`
@@ -301,7 +297,7 @@ Example response:
 
 ###PUT /api/competition/:competitionID
 
-Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
+Example: https://shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
 
 * Required in the body:
   * location: 'new location'
@@ -326,7 +322,7 @@ Example response:
 
 ###Delete /api/competition/:competitionID
 
-Example: shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
+Example: https://shooters-log-staging.herokuapp.com/api/competition/5770307e29a8f22e2e5cecb6
 
 * Required in the query:
   * Specific competition id which is provided when you complete a post request to `api/competition`
@@ -338,7 +334,7 @@ You will only receive a status code 204 when a successful deletion occurs.
 
 ###POST /api/competition/:competitionID/match
 
-Example: shooters-log-staging.herokuapp.com/api/competition/577039ec29a8f22e2e5cecb7/match
+Example: https://shooters-log-staging.herokuapp.com/api/competition/577039ec29a8f22e2e5cecb7/match
 
 * Required in the body:
   * matchNumber: 1 - Must be a number
@@ -361,5 +357,5 @@ mocha test runner
 chai (expect)  
 bluebird promise library  
 eslint  
-###Continous Integration
+###Continuous Integration
 travis-ci is integrated into this project through the use of the included .travis.yml file.  All pull requests initiated in git will launch travis, which in turn runs the included mocha tests and the eslint tests.  Pull requests are not merged until all travis-ci tests pass.
