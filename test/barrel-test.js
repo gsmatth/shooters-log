@@ -128,7 +128,7 @@ describe('Testing barrel route, ', () =>  {
         done();
       }).catch(done);
     });
-    it('should return a status code of 401', (done) => {
+    it('should return a status code of 404', (done) => {
       request.post(`${baseUrl}/user/123456/barrel`)
       .send({
         barrelName: 'mid-range F-TR',
@@ -136,11 +136,15 @@ describe('Testing barrel route, ', () =>  {
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(done)
       .catch(err => {
-        const res = err.response;
-        expect(res.status).to.equal(401);
-        done();
+        try {
+          const res = err.response;
+          expect(res.status).to.equal(404);
+          done();
+        } catch (err) {
+          done (err);
+        }
       });
-      done();
+      //done();
     });
     it('should return a status code of 400', (done) => {
       request.post(`${baseUrl}/user/${user._id}/barrel`)
