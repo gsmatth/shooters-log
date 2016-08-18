@@ -6,6 +6,7 @@ const Shot = require('../model/shot-model');
 
 exports.createShot = function(shotData){
   debug('entered createShot function in shot-controller.js');
+  console.log('entered createShot function in shot-controller.js. the req is: ', shotData);
   return new Promise ((resolve, reject) => {
     new Shot(shotData).save()
     .then (shot => resolve (shot))
