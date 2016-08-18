@@ -109,10 +109,11 @@ describe('Testing shot-route ', function() {
         .send(shotData)
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then((res) => {
+          console.log('res being passed to post shot test: \n:', res);
           expect(res.status).to.equal(200);
           expect(res.body.xValue).to.equal(true);
           expect(res.body.score).to.equal('10');
-          //expect(res.body.dateOf).to.equal('May 28 2016');
+          expect(res.body.dateOf).to.equal('May 28 2016');
           expect(res.body.shotNumber).to.equal(1);
           expect(res.body.record).to.equal(true);
           expect(res.body.elevation).to.equal(17);
