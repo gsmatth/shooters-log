@@ -69,7 +69,15 @@ describe('Testing shot-route ', function() {
     matchId: '576c4f19965f8a8a0ab5397f',
     xValue: true,
     score: '10',
-    dateOf: 'May 28 2016'
+    dateOf: 'May 28 2016',
+    shotNumber: 1,
+    polarCoords: [126.49, 18.43],
+    cartesianCoords: [120, 40],
+    elevation: 17,
+    windage: 4,
+    practice: false,
+    sighter: false,
+    record: true
   };
 
   describe('POST', function(){
@@ -105,6 +113,9 @@ describe('Testing shot-route ', function() {
           expect(res.body.xValue).to.equal(true);
           expect(res.body.score).to.equal('10');
           expect(res.body.dateOf).to.equal('May 28 2016');
+          expect(res.body.shotNumber).to.equal(1);
+          expect(res.body.record).to.equal(true);
+          expect(res.body.elevation).to.equal(17);
           done();
         })
         .catch(done);

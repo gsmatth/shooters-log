@@ -30,6 +30,15 @@ shotRouter.post('/competition/:competitionId/match/:matchId/shot', parseBearerAu
   req.body.shotId = req.shotId;
   req.body.matchId = req.params.matchId;
   req.body.userId = req.userId;
+  req.body.dateOf = req.dateOf;
+  req.body.shotNumber = req.shotNumber;
+  req.body.polarCoords = req.polarCoords;
+  req.body.cartesianCoords = req.cartesianCoords;
+  req.body.elevation = req.elevation;
+  req.body.windage = req.windage;
+  req.body.practice = req.practice;
+  req.body.sighter = req.sighter;
+  req.body.record = req.record;
   shotController.createShot(req.body)
   .then( shot => res.json(shot))
   .catch(next);
