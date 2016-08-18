@@ -109,7 +109,7 @@ describe('Testing shot-route ', function() {
         .send(shotData)
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then((res) => {
-          console.log('res being passed to post shot test: \n:', res);
+          console.log('res.body being passed to post shot test: \n:', res.body);
           expect(res.status).to.equal(200);
           expect(res.body.xValue).to.equal(true);
           expect(res.body.score).to.equal('10');
