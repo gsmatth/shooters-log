@@ -52,7 +52,9 @@ describe('testing our rifle model', function() {
     _id: '576c47d854d007350a734560',
     password: '$2a$09$4zNSZ5AtttLPnjs8KaXpaur4aRucsAqesMqSLe0wt4fXL.X7fDb1C',
     username: 'McTest',
-    findHash: 'f517531581cb0323dea580d7c0016a79812e7ffa3790f04786ee836d2fac1822'
+    findHash: 'f517531581cb0323dea580d7c0016a79812e7ffa3790f04786ee836d2fac1822',
+    firstName: 'Billy',
+    lastName: 'Smith'
   };
   var competition = {
     _id: '576c4a4011d3f63f0a05d475',
@@ -73,7 +75,7 @@ describe('testing our rifle model', function() {
   describe('testing the rifle POST route', function() {
     before((done) => {
       debug('rifle-post-test-before-block');
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then(token => {
         this.tempToken = token;
         done();
@@ -157,7 +159,7 @@ describe('testing our rifle model', function() {
   describe('testing the rifle GET route', function() {
     before((done) => {
       debug('rifle-get-test-before-block');
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then(token => {
         this.tempToken = token;
         rifleController.createRifle({
@@ -235,7 +237,7 @@ describe('testing our rifle model', function() {
   describe('testing the rifle DELETE route', function() {
     before((done) => {
       debug('rifle-delete-test-before-block');
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then(token => {
         this.tempToken = token;
         rifleController.createRifle({
@@ -311,7 +313,7 @@ describe('testing our rifle model', function() {
   describe('testing the PUT route', function() {
     before((done) => {
       debug('rifle-delete-test-before-block');
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then(token => {
         this.tempToken = token;
         rifleController.createRifle({

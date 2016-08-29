@@ -48,7 +48,7 @@ describe('testing user router', function(){
   describe('testing user update route with valid request', function(){
     before((done) => {
       debug('PUT-user-before-block');
-      authController.newUser({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master'})
+      authController.newUser({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master', firstName: 'Billy', lastName: 'Smith'})
       .then( token => {
         this.tempToken = token;
         done();
@@ -97,7 +97,7 @@ describe('testing user router', function(){
   });
   describe('testing get for user route to get all comps by userId', function(){
     beforeEach((done)=>{
-      authController.newUser({username: 'pippy', password: 'stalkings'})
+      authController.newUser({username: 'pippy', password: 'stalkings', firstName: 'Billy', lastName: 'Smith'})
       .then(token => this.tempToken = token)
       .then(token => {
         return request.post(`${baseUrl}/competition`)

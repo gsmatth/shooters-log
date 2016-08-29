@@ -25,11 +25,7 @@ shotRouter.get('/competition/:competitionId/match/:matchId/shot/', parseBearerAu
 });
 
 shotRouter.post('/competition/:competitionId/match/:matchId/shot', parseBearerAuth, jsonParser, (req, res, next) => {
-  debug('entered shotRouter.post route');
-  req.body.userId =req.userId;
-  req.body.shotId = req.shotId;
-  req.body.matchId = req.params.matchId;
-  req.body.userId = req.userId;
+  debug('entered shotRouter.post route', req.body);
   shotController.createShot(req.body)
   .then( shot => res.json(shot))
   .catch(next);

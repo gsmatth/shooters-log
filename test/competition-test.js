@@ -47,7 +47,7 @@ describe('testing module competition-router', function(){
 
   describe('testing module competition router', function(){
     beforeEach((done)=>{
-      authController.newUser({username: 'pippy', password: 'stalkings'})
+      authController.newUser({username: 'pippy', password: 'stalkings', firstName: 'Billy', lastName: 'Smith'})
       .then(token => this.tempToken = token)
       .then(token => {
         return request.post(`${baseUrl}/competition`)

@@ -12,7 +12,10 @@ const userSchema = module.exports = mongoose.Schema({
   password:         {type: String, required: true},
   findHash:         {type: String, unique: true},
   nraNumber:        {type: Number},
-  nraQualification: {type: String}
+  nraQualification: {type: String},
+  firstName: {type: String, required: true},
+  lastName: {type: String, required: true},
+  nameSuffix: {type: String}
 });
 
 userSchema.methods.generateHash = function(password){

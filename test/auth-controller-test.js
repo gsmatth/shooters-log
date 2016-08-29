@@ -47,7 +47,7 @@ describe('testing the auth-controller signIn method ', function(){
   describe('testing signIn method with valid request', function(){
     before((done) => {
       debug('GET-sigin-before-block');
-      authController.newUser({username: 'tester', password: 'openSaysMe!'})
+      authController.newUser({username: 'tester', password: 'openSaysMe!', firstName: 'Billy', lastName: 'Smith'})
       .then(() => done())
       .catch(done);
     });
@@ -61,7 +61,7 @@ describe('testing the auth-controller signIn method ', function(){
 
     it('should return a token', function(done) {
       debug('GET-signin-valid-test');
-      authController.signIn({username: 'tester', password: 'openSaysMe!'})
+      authController.signIn({username: 'tester', password: 'openSaysMe!', firstName: 'Billy', lastName: 'Smith'})
       .then(token => {
         expect(token.length).to.equal(253);
         done();
@@ -73,7 +73,7 @@ describe('testing the auth-controller signIn method ', function(){
   describe('testing signIn method with missing username', function(){
     before((done) => {
       debug('GET-sigin-before-block');
-      authController.newUser({username: 'tester', password: 'openSaysMe!'})
+      authController.newUser({username: 'McTest', password: 'pass', firstName: 'Billy', lastName: 'Smith'})
       .then(() => done())
       .catch(done);
     });
@@ -86,7 +86,7 @@ describe('testing the auth-controller signIn method ', function(){
 
     it('should return a 400 error', function(done) {
       debug('GET-signin-valid-test');
-      authController.signIn({username: '', password: 'openSaysMe!'})
+      authController.signIn({username: '', password: 'openSaysMe!', firstName: 'Billy', lastName: 'Smith'})
       .then(done)
       .catch(err =>  {
         expect(err.statusCode).to.equal(400);

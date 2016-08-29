@@ -55,7 +55,7 @@ describe('testing the signup post route', function(){
     it('should return a token', function(done) {
       debug('POST-valid-test');
       request.post(`${baseUrl}/signup`)
-      .send({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master'})
+      .send({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master', firstName: 'Billy', lastName: 'Smith'})
       .then(res => {
         expect(res.status).to.equal(200);
         expect(res.text.length).to.equal(253);
@@ -68,7 +68,7 @@ describe('testing the signup post route', function(){
   describe('testing signin GET route with valid request', function(){
     before((done) => {
       debug('GET-sigin-before-block');
-      authController.newUser({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master'})
+      authController.newUser({username: 'tester', password: 'openSaysMe!', nraNumber: 11235813213455, nraQualification: 'test master', firstName: 'Billy', lastName: 'Smith'})
       .then(() => done())
       .catch(done);
     });
@@ -96,7 +96,7 @@ describe('testing the signup post route', function(){
   describe('testing signin GET route with incorrect username or password', function(){
     before((done) => {
       debug('GET-sigin-before-block');
-      authController.newUser({username: 'tester', password: 'openSaysMe!'})
+      authController.newUser({username: 'McTest', password: 'pass', firstName: 'Billy', lastName: 'Smith'})
       .then(() => done())
       .catch(done);
     });
@@ -125,7 +125,7 @@ describe('testing the signup post route', function(){
   describe('testing signin GET route with missing username', function(){
     before((done) => {
       debug('GET-sigin-before-block');
-      authController.newUser({username: 'tester', password: 'openSaysMe!'})
+      authController.newUser({username: 'McTest', password: 'pass', firstName: 'Billy', lastName: 'Smith'})
       .then(() => done())
       .catch(done);
     });
