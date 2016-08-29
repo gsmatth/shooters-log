@@ -49,7 +49,9 @@ describe('Testing barrel route, ', () =>  {
     _id: '576c47d854d007350a734560',
     password: '$2a$09$4zNSZ5AtttLPnjs8KaXpaur4aRucsAqesMqSLe0wt4fXL.X7fDb1C',
     username: 'McTest',
-    findHash: 'f517531581cb0323dea580d7c0016a79812e7ffa3790f04786ee836d2fac1822'
+    findHash: 'f517531581cb0323dea580d7c0016a79812e7ffa3790f04786ee836d2fac1822',
+    firstName: 'Billy',
+    lastName: 'Smith'
   };
 
   var competition = {
@@ -82,7 +84,7 @@ describe('Testing barrel route, ', () =>  {
   describe('POST barrel with userId.  ', () => {
     before((done) => {
       debug('barrel-post-test-before-block');
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then( token => {
         this.tempToken = token;
         done();
@@ -163,7 +165,7 @@ describe('Testing barrel route, ', () =>  {
   describe('GET barrel with barrelId. ', () => {
     before((done) => {
       debug('barrel-get-test-before-block');
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then( token => {
         this.tempToken = token;
         barrelController.createBarrel({
@@ -219,7 +221,7 @@ describe('Testing barrel route, ', () =>  {
   describe('DELETE barrel with barrelId. ', () => {
     before((done) => {
       debug('barrel-delete-test-before-block');
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then( token => {
         this.tempToken = token;
         barrelController.createBarrel({
@@ -271,7 +273,7 @@ describe('Testing barrel route, ', () =>  {
   describe('PUT barrel with userId.  ', () => {
     before((done) => {
       debug('barrel-delete-test-before-block');
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then( token => {
         this.tempToken = token;
         barrelController.createBarrel({

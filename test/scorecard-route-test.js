@@ -50,8 +50,8 @@ describe('testing the ScoreCard route', function(){ //setting up our server
   describe('testing GET  ScoreCard route', function(){
     before((done) => { // creating our test resources
       debug('before-block-GET-scorecard');
-      var user = new User({username: 'MrTest', password: 'ye-pass'});
-      userController.newUser({username: user.username, password: user.password})
+      var user = new User({username: 'MrTest', password: 'ye-pass', firstName: 'Billy', lastName: 'Smith'});
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then( token => {
         this.tempToken = token;
         compController.createCompetition({

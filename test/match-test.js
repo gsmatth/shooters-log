@@ -52,8 +52,8 @@ describe('testing the match route', function(){ //setting up our server
     before((done) => { // creating our test resources
       debug('before-block-post-match');
       //userController.newUser({username:'McTest', password: 'pass'})
-      var user = new User({username: 'McTest', password: 'pass'});
-      userController.newUser({username: user.username, password: user.password})
+      var user = new User({username: 'McTest', password: 'pass', firstName: 'Billy', lastName: 'Smith'});
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then( token => {
         this.tempToken = token;
         compController.createCompetition({
@@ -216,8 +216,8 @@ describe('testing the match route', function(){ //setting up our server
   describe('testing GET route', function(){
     before((done) => { // creating our test resources
       debug('before-block-GET-match');
-      var user = new User({username: 'MrTest', password: 'ye-pass'});
-      userController.newUser({username: user.username, password: user.password})
+      var user = new User({username: 'McTest', password: 'pass', firstName: 'Billy', lastName: 'Smith'});
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
       .then( token => {
         this.tempToken = token;
         compController.createCompetition({
@@ -299,8 +299,8 @@ describe('testing the match route', function(){ //setting up our server
   describe('testing PUT route', function(){
     before((done) => { // creating our test resources
       debug('before-block-PUT-match');
-      var user = new User({username: 'MrTest', password: 'ye-pass'});
-      userController.newUser({username: user.username, password: user.password})
+      var user = new User({username: 'McTest', password: 'pass', firstName: 'Billy', lastName: 'Smith'});
+      userController.newUser({username: user.username, password: user.password, firstName: 'Billy', lastName: 'Smith'})
       .then( token => {
         this.tempToken = token;
         compController.createCompetition({
@@ -408,7 +408,7 @@ describe('testing the match route', function(){ //setting up our server
     before((done) => { // creating our test resources
       debug('before-block-DELETE-match');
       var user = new User({username: 'MrTest', password: 'ye-pass'});
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: 'Billy', lastName: 'Smith'})
       .then( token => {
         this.tempToken = token;
         compController.createCompetition({
@@ -420,7 +420,6 @@ describe('testing the match route', function(){ //setting up our server
         })
         .then(competition => {
           this.tempCompetition = competition;
-          console.log('this.tempCompetition', this.tempCompetition, 'this.tempCompetition.userId', this.tempCompetition.userId);
           matchController.createMatch(this.tempCompetition._id, {
             competitionId: this.tempCompetition._id,
             userId       :this.tempCompetition.userId,
@@ -479,7 +478,7 @@ describe('testing the match route', function(){ //setting up our server
     before((done) => { // creating our test resources
       debug('before-block-GET-ALL-SHOTS-bY-match');
       var user = new User({username: 'MrTest', password: 'ye-pass'});
-      userController.newUser({username: user.username, password: user.password})
+      userController.newUser({username: user.username, password: user.password, firstName: 'Billy', lastName: 'Smith'})
       .then( token => {
         this.tempToken = token;
         compController.createCompetition({
