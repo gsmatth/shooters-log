@@ -5,6 +5,7 @@ const express = require('express');
 const morgan = require('morgan');
 const debug = require('debug')('shooter:server');
 const mongoose = require('mongoose');
+const cors = require('cors');
 mongoose.Promise = require('bluebird');
 
 //app modules
@@ -18,6 +19,7 @@ const shotRouter = require('./route/shot-router');
 const scorecardRouter = require('./route/scorecard-router');
 const rifleRouter = require('./route/rifle-router');
 const barrelRouter = require('./route/barrel-router');
+const loadRouter = require('./route/load-router');
 // const userRouter = require('./route/user-router');
 
 //module constants
@@ -29,6 +31,7 @@ const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/db';
 mongoose.connect(mongoURI);
 
 app.use(morgan('dev'));
+app.use(cors());
 // app.use('/api', userRouter);
 
 app.use('/api', authRouter);
@@ -39,6 +42,7 @@ app.use('/api', shotRouter);
 app.use('/api', scorecardRouter);
 app.use('/api', rifleRouter);
 app.use('/api', barrelRouter);
+app.use('/api', loadRouter);
 
 app.all('*', function(req, res, next){
   debug('entered app.all route in server.js:  this route is not registered');
