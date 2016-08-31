@@ -76,19 +76,20 @@ Model:  Individual resources (user, match...) have dedicated model files. These 
 ###MVP Schema Diagram  
 
 ###Currently Deployed Schema Diagram
-
-![schema5](https://cloud.githubusercontent.com/assets/13153982/16572261/a1531c7c-421b-11e6-9016-8f9aba4abc42.png)
+![data-model10](https://cloud.githubusercontent.com/assets/13153982/18142672/81c0b222-6f73-11e6-8482-cc1270416bb6.png)
 
 
 *****
 #Routes
 ###POST /api/signup
-Example: https://shooters-log-staging.heroapp.com/signup
+Example: https://shooters-log-staging.herokuapp.com/api/signup
 
 Required Data:
-* Provide username and password as JSON
+* Provide username, password, firstName, and lastName as JSON
 
-This route will create a new user by providing a username and password in the body of the request.  Creating a new user is required to store and access data later.  This route must be completed before attempting to use the `api/signin` route.
+This route will create a new user by providing a username, password, firstName, and lastName in the body of the request.  Creating a new user is required to store and access data later.  This route must be completed before attempting to use the `api/signin` route.
+
+{"username": "jMeyers", "password": "myplaintextpassword", "firstName": "Jill", "lastName":"Meyers" }
 
 A token will be returned that will only be used for the `api/signin` route.
 after signing-in, you will receive a new token that will be a reference for all future routes.
