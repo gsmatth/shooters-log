@@ -10,7 +10,7 @@ exports.newUser = function(reqBody){
   debug('authController:newUser');
   return new Promise((resolve, reject) => {
     if(!reqBody.username || !reqBody.password)
-      return reject(httpErrors(404, 'No username or password provided'));
+      return reject(httpErrors(400, 'No username or password provided'));
     var password = reqBody.password;
     delete reqBody.password;
     var user = new User(reqBody);
