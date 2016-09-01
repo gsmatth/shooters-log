@@ -125,9 +125,9 @@ describe('testing user router', function(){
       .then(()=> done())
       .catch(done);
     });
-    describe('testing get /api/user/userId/competitions', () => {
+    describe('testing get /api/competitions', () => {
       it('should return an array of competitions', (done) => {
-        request.get(`${baseUrl}/user/${this.tempCompetition.userId}/competitions`)
+        request.get(`${baseUrl}/competitions`)
         .set({
           Authorization: `Bearer ${this.tempToken}`
         })
@@ -138,20 +138,8 @@ describe('testing user router', function(){
         .catch(done);
       });
     });
-    it('should return an error of 404 for not found', (done) => {
-      request.get(`${baseUrl}/user/222/competitions`)
-      .set({
-        Authorization: `Bearer ${this.tempToken}`
-      })
-      .then(done)
-      .catch(err => {
-        const res = err.response;
-        expect(res.status).to.equal(404);
-        done();
-      });
-    });
     it('should return an error of 401 not authorized', (done) => {
-      request.get(`${baseUrl}/user/${this.tempCompetition.userId}/competitions`)
+      request.get(`${baseUrl}/competitions`)
       .then(done)
       .catch(err => {
         const res = err.response;

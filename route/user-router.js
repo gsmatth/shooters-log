@@ -17,13 +17,14 @@ userRouter.put('/user', jsonParser, parseBearerAuth, function(req, res, next){
   .catch(next);
 });
 
-userRouter.get('/user/:userId/competitions', parseBearerAuth, function(req, res, next) {
+userRouter.get('/competitions', parseBearerAuth, function(req, res, next) {
   debug('entered userRouter.get for all competitions route');
-  authController.fetchCompsByUser(req.params.userId)
+  authController.fetchCompsByUser(req.userId)
   .then(competitions => {
     if(!competitions){
       return next(httpErrors(404, 'no competitions found for user'));
     }
+    console.log('These are the COMPETITIONS!!!', competitions);
     res.json(competitions);
   }).catch(next);
 });
