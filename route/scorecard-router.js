@@ -8,12 +8,15 @@ const matchController = require('../controller/match-controller');
 
 const scorecardRouter = module.exports = new Router();
 
-const ScoreCard = new Object();
+
 
 scorecardRouter.get('/scorecard/:competitionId', parseBearerAuth, function(req, res, next){
   debug('entered scorecardRouter.get route');
+  const ScoreCard = {};
+  
   competitionController.getCompetition(req.params.competitionId)
   .then(competition => {
+    debug('COMPETITION: \n', competition);
     ScoreCard.competition = competition;
     return competitionController.getAllMatchesByCompetitionId(req.params.competitionId);
   })
