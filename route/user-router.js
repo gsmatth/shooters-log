@@ -17,6 +17,15 @@ userRouter.put('/user', jsonParser, parseBearerAuth, function(req, res, next){
   .catch(next);
 });
 
+userRouter.get('/user', parseBearerAuth, function(req, res, next){
+  debug('user GET route for user info');
+  authController.getUser(req.userId)
+  .then(user => {
+    if(!user) return next(httpErrors(404), 'no user found');
+    res.json(user);
+  }).catch(next);
+});
+
 userRouter.get('/competitions', parseBearerAuth, function(req, res, next) {
   debug('entered userRouter.get for all competitions route');
   authController.fetchCompsByUser(req.userId)

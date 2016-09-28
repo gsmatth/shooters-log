@@ -45,6 +45,7 @@ describe('testing user router', function(){
     done();
   });
 
+/******** PUT USER TEST ********/
   describe('testing user update route with valid request', function(){
     before((done) => {
       debug('PUT-user-before-block');
@@ -95,6 +96,8 @@ describe('testing user router', function(){
       });
     });
   });
+
+/******** GET ALL COMPS TEST ********/
   describe('testing get for user route to get all comps by userId', function(){
     beforeEach((done)=>{
       authController.newUser({username: 'pippy', password: 'stalkings', firstName: 'Billy', lastName: 'Smith'})
@@ -146,6 +149,41 @@ describe('testing user router', function(){
         expect(res.status).to.equal(401);
         done();
       });
+    });
+  });
+
+/******** GET USER TEST ********/
+  describe('testing the getUser route on api/user', () => {
+    before((done) => {
+      debug('GET-user-before-block');
+      authController.newUser({username: 'testerson', password: 'getMeInfo', nraNumber: 11235813213455, nraQualification: 'test master', firstName: 'Bobert', lastName: 'Smitty'})
+      .then( token => {
+        this.tempToken = token;
+        done();
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('GET-user-after-block');
+      authController.removeAllUsers()
+      .then(() => done())
+      .catch(done);
+    });
+
+    it('should return a user model', (done) => {
+      request.get(`${baseUrl}/user`)
+      .set({
+        Authorization: `Bearer ${this.tempToken}`
+      })
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.body.firstName).to.equal('Bobert');
+        expect(res.body.lastName).to.equal('Smitty');
+        expect(res.body.nraNumber).to.equal(11235813213455);
+        done();
+      })
+      .catch(done);
     });
   });
 });

@@ -33,4 +33,8 @@ gulp.task('nodemon', function(){
   });
 });
 
-gulp.task('default', ['eslint', 'test']);
+gulp.task('watch', function() {
+  gulp.watch('**/*.js', ['test', 'eslint']);
+});
+
+gulp.task('default', ['eslint', 'test', 'watch']);
