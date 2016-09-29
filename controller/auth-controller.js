@@ -22,6 +22,17 @@ exports.newUser = function(reqBody){
   });
 };
 
+exports.getUser = function(userId) {
+  debug('authcontroller:getUser');
+  return new Promise((resolve, reject) => {
+    if (!userId) return reject(httpErrors (400, 'no user ID given'));
+    User.findOne({_id: userId})
+    .then(user => {
+      resolve(user);
+    }).catch(reject);
+  });
+};
+
 exports.updateUser = function(userId, reqBody){
   debug('authController:updateUser');
   return new Promise((resolve, reject) => {
