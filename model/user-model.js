@@ -13,6 +13,7 @@ const userSchema = module.exports = mongoose.Schema({
   findHash:         {type: String, unique: true},
   nraNumber:        {type: Number},
   nraQualification: {type: String},
+  emailAddress:     {type: String, unique: true},
   firstName: {type: String, required: true},
   lastName: {type: String, required: true},
   nameSuffix: {type: String}

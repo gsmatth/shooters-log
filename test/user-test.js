@@ -156,7 +156,7 @@ describe('testing user router', function(){
   describe('testing the getUser route on api/user', () => {
     before((done) => {
       debug('GET-user-before-block');
-      authController.newUser({username: 'testerson', password: 'getMeInfo', nraNumber: 11235813213455, nraQualification: 'test master', firstName: 'Bobert', lastName: 'Smitty'})
+      authController.newUser({username: 'testerson', password: 'getMeInfo', nraNumber: 11235813213455, nraQualification: 'test master', emailAddress: 'something@something.com', firstName: 'Bobert', lastName: 'Smitty'})
       .then( token => {
         this.tempToken = token;
         done();
@@ -181,6 +181,7 @@ describe('testing user router', function(){
         expect(res.body.firstName).to.equal('Bobert');
         expect(res.body.lastName).to.equal('Smitty');
         expect(res.body.nraNumber).to.equal(11235813213455);
+        expect(res.body.emailAddress).to.equal('something@something.com');
         done();
       })
       .catch(done);
