@@ -250,4 +250,48 @@ describe('testing our load model', function() {
       .catch(done);
     });
   });
+
+  describe('testing load DELETE request', () => {
+    before((done) => {
+      debug('load-delete-test-before-block');
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
+      .then(token => {
+        this.tempToken = token;
+        loadController.createLoad({
+          userId:            user._id,
+          competitionId:     competition._id,
+          matchId:           match._id,
+          barrelId:          barrel._id,
+          rifleId:           rifle._id,
+          shotId:            shot._id
+        }).then((load) => {
+          this.tempLoadId = load._id;
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('load-delete-test-after-block');
+      Promise.all([
+        loadController.removeAllLoads(),
+        userController.removeAllUsers()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should delete an existing load', (done) => {
+      debug('DELETE test');
+      request.del(`${baseUrl}/user/${user._id}/load/${this.tempLoadId}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(204);
+        expect(res.body._id).to.equal(undefined);
+        done();
+      })
+      .catch(done);
+    });
+  });
 });
