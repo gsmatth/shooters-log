@@ -6,7 +6,7 @@ const Router = require('express').Router;
 const jsonParser = require('body-parser').json();
 
 // application
-const loadController = require('../controller/rifle-controller');
+const loadController = require('../controller/load-controller');
 const parseBearerAuth = require('../lib/parse-bearer-auth');
 
 // global
@@ -14,7 +14,7 @@ const loadRouter = module.exports = new Router();
 
 loadRouter.post('/user/:userid/load', parseBearerAuth, jsonParser, function(req, res, next) {
   debug('load-post-router');
-  req.body.userid = req.params.userid;
+  req.body.userId = req.params.userid;
   loadController.createLoad(req.body)
   .then(load => res.json(load))
   .catch(next);
