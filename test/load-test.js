@@ -12,10 +12,6 @@ const debug = require('debug')('shooter: load');
 // application modules
 const userController = require('../controller/auth-controller');
 const loadController = require('../controller/load-controller');
-//const rifleController = require('../controller/rifle-controller');
-//const barrelController = require('../controller/barrel-controller');
-//const compController = require('../controller/competition-controller');
-//const matchController = require('../controller/match-controller');
 
 const port = process.env.PORT || 3000;
 
@@ -197,6 +193,58 @@ describe('testing our load model', function() {
         expect(res.body.brassManufacturer).to.equal('brassyMcBrassface');
         expect(res.body.muzzleVelocity).to.equal(500);
         expect(res.body.OAL).to.equal(undefined);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  describe('testing load PUT request', () => {
+    before((done) => {
+      debug('load-put-test-before-block');
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
+      .then(token => {
+        this.tempToken = token;
+        loadController.createLoad({
+          userId:            user._id,
+          competitionId:     competition._id,
+          matchId:           match._id,
+          barrelId:          barrel._id,
+          rifleId:           rifle._id,
+          shotId:            shot._id,
+          brassManufacturer: 'brassyMcBrassface',
+          powderWeight:      80,
+          muzzleVelocity:    500
+        }).then((load) => {
+          this.tempLoadId = load._id;
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('load-put-test-after-block');
+      Promise.all([
+        loadController.removeAllLoads(),
+        userController.removeAllUsers()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should update an existing load', (done) => {
+      debug('PUT test');
+      request.put(`${baseUrl}/user/${user._id}/load/${this.tempLoadId}`)
+      .send({
+        powderWeight: 60,
+        muzzleVelocity: 450
+      })
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.body.powderWeight).to.equal(60);
+        expect(res.body.muzzleVelocity).to.equal(450);
         done();
       })
       .catch(done);
