@@ -103,7 +103,7 @@ describe('testing our load model', function() {
   };
 
 
-  describe('testing the load POST route', () => {
+  describe('testing load POST route', () => {
     before((done) => {
       debug('load-post-test-before-block');
       userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
@@ -117,19 +117,14 @@ describe('testing our load model', function() {
     after((done) => {
       debug('load-POST-test-after-block');
       Promise.all([
-      //  compController.removeAllCompetition(),
-      //  rifleController.removeAllRifles(),
-      //  matchController.removeAllMatches(),
         userController.removeAllUsers(),
-      //  rifleController.removeAllRifles(),
-      //  barrelController.removeAllBarrels(),
         loadController.removeAllLoads()
       ]).then(() => done())
       .catch(done);
     });
 
     it('should create and return a load', (done) => {
-      debug('post-test');
+      debug('POST-test');
       request.post(`${baseUrl}/user/${user._id}/load`)
       .send({
         userId:            user._id,
@@ -157,6 +152,54 @@ describe('testing our load model', function() {
         expect(res.body.powderWeight).to.equal(5);
         done();
       }).catch(done);
+    });
+  });
+
+  describe('testing load GET request', () => {
+    before((done) => {
+      debug('load-get-test-before-block');
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
+      .then(token => {
+        this.tempToken = token;
+        loadController.createLoad({
+          userId:            user._id,
+          competitionId:     competition._id,
+          matchId:           match._id,
+          barrelId:          barrel._id,
+          rifleId:           rifle._id,
+          shotId:            shot._id,
+          brassManufacturer: 'brassyMcBrassface',
+          muzzleVelocity:    500
+        }).then((load) => {
+          this.tempLoadId = load._id;
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('load-get-test-after-block');
+      Promise.all([
+        loadController.removeAllLoads(),
+        userController.removeAllUsers()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should return a load', (done) => {
+      debug('GET-test');
+      request.get(`${baseUrl}/user/${user._id}/load/${this.tempLoadId}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.body.brassManufacturer).to.equal('brassyMcBrassface');
+        expect(res.body.muzzleVelocity).to.equal(500);
+        expect(res.body.OAL).to.equal(undefined);
+        done();
+      })
+      .catch(done);
     });
   });
 });
