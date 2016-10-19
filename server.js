@@ -20,7 +20,7 @@ const scorecardRouter = require('./route/scorecard-router');
 const rifleRouter = require('./route/rifle-router');
 const barrelRouter = require('./route/barrel-router');
 const loadRouter = require('./route/load-router');
-// const userRouter = require('./route/user-router');
+const testLoadRouter = require('./route/test-load-router');
 
 //module constants
 const app = express();
@@ -32,7 +32,6 @@ mongoose.connect(mongoURI);
 
 app.use(morgan('dev'));
 app.use(cors());
-// app.use('/api', userRouter);
 
 app.use('/api', authRouter);
 app.use('/api', userRouter);
@@ -43,6 +42,7 @@ app.use('/api', scorecardRouter);
 app.use('/api', rifleRouter);
 app.use('/api', barrelRouter);
 app.use('/api', loadRouter);
+app.use('/api', testLoadRouter);
 
 app.all('*', function(req, res, next){
   debug('entered app.all route in server.js:  this route is not registered');
