@@ -7,7 +7,6 @@ const Load = require('../model/load-model');
 
 exports.createLoad = function(loadInfo) {
   debug('create-load-controller');
-  console.log(loadInfo);
   return new Promise((resolve, reject) => {
     new Load(loadInfo).save()
     .then(load => resolve(load))
