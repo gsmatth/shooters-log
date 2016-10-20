@@ -3,6 +3,8 @@ env.sh
 ###MONGO###
 db
 env.sh
+coverage
+html-report
 
 ### OSX ###
 *.DS_Store
