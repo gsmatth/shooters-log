@@ -100,17 +100,139 @@ describe('testing our test load', function(){
       .send({
         userId: user._id,
         loadId: load._id,
-        testShots: [
-          5,
-          10,
-          8
-        ]
+        testShots: [2500, 2400, 2200]
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
         expect(res.body.userId).to.equal('576c47d854d007350a734560');
-        expect(res.body.testShots[0]).to.equal(5);
+        expect(res.body.testShots[0]).to.equal(2500);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  describe('testing testLoad get route', ()=> {
+    before((done) => {
+      debug('testLoad-get-before-block');
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
+      .then( token => {
+        this.tempToken = token;
+        testLoadController.createTestLoad({
+          userId: user._id,
+          loadId: load._id,
+          testShots: [2100, 2250, 2460]
+        }).then(testLoad => {
+          this.tempTestLoad = testLoad;
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('testLoad-POST-test-after-block');
+      Promise.all([
+        userController.removeAllUsers(),
+        testLoadController.removeAllTestLoads()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should return a testLoad', (done) => {
+      debug('GET-test');
+      request.get(`${baseUrl}/user/load/testload/${this.tempTestLoad._id}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.body.testShots[0]).to.equal(2100);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  describe('testing testLoad put route', ()=> {
+    before((done) => {
+      debug('testLoad-PUT-test-before-block');
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
+      .then( token => {
+        this.tempToken = token;
+        testLoadController.createTestLoad({
+          userId: user._id,
+          loadId: load._id,
+          testShots: [2230, 2400, 2380]
+        }).then(testLoad => {
+          this.tempTestLoad = testLoad;
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('testLoad-PUT-test-after-block');
+      Promise.all([
+        userController.removeAllUsers(),
+        testLoadController.removeAllTestLoads()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should update and return a testLoad', (done) => {
+      debug('PUT-test');
+      request.put(`${baseUrl}/user/load/testload/${this.tempTestLoad._id}`)
+      .send({
+        testShots: [2300, 2400, 2380]
+      })
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.body.testShots[0]).to.equal(2300);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  describe('testing testLoad delete route', ()=> {
+    before((done) => {
+      debug('testLoad-DELETE-test-before-block');
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
+      .then( token => {
+        this.tempToken = token;
+        testLoadController.createTestLoad({
+          userId: user._id,
+          loadId: load._id,
+          testShots: [2200, 2300, 2380]
+        }).then(testLoad => {
+          this.tempTestLoad = testLoad;
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('testLoad-DELETE-test-after-block');
+      Promise.all([
+        userController.removeAllUsers(),
+        testLoadController.removeAllTestLoads()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should delete a testLoad', (done) => {
+      debug('DELETE-test');
+      request.del(`${baseUrl}/user/load/testload/${this.tempTestLoad._id}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(204);
+        expect(res.body._id).to.equal(undefined);
         done();
       })
       .catch(done);

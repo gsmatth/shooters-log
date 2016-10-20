@@ -18,14 +18,14 @@ testLoadRouter.post('/user/load/testload', parseBearerAuth, jsonParser, function
 
 testLoadRouter.get('/user/load/testload/:testloadid', parseBearerAuth, jsonParser, function(req, res, next){
   debug('test-load-get-route');
-  testLoadController.fetchTestLoad(req.body)
+  testLoadController.fetchTestLoad(req.params.testloadid)
   .then(testLoad => res.json(testLoad))
   .catch(next);
 });
 
 testLoadRouter.put('/user/load/testload/:testloadid', parseBearerAuth, jsonParser, function(req, res, next){
   debug('test-load-put-route');
-  testLoadController.updateTestLoad(req.params.testloadid)
+  testLoadController.updateTestLoad(req.params.testloadid, req.body)
   .then(testLoad => res.json(testLoad))
   .catch(next);
 });
