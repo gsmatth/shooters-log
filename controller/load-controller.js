@@ -1,7 +1,7 @@
 'use strict';
 
 const debug = require('debug')('shooter:load-controller');
-const httpErrors = require('httpErrors');
+const httpErrors = require('http-errors');
 
 const Load = require('../model/load-model');
 
