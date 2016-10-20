@@ -68,6 +68,7 @@ describe('Testing shot-route ', function() {
   var shotData = {
     userId:'576c47d854d007350a734560' ,
     matchId: '576c4f19965f8a8a0ab5397f',
+    loadId: '576c4f19965f8a8a0ab53978',
     xValue: true,
     score: '10',
     dateOf: 'May 28 2016',
@@ -169,6 +170,7 @@ describe('Testing shot-route ', function() {
     var shotData = {
       userId:'576c47d854d007350a734560' ,
       matchId: '576c4f19965f8a8a0ab5397f',
+      // loadId: '576c4f19965f8a8a0ab5397p',
       xValue: false,
       score: 'M',
       dateOf: 'Feb 16 2010',

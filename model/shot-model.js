@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const shotSchema = module.exports = mongoose.Schema({
   userId: {type: mongoose.Schema.ObjectId, required:true},
   matchId: {type: mongoose.Schema.ObjectId, required:true},
+  loadId: {type: mongoose.Schema.ObjectId},
   xValue: {type: Boolean, required: true},
   score: {type: String, required: true},
   dateOf: {type: String},
