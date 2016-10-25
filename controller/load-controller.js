@@ -23,6 +23,17 @@ exports.getLoad = function(loadId) {
   });
 };
 
+exports.getAllLoadsByUser = function(userId) {
+  debug('load-getAll-controller');
+  return new Promise((resolve, reject) => {
+    Load.find({userId: userId})
+    .then(loads => {
+      resolve(loads);
+    })
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
 exports.updateLoad = function(loadId, loadInfo) {
   debug('load-update-controller');
   return new Promise((resolve, reject) => {
