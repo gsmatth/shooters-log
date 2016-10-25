@@ -121,9 +121,8 @@ describe('testing our load model', function() {
 
     it('should create and return a load', (done) => {
       debug('POST-test');
-      request.post(`${baseUrl}/user/${user._id}/load`)
+      request.post(`${baseUrl}/user/load`)
       .send({
-        userId:            user._id,
         competitionId:     competition._id,
         matchId:           match._id,
         barrelId:          barrel._id,
@@ -289,6 +288,55 @@ describe('testing our load model', function() {
       .then(res => {
         expect(res.status).to.equal(204);
         expect(res.body._id).to.equal(undefined);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  describe('testing get all loads route', () => {
+    before((done) => {
+      debug('getAllLoads-test-before-block');
+      userController.newUser({username: user.username, password: user.password, firstName: user.firstName, lastName: user.lastName})
+      .then(token => {
+        this.tempToken = token;
+        request.post(`${baseUrl}/user/load`)
+        .send({
+          competitionId:     competition._id,
+          matchId:           match._id,
+          barrelId:          barrel._id,
+          rifleId:           rifle._id,
+          shotId:            shot._id,
+          brassManufacturer: 'brassyMcBrassface',
+          powderWeight:      80,
+          muzzleVelocity:    500
+        })
+        .set({Authorization: `Bearer ${this.tempToken}`})
+        .then(res => {
+          console.log(res.body);
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('getAllLoads-test-after-block');
+      Promise.all([
+        loadController.removeAllLoads(),
+        userController.removeAllUsers()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should return all loads by userId', (done) => {
+      debug('GET-all-test');
+      request.get(`${baseUrl}/user/loads`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res =>{
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(1);
         done();
       })
       .catch(done);

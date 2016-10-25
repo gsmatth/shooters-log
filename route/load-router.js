@@ -12,11 +12,18 @@ const parseBearerAuth = require('../lib/parse-bearer-auth');
 // global
 const loadRouter = module.exports = new Router();
 
-loadRouter.post('/user/:userid/load', parseBearerAuth, jsonParser, function(req, res, next) {
+loadRouter.post('/user/load', parseBearerAuth, jsonParser, function(req, res, next) {
   debug('load-post-router');
-  req.body.userId = req.params.userid;
+  req.body.userId = req.userId;
   loadController.createLoad(req.body)
   .then(load => res.json(load))
+  .catch(next);
+});
+
+loadRouter.get('/user/loads', parseBearerAuth, jsonParser, function(req, res, next){
+  debug('load-get-all-route');
+  loadController.getAllLoadsByUser(req.userId)
+  .then(loads => res.json(loads))
   .catch(next);
 });
 
