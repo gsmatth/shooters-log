@@ -95,7 +95,8 @@ describe('testing our load model', function() {
     matchId: '576c4f19965f8a8a0ab5397f',
     competitionId: '576c4a4011d3f63f0a05d475',
     userId: '576c47d854d007350a734560',
-    rifleId: '576c4f19965f8a8a0ab83402'
+    rifleId: '576c4f19965f8a8a0ab83402',
+    dateCreated: 2016-09-25T00:00
   };
 
 
@@ -137,7 +138,8 @@ describe('testing our load model', function() {
         OAL:               50,
         primeManufacturer: 'primerMaker',
         primeModel:        'primerType',
-        muzzleVelocity:    500
+        muzzleVelocity:    500,
+        dateCreated: 2016-09-25T00:00
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
@@ -164,7 +166,8 @@ describe('testing our load model', function() {
           rifleId:           rifle._id,
           shotId:            shot._id,
           brassManufacturer: 'brassyMcBrassface',
-          muzzleVelocity:    500
+          muzzleVelocity:    500,
+          dateCreated: 2016-09-25T00:00
         }).then((load) => {
           this.tempLoadId = load._id;
           done();
@@ -213,7 +216,8 @@ describe('testing our load model', function() {
           shotId:            shot._id,
           brassManufacturer: 'brassyMcBrassface',
           powderWeight:      80,
-          muzzleVelocity:    500
+          muzzleVelocity:    500,
+          dateCreated: 2016-09-25T00:00
         }).then((load) => {
           this.tempLoadId = load._id;
           done();
@@ -309,7 +313,8 @@ describe('testing our load model', function() {
           shotId:            shot._id,
           brassManufacturer: 'brassyMcBrassface',
           powderWeight:      80,
-          muzzleVelocity:    500
+          muzzleVelocity:    500,
+          dateCreated: 2016-09-25T00:00
         })
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(res => {
