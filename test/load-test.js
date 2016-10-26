@@ -96,7 +96,7 @@ describe('testing our load model', function() {
     competitionId: '576c4a4011d3f63f0a05d475',
     userId: '576c47d854d007350a734560',
     rifleId: '576c4f19965f8a8a0ab83402',
-    dateCreated: 2016-09-25T00:00
+    dateCreated: 1477516154057
   };
 
 
@@ -139,7 +139,7 @@ describe('testing our load model', function() {
         primeManufacturer: 'primerMaker',
         primeModel:        'primerType',
         muzzleVelocity:    500,
-        dateCreated: 2016-09-25T00:00
+        dateCreated: 1477516154057
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
@@ -167,7 +167,7 @@ describe('testing our load model', function() {
           shotId:            shot._id,
           brassManufacturer: 'brassyMcBrassface',
           muzzleVelocity:    500,
-          dateCreated: 2016-09-25T00:00
+          dateCreated: 1477516154057
         }).then((load) => {
           this.tempLoadId = load._id;
           done();
@@ -217,7 +217,7 @@ describe('testing our load model', function() {
           brassManufacturer: 'brassyMcBrassface',
           powderWeight:      80,
           muzzleVelocity:    500,
-          dateCreated: 2016-09-25T00:00
+          dateCreated: 1477516154057
         }).then((load) => {
           this.tempLoadId = load._id;
           done();
@@ -266,7 +266,8 @@ describe('testing our load model', function() {
           matchId:           match._id,
           barrelId:          barrel._id,
           rifleId:           rifle._id,
-          shotId:            shot._id
+          shotId:            shot._id,
+          dateCreated:       1477516154057
         }).then((load) => {
           this.tempLoadId = load._id;
           done();
@@ -314,7 +315,7 @@ describe('testing our load model', function() {
           brassManufacturer: 'brassyMcBrassface',
           powderWeight:      80,
           muzzleVelocity:    500,
-          dateCreated: 2016-09-25T00:00
+          dateCreated: 1477516154057
         })
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(res => {
