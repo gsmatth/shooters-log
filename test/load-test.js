@@ -130,23 +130,23 @@ describe('testing our load model', function() {
         rifleId:           rifle._id,
         shotId:            shot._id,
         brassManufacturer: 'brass person',
-        powderName:        'some powder',
-        powderWeight:      5,
         bulletName:        'bullety',
         bulletWeight:      3,
         bulletCaliber:     30,
-        OAL:               50,
         primeManufacturer: 'primerMaker',
         primeModel:        'primerType',
-        muzzleVelocity:    500,
-        dateCreated: 1477516154057
+        dateCreated:       1477516154057,
+        time:              '8:00 AM',
+        temperature:       '80°',
+        humidity:          '80%',
+        notes:             'this bullet shoots stuff real good!'
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
         expect(res.body.brassManufacturer).to.equal('brass person');
-        expect(res.body.powderName).to.equal('some powder');
-        expect(res.body.powderWeight).to.equal(5);
+        expect(res.body.notes).to.equal('this bullet shoots stuff real good!');
+        expect(res.body.temperature).to.equal('80°');
         done();
       }).catch(done);
     });
@@ -166,8 +166,8 @@ describe('testing our load model', function() {
           rifleId:           rifle._id,
           shotId:            shot._id,
           brassManufacturer: 'brassyMcBrassface',
-          muzzleVelocity:    500,
-          dateCreated: 1477516154057
+          bulletName:        'Swan',
+          dateCreated:       1477516154057
         }).then((load) => {
           this.tempLoadId = load._id;
           done();
@@ -193,8 +193,7 @@ describe('testing our load model', function() {
       .then(res => {
         expect(res.status).to.equal(200);
         expect(res.body.brassManufacturer).to.equal('brassyMcBrassface');
-        expect(res.body.muzzleVelocity).to.equal(500);
-        expect(res.body.OAL).to.equal(undefined);
+        expect(res.body.bulletName).to.equal('Swan');
         done();
       })
       .catch(done);
@@ -215,9 +214,7 @@ describe('testing our load model', function() {
           rifleId:           rifle._id,
           shotId:            shot._id,
           brassManufacturer: 'brassyMcBrassface',
-          powderWeight:      80,
-          muzzleVelocity:    500,
-          dateCreated: 1477516154057
+          dateCreated:       1477516154057
         }).then((load) => {
           this.tempLoadId = load._id;
           done();
@@ -240,14 +237,14 @@ describe('testing our load model', function() {
       debug('PUT test');
       request.put(`${baseUrl}/user/${user._id}/load/${this.tempLoadId}`)
       .send({
-        powderWeight: 60,
-        muzzleVelocity: 450
+        brassManufacturer: 'WONDERMINS BULLET BRASS',
+        notes: 'damn what a sweet bullet, thanks wondermins!'
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res.body.powderWeight).to.equal(60);
-        expect(res.body.muzzleVelocity).to.equal(450);
+        expect(res.body.brassManufacturer).to.equal('WONDERMINS BULLET BRASS');
+        expect(res.body.notes).to.equal('damn what a sweet bullet, thanks wondermins!');
         done();
       })
       .catch(done);
@@ -313,9 +310,8 @@ describe('testing our load model', function() {
           rifleId:           rifle._id,
           shotId:            shot._id,
           brassManufacturer: 'brassyMcBrassface',
-          powderWeight:      80,
-          muzzleVelocity:    500,
-          dateCreated: 1477516154057
+          bulletName:        'bullet',
+          dateCreated:       1477516154057
         })
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(res => {
