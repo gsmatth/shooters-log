@@ -63,15 +63,16 @@ describe('testing our test load', function(){
     rifleId:           '576c4f19965f8a8a0ab83402',
     shotId:            '26363527acacaca64536fecf',
     brassManufacturer: 'brass person',
-    powderName:        'some powder',
-    powderWeight:      5,
     bulletName:        'bullety',
     bulletWeight:      3,
     bulletCaliber:     30,
-    OAL:               50,
-    primeManufacturer: 'primerMaker',
-    primeModel:        'primerType',
-    muzzleVelocity:    500
+    primeManufacturer: 'Wondermins',
+    primeModel:        'The Wonder Primer',
+    dateCreated:       1477516154057,
+    time:              '8:00 PM',
+    temperature:       '75°',
+    humidity:          '60%',
+    notes:             'this bullet makes me sad :('
   };
 
   describe('testing testLoad post route', ()=> {
@@ -100,13 +101,22 @@ describe('testing our test load', function(){
       .send({
         userId: user._id,
         loadId: load._id,
-        testShots: [2500, 2400, 2200]
+        powderName: 'The Bullet Maker',
+        powderWeight: 500,
+        OAL: 40,
+        testShots: [
+          {shotId: '26363527acacaca64536fecf', muzzleVelocity: 2500},
+          {shotId: '76363527abf12ca62336fecf', muzzleVelocity: 2400},
+          {shotId: 'db3ff527abf12ca62336fe65', muzzleVelocity: 2200}
+        ],
+        groupSize: 12
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
         expect(res.body.userId).to.equal('576c47d854d007350a734560');
-        expect(res.body.testShots[0]).to.equal(2500);
+        expect(res.body.testShots[0].shotId).to.equal('26363527acacaca64536fecf');
+        expect(res.body.testShots[0].muzzleVelocity).to.equal(2500);
         done();
       })
       .catch(done);
@@ -122,7 +132,15 @@ describe('testing our test load', function(){
         testLoadController.createTestLoad({
           userId: user._id,
           loadId: load._id,
-          testShots: [2100, 2250, 2460]
+          powderName: 'Bullet Powder',
+          powderWeight: 400,
+          OAL: 60,
+          testShots: [
+            {shotId: '26363527acacaca64536fecf', muzzleVelocity: 4000},
+            {shotId: '76363527abf12ca62336fecf', muzzleVelocity: 3500},
+            {shotId: 'db3ff527abf12ca62336fe65', muzzleVelocity: 3600}
+          ],
+          groupSize: 10
         }).then(testLoad => {
           this.tempTestLoad = testLoad;
           done();
@@ -147,7 +165,9 @@ describe('testing our test load', function(){
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res.body.testShots[0]).to.equal(2100);
+        expect(res.body.powderName).to.equal('Bullet Powder');
+        expect(res.body.testShots[0].shotId).to.equal('26363527acacaca64536fecf');
+        expect(res.body.testShots[0].muzzleVelocity).to.equal(4000);
         done();
       })
       .catch(done);
@@ -163,7 +183,15 @@ describe('testing our test load', function(){
         testLoadController.createTestLoad({
           userId: user._id,
           loadId: load._id,
-          testShots: [2230, 2400, 2380]
+          powderName: 'A Bullets best friend',
+          powderWeight: 350,
+          OAL: 600,
+          testShots: [
+            {shotId: '26363527acacaca64536fecf', muzzleVelocity: 3400},
+            {shotId: '76363527abf12ca62336fecf', muzzleVelocity: 3200},
+            {shotId: 'db3ff527abf12ca62336fe65', muzzleVelocity: 3100}
+          ],
+          groupSize: 8
         }).then(testLoad => {
           this.tempTestLoad = testLoad;
           done();
@@ -186,12 +214,18 @@ describe('testing our test load', function(){
       debug('PUT-test');
       request.put(`${baseUrl}/user/load/testload/${this.tempTestLoad._id}`)
       .send({
-        testShots: [2300, 2400, 2380]
+        testShots: [
+          {shotId: '26363527acacaca64456fecf', muzzleVelocity: 3600},
+          {shotId: '76363527abf12ca62466fecf', muzzleVelocity: 3300},
+          {shotId: 'db3ff527abf12ca62476fe65', muzzleVelocity: 3000},
+          {shotId: 'db3ff527abf12ca62486fe65', muzzleVelocity: 3400}
+        ]
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res.body.testShots[0]).to.equal(2300);
+        expect(res.body.testShots[3].shotId).to.equal('db3ff527abf12ca62486fe65');
+        expect(res.body.testShots[3].muzzleVelocity).to.equal(3400);
         done();
       })
       .catch(done);
@@ -207,7 +241,15 @@ describe('testing our test load', function(){
         testLoadController.createTestLoad({
           userId: user._id,
           loadId: load._id,
-          testShots: [2200, 2300, 2380]
+          powderName: 'Powderface',
+          powderWeight: 375,
+          OAL: 650,
+          testShots: [
+            {shotId: '26363527acacaca64536fecf', muzzleVelocity: 3400},
+            {shotId: '76363527abf12ca62336fecf', muzzleVelocity: 3200},
+            {shotId: 'db3ff527abf12ca62336fe65', muzzleVelocity: 3100}
+          ],
+          groupSize: 6
         }).then(testLoad => {
           this.tempTestLoad = testLoad;
           done();
