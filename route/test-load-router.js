@@ -11,6 +11,7 @@ const testLoadRouter = module.exports = new Router();
 
 testLoadRouter.post('/user/load/testload', parseBearerAuth, jsonParser, function(req, res, next){
   debug('test-load-post-route');
+  req.body.userId = req.userId;
   testLoadController.createTestLoad(req.body)
   .then(testLoad => res.json(testLoad))
   .catch(next);
@@ -20,6 +21,13 @@ testLoadRouter.get('/user/load/testload/:testloadid', parseBearerAuth, jsonParse
   debug('test-load-get-route');
   testLoadController.fetchTestLoad(req.params.testloadid)
   .then(testLoad => res.json(testLoad))
+  .catch(next);
+});
+
+testLoadRouter.get('/user/load/testloads/:loadid', parseBearerAuth, jsonParser, function(req, res, next){
+  debug('test-load-get-all-route');
+  testLoadController.fetchAllTestLoadsByLoad(req.params.loadid)
+  .then(testLoads => res.json(testLoads))
   .catch(next);
 });
 

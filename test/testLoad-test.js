@@ -99,7 +99,6 @@ describe('testing our test load', function(){
       debug('POST-test');
       request.post(`${baseUrl}/user/load/testload`)
       .send({
-        userId: user._id,
         loadId: load._id,
         powderName: 'The Bullet Maker',
         powderWeight: 500,
@@ -114,7 +113,6 @@ describe('testing our test load', function(){
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res.body.userId).to.equal('576c47d854d007350a734560');
         expect(res.body.testShots[0].shotId).to.equal('26363527acacaca64536fecf');
         expect(res.body.testShots[0].muzzleVelocity).to.equal(2500);
         done();
@@ -168,6 +166,78 @@ describe('testing our test load', function(){
         expect(res.body.powderName).to.equal('Bullet Powder');
         expect(res.body.testShots[0].shotId).to.equal('26363527acacaca64536fecf');
         expect(res.body.testShots[0].muzzleVelocity).to.equal(4000);
+        done();
+      })
+      .catch(done);
+    });
+  });
+
+  describe('testing the getAllTestLoads route', () => {
+    before((done) => {
+      debug('testLoad-getAll-before-block');
+      userController.newUser({
+        username: 'test', password: 'testing', firstName: 'something', lastName: 'somethingelse'
+      })
+      .then(token => {
+        this.tempToken = token;
+        Promise.all([
+          request.post( `${baseUrl}/user/load/testload`)
+          .set({Authorization: `Bearer ${this.tempToken}`})
+          .send({
+            loadId: load._id,
+            powderName: 'A Bullets best friend',
+            powderWeight: 350,
+            OAL: 600,
+            testShots: [
+              {shotId: '26363527acacaca64536febs', muzzleVelocity: 3400},
+              {shotId: '76363527abf12ca62336fe11', muzzleVelocity: 3200},
+              {shotId: 'db3ff527abf12ca62336fe47', muzzleVelocity: 3100}
+            ],
+            groupSize: 8
+          }),
+          request.post(`${baseUrl}/user/load/testload`)
+          .set({Authorization: `Bearer ${this.tempToken}`})
+          .send({
+            loadId: load._id,
+            powderName: 'Pew Pew Powder',
+            powderWeight: 400,
+            OAL: 700,
+            testShots: [
+              {shotId: '26363527acacaca64536feab', muzzleVelocity: 2400},
+              {shotId: '76363527abf12ca62336fefc', muzzleVelocity: 3000},
+              {shotId: 'db3ff527abf12ca62336fe45', muzzleVelocity: 2800}
+            ],
+            groupSize: 10
+          })
+        ])
+        .then(testLoadInfo => {
+          console.log(testLoadInfo[0].body);
+          console.log(testLoadInfo[1].body);
+          this.tempTestLoad1 = testLoadInfo[0];
+          this.tempTestLoad2 = testLoadInfo[1];
+          done();
+        })
+        .catch(done);
+      })
+      .catch(done);
+    });
+
+    after((done) => {
+      debug('testLoad-all-GET-test-after-block');
+      Promise.all([
+        userController.removeAllUsers(),
+        testLoadController.removeAllTestLoads()
+      ]).then(() => done())
+      .catch(done);
+    });
+
+    it('should fetch all test loads by loadId', (done) => {
+      debug('GET-all-test');
+      request.get(`${baseUrl}/user/load/testloads/${load._id}`)
+      .set({Authorization: `Bearer ${this.tempToken}`})
+      .then(res => {
+        expect(res.status).to.equal(200);
+        expect(res.body.length).to.equal(2);
         done();
       })
       .catch(done);

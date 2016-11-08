@@ -23,6 +23,17 @@ exports.fetchTestLoad = function(testLoadId){
   });
 };
 
+exports.fetchAllTestLoadsByLoad = function(loadId){
+  debug('test-load-controller-fetchAll');
+  return new Promise((resolve, reject) => {
+    testLoad.find({loadId: loadId})
+    .then(testLoads => {
+      resolve(testLoads);
+    })
+    .catch(err => reject(httpErrors(404, err.message)));
+  });
+};
+
 exports.updateTestLoad = function(testLoadId, testLoadInfo){
   debug('test-load-controller-updateTestLoad');
   return new Promise((resolve, reject) => {
