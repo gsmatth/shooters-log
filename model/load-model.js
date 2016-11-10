@@ -10,21 +10,16 @@ const loadSchema = module.exports = mongoose.Schema ({
   rifleId:           {type: mongoose.Schema.ObjectId},
   shotId:            {type: mongoose.Schema.ObjectId},
   brassManufacturer: {type: String},
-  powderName:        {type: String},
-  powderWeight:      {type: Number},
   bulletName:        {type: String},
   bulletWeight:      {type: Number},
   bulletCaliber:     {type: Number},
-  OAL:               {type: Number},
   primeManufacturer: {type: String},
   primeModel:        {type: String},
-  muzzleVelocity:    {type: Number},
-  standardDeviation: {type: Number},
-  extremeSpread:     {type: Number},
+  notes:             {type: String},
   dateCreated:       {type: Date, required: true},
   time:              {type: String},
   temperature:       {type: String},
-  humidity:          {type: String}  
+  humidity:          {type: String}
 });
 
 module.exports = mongoose.model('load', loadSchema);
