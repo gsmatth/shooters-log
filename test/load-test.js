@@ -188,10 +188,11 @@ describe('testing our load model', function() {
 
     it('should return a load', (done) => {
       debug('GET-test');
-      request.get(`${baseUrl}/user/${user._id}/load/${this.tempLoadId}`)
+      request.get(`${baseUrl}/user/load/${this.tempLoadId}`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
+        expect(res.body.userId).to.equal(user._id);
         expect(res.body.brassManufacturer).to.equal('brassyMcBrassface');
         expect(res.body.bulletName).to.equal('Swan');
         done();

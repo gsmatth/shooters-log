@@ -27,9 +27,8 @@ loadRouter.get('/user/loads', parseBearerAuth, jsonParser, function(req, res, ne
   .catch(next);
 });
 
-loadRouter.get('/user/:userid/load/:loadid', parseBearerAuth, jsonParser, function(req, res, next) {
+loadRouter.get('/user/load/:loadid', parseBearerAuth, jsonParser, function(req, res, next) {
   debug('load-get-route');
-  req.body.userId = req.params.userid;
   req.body.loadId = req.params.loadid;
   loadController.getLoad(req.params.loadid)
   .then(load => res.json(load))
