@@ -318,6 +318,7 @@ describe('testing our load model', function() {
         })
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(res => {
+          console.log(res.body);
           done();
         })
         .catch(done);
