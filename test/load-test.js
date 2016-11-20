@@ -129,6 +129,7 @@ describe('testing our load model', function() {
         barrelId:          barrel._id,
         rifleId:           rifle._id,
         shotId:            shot._id,
+        loadName:          'New Load',
         brassManufacturer: 'brass person',
         bulletName:        'bullety',
         bulletWeight:      3,
@@ -144,6 +145,7 @@ describe('testing our load model', function() {
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
+        expect(res.body.loadName).to.equal('New Load');
         expect(res.body.brassManufacturer).to.equal('brass person');
         expect(res.body.notes).to.equal('this bullet shoots stuff real good!');
         expect(res.body.temperature).to.equal('80°');
@@ -316,7 +318,6 @@ describe('testing our load model', function() {
         })
         .set({Authorization: `Bearer ${this.tempToken}`})
         .then(res => {
-          console.log(res.body);
           done();
         })
         .catch(done);

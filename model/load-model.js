@@ -9,6 +9,7 @@ const loadSchema = module.exports = mongoose.Schema ({
   barrelId:          {type: mongoose.Schema.ObjectId},
   rifleId:           {type: mongoose.Schema.ObjectId},
   shotId:            {type: mongoose.Schema.ObjectId},
+  loadName:          {type: String},
   brassManufacturer: {type: String},
   bulletName:        {type: String},
   bulletWeight:      {type: Number},
