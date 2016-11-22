@@ -19,8 +19,8 @@ const loadSchema = module.exports = mongoose.Schema ({
   notes:             {type: String},
   dateCreated:       {type: Date, required: true},
   time:              {type: String},
-  temperature:       {type: String},
-  humidity:          {type: String}
+  temperature:       {type: Number},
+  humidity:          {type: Number}
 });
 
 module.exports = mongoose.model('load', loadSchema);
