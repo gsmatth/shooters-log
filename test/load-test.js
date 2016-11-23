@@ -129,6 +129,7 @@ describe('testing our load model', function() {
         barrelId:          barrel._id,
         rifleId:           rifle._id,
         shotId:            shot._id,
+        loadName:          'New Load',
         brassManufacturer: 'brass person',
         bulletName:        'bullety',
         bulletWeight:      3,
@@ -137,16 +138,17 @@ describe('testing our load model', function() {
         primeModel:        'primerType',
         dateCreated:       1477516154057,
         time:              '8:00 AM',
-        temperature:       '80°',
-        humidity:          '80%',
+        temperature:       80,
+        humidity:          80,
         notes:             'this bullet shoots stuff real good!'
       })
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
+        expect(res.body.loadName).to.equal('New Load');
         expect(res.body.brassManufacturer).to.equal('brass person');
         expect(res.body.notes).to.equal('this bullet shoots stuff real good!');
-        expect(res.body.temperature).to.equal('80°');
+        expect(res.body.temperature).to.equal(80);
         done();
       }).catch(done);
     });
@@ -188,10 +190,11 @@ describe('testing our load model', function() {
 
     it('should return a load', (done) => {
       debug('GET-test');
-      request.get(`${baseUrl}/user/${user._id}/load/${this.tempLoadId}`)
+      request.get(`${baseUrl}/user/load/${this.tempLoadId}`)
       .set({Authorization: `Bearer ${this.tempToken}`})
       .then(res => {
         expect(res.status).to.equal(200);
+        expect(res.body.userId).to.equal(user._id);
         expect(res.body.brassManufacturer).to.equal('brassyMcBrassface');
         expect(res.body.bulletName).to.equal('Swan');
         done();
